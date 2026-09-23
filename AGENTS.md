@@ -19,4 +19,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   "orders paused" are instant (`TAG_LIVE`). Invalidate with `updateTag` inside Server Actions.
 - Every Server Action and admin route handler must call `requireAdmin()` itself — `src/proxy.ts` is only a first filter.
 - Checkout re-prices everything on the server (`src/lib/ordering/place-order.ts`); never trust client totals.
+- Public client components must not import values from `schemas.ts` (it pulls ~90 KB of zod into the browser). Put
+  plain shared constants in `src/lib/content/constants.ts`; `import type` from `schemas.ts` is fine.
+- Fonts: fallback faces in `globals.css` are metric-matched to the real fonts (incl. the condensed display width), so
+  the swap doesn't shift layout. If you change a font, weight or `wdth`, re-measure the `size-adjust` values.
 - Checks: `npm run lint && npm run typecheck && npm test && npm run test:e2e` (e2e needs Postgres; see README).

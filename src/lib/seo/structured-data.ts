@@ -1,4 +1,4 @@
-import { DAYS, DAY_LABELS } from "@/lib/content/schemas";
+import { DAYS, DAY_LABELS } from "@/lib/content/constants";
 import type { SiteContent } from "@/lib/content/types";
 import { hoursConfigured } from "@/lib/hours";
 

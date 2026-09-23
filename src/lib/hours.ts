@@ -1,4 +1,5 @@
-import { DAYS, DAY_LABELS, type Day, type OpeningHours } from "@/lib/content/schemas";
+import { DAYS, DAY_LABELS, type Day } from "@/lib/content/constants";
+import type { OpeningHours } from "@/lib/content/schemas";
 
 const toMinutes = (time: string) => {
   const [h, m] = time.split(":").map(Number);

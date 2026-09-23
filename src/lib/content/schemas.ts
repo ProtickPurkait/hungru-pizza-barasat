@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { DAYS, type Day } from "./constants";
 
 /* ───────────────────────── Primitive validators ───────────────────────── */
 
@@ -281,17 +282,7 @@ export const storySchema = z.object({
     .default([]),
 });
 
-export const DAYS = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"] as const;
-export type Day = (typeof DAYS)[number];
-export const DAY_LABELS: Record<Day, string> = {
-  mon: "Monday",
-  tue: "Tuesday",
-  wed: "Wednesday",
-  thu: "Thursday",
-  fri: "Friday",
-  sat: "Saturday",
-  sun: "Sunday",
-};
+export { DAYS, DAY_LABELS, type Day } from "./constants";
 
 const timeSchema = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, "Use 24-hour time like 11:00");
 

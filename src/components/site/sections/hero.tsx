@@ -69,7 +69,7 @@ export function HeroSection({ hero, brandName, primaryHref, secondaryHref, prima
         </p>
       </div>
 
-      <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4rem)] max-w-7xl grid-rows-[auto_1fr] px-4 pt-5 xs:pt-7 sm:px-6 md:grid-cols-[1.05fr_1fr] md:grid-rows-1 md:items-center md:gap-6 md:pt-10 md:pb-16 lg:px-8">
+      <div className="relative z-10 mx-auto grid h-[max(36rem,calc(100svh-4rem))] max-w-7xl grid-rows-[auto_minmax(0,1fr)] px-4 pt-5 xs:pt-7 sm:px-6 md:h-auto md:min-h-[calc(100svh-4rem)] md:grid-cols-[1.05fr_1fr] md:grid-rows-1 md:items-center md:gap-6 md:pt-10 md:pb-16 lg:px-8">
         <motion.div style={{ y: yText, opacity: textOpacity }} className="relative z-20 max-w-2xl">
           {hero.badge && (
             <p
@@ -124,7 +124,7 @@ export function HeroSection({ hero, brandName, primaryHref, secondaryHref, prima
           </div>
         </motion.div>
 
-        <div className="relative -mx-4 -mt-4 min-h-[300px] sm:mx-0 md:mt-0 md:min-h-0">
+        <div className="relative -mx-4 -mt-4 min-h-0 sm:mx-0 md:mt-0">
           <div
             className="enter-land relative mx-auto aspect-square w-[118%] max-w-[44rem] translate-x-[8%] md:w-full md:translate-x-[4%]"
             style={{ ["--d" as string]: 450 }}

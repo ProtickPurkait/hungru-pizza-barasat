@@ -12,9 +12,70 @@
   --sticky-bar-h: 0px;
 }
 
+/* ───────────────────────── Fallback fonts ─────────────────────────
+   Metric-matched stand-ins shown until the web fonts load, so text keeps the same line breaks and nothing
+   jumps when they swap in (layout shift). Arial covers iOS, macOS and Windows; Liberation Sans (same metrics)
+   covers Linux; Roboto covers Android. Ratios measured in Chromium against the real fonts.
+   The display face is Bricolage Grotesque 800 at "wdth" 80, about 23% narrower than Arial Bold. */
+
+@font-face {
+  font-family: "Display Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("LiberationSans-Bold");
+  font-weight: 100 900;
+  size-adjust: 77.4%;
+  ascent-override: 120.2%;
+  descent-override: 34.9%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Display Fallback Android";
+  src: local("Roboto Bold"), local("Roboto-Bold"), local("Roboto");
+  font-weight: 100 900;
+  size-adjust: 83.4%;
+  ascent-override: 111.5%;
+  descent-override: 32.4%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Sans Fallback";
+  src: local("Arial"), local("ArialMT"), local("Liberation Sans"), local("LiberationSans");
+  font-weight: 100 549;
+  size-adjust: 104.5%;
+  ascent-override: 94.9%;
+  descent-override: 29.7%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Sans Fallback";
+  src: local("Arial Bold"), local("Arial-BoldMT"), local("Liberation Sans Bold"), local("LiberationSans-Bold");
+  font-weight: 550 900;
+  size-adjust: 101.2%;
+  ascent-override: 98%;
+  descent-override: 30.6%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Sans Fallback Android";
+  src: local("Roboto"), local("Roboto-Regular");
+  font-weight: 100 549;
+  size-adjust: 104.2%;
+  ascent-override: 95.2%;
+  descent-override: 29.8%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: "Sans Fallback Android";
+  src: local("Roboto Bold"), local("Roboto-Bold"), local("Roboto");
+  font-weight: 550 900;
+  size-adjust: 107.5%;
+  ascent-override: 92.3%;
+  descent-override: 28.8%;
+  line-gap-override: 0%;
+}
+
 @theme {
-  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-bricolage), var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), "Sans Fallback", "Sans Fallback Android", ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), "Display Fallback", "Display Fallback Android", ui-sans-serif, system-ui, sans-serif;
 
   --color-ink: #141110;
   --color-ink-2: #211b17;
@@ -135,12 +196,6 @@
 @utility font-display {
   font-family: var(--font-display);
   font-variation-settings: "wdth" 80;
-  font-weight: 800;
-}
-
-@utility font-display-wide {
-  font-family: var(--font-display);
-  font-variation-settings: "wdth" 100;
   font-weight: 800;
 }
 
