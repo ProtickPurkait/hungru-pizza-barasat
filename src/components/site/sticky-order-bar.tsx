@@ -4,7 +4,6 @@ import { clsx } from "clsx";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 import { useCart } from "@/lib/cart/store";
 import { formatINR } from "@/lib/money";
 import { useCartView } from "./site-provider";
@@ -16,15 +15,7 @@ import { useCartView } from "./site-provider";
 export function StickyOrderBar() {
   const pathname = usePathname();
   const { totals, hydrated } = useCartView();
-  const lastAdd = useCart((s) => s.lastAdd);
-  const [bump, setBump] = useState(false);
-
-  useEffect(() => {
-    if (!lastAdd) return;
-    setBump(true);
-    const t = setTimeout(() => setBump(false), 500);
-    return () => clearTimeout(t);
-  }, [lastAdd]);
+  const lastAddAt = useCart((s) => s.lastAdd?.at ?? 0);
 
   if (pathname.startsWith("/cart") || pathname.startsWith("/checkout") || pathname.startsWith("/order")) return null;
   const hasItems = hydrated && totals.itemCount > 0;
@@ -38,13 +29,12 @@ export function StickyOrderBar() {
         className={clsx(
           "pointer-events-auto flex h-16 items-center justify-between gap-3 rounded-full px-6 font-extrabold tracking-wide uppercase ring-2 ring-ink transition-all duration-300",
           hasItems ? "bg-ink text-cream shadow-[4px_4px_0_0_var(--brand-primary)]" : "bg-primary text-white shadow-[4px_4px_0_0_var(--color-ink)]",
-          bump && "scale-[1.03]",
         )}
       >
         {hasItems ? (
           <>
             <span className="flex min-w-0 items-center gap-3">
-              <span className={clsx("flex h-8 min-w-8 items-center justify-center rounded-full bg-accent px-2 text-sm text-ink", bump && "animate-pop")}>
+              <span key={lastAddAt} className={clsx("flex h-8 min-w-8 items-center justify-center rounded-full bg-accent px-2 text-sm text-ink", lastAddAt > 0 && "animate-pop")}>
                 {totals.itemCount}
               </span>
               <span className="truncate text-base tabular-nums">

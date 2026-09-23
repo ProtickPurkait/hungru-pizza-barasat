@@ -97,9 +97,8 @@ export function AdminShell({ user, brandName, status, newOrders, children }: She
   const isActive = (href: string) => (href === "/admin" ? pathname === "/admin" : pathname.startsWith(href));
 
   useEffect(() => {
-    // Close the mobile drawer whenever the route changes.
+    // Close the mobile drawer whenever the route changes (its onClose resets drawerOpen).
     drawerRef.current?.close();
-    setDrawerOpen(false);
   }, [pathname]);
 
   const nav = (

@@ -117,7 +117,7 @@ export function AddControl({ product, size = "md", className }: { product: SiteP
 
   if (!product.isAvailable) {
     return (
-      <span className={clsx("inline-flex h-11 items-center rounded-full bg-ink/10 px-4 text-sm font-extrabold text-ink/50 uppercase", className)}>
+      <span className={clsx("inline-flex h-11 items-center rounded-full bg-ink/10 px-4 text-sm font-extrabold text-ink/65 uppercase", className)}>
         Sold out
       </span>
     );
@@ -155,7 +155,7 @@ export function AddControl({ product, size = "md", className }: { product: SiteP
         {justAdded ? "Added" : "Add"}
       </button>
       {customisable && (
-        <span className="text-[11px] font-semibold text-ink/55">{inCart > 0 ? `${inCart} in cart` : "Customisable"}</span>
+        <span className="text-[11px] font-semibold text-ink/65">{inCart > 0 ? `${inCart} in cart` : "Customisable"}</span>
       )}
     </div>
   );

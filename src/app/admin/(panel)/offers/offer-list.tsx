@@ -3,10 +3,11 @@
 import { Pencil, Tag, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useTransition } from "react";
 import { toast } from "sonner";
 import { deleteOffer, reorderOffers, setOfferActive } from "@/app/admin/_actions/content";
 import { useConfirm } from "@/components/admin/confirm";
+import { useSyncedState } from "@/components/admin/use-synced-state";
 import { SortableList } from "@/components/admin/sortable-list";
 import { Badge, ButtonLink, EmptyState, IconButton, Switch } from "@/components/admin/ui";
 import { FoodArt } from "@/components/ui/food-art";
@@ -37,9 +38,8 @@ function scheduleLabel(o: Offer) {
 export function OfferList({ offers: initial }: { offers: Offer[] }) {
   const router = useRouter();
   const confirm = useConfirm();
-  const [offers, setOffers] = useState(initial);
+  const [offers, setOffers] = useSyncedState(initial);
   const [, start] = useTransition();
-  useEffect(() => setOffers(initial), [initial]);
 
   if (offers.length === 0) {
     return (

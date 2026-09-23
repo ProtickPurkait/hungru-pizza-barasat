@@ -15,7 +15,9 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "db:seed": "tsx scripts/seed.ts",
     "db:setup": "npm run db:migrate && npm run db:seed",
-    "admin:create": "tsx scripts/create-admin.ts"
+    "admin:create": "tsx scripts/create-admin.ts",
+    "test:all": "npm run lint && npm run typecheck && npm run test && npm run test:e2e",
+    "db:publish": "tsx scripts/publish.ts"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",

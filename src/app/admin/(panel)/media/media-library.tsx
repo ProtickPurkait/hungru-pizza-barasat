@@ -6,15 +6,15 @@ import { useEffect, useState, useTransition } from "react";
 import { toast } from "sonner";
 import { deleteMedia, getMediaUsage, updateMediaAlt } from "@/app/admin/_actions/media";
 import { useConfirm } from "@/components/admin/confirm";
+import { useSyncedState } from "@/components/admin/use-synced-state";
 import { EditorDialog } from "@/components/admin/editor-dialog";
 import { formatBytes, MediaThumb, UploadZone, type MediaItem } from "@/components/admin/media";
 import { Badge, Button, EmptyState, TextField } from "@/components/admin/ui";
 
 export function MediaLibrary({ items: initial }: { items: MediaItem[] }) {
   const router = useRouter();
-  const [items, setItems] = useState(initial);
+  const [items, setItems] = useSyncedState(initial);
   const [selected, setSelected] = useState<MediaItem | null>(null);
-  useEffect(() => setItems(initial), [initial]);
 
   return (
     <div className="flex flex-col gap-6">

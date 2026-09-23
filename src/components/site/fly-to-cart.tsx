@@ -8,12 +8,14 @@ type Flight = { id: number; from: { x: number; y: number }; to: { x: number; y: 
 
 /** A little slice arcs from the ADD button into the cart: feedback that doesn't block browsing. */
 export function FlyToCart() {
-  const lastAdd = useCart((s) => s.lastAdd);
   const reduce = useReducedMotion();
   const [flights, setFlights] = useState<Flight[]>([]);
 
-  useEffect(() => {
-    if (!lastAdd || lastAdd.x === undefined || lastAdd.y === undefined || reduce) return;
+  useEffect(
+    () =>
+      useCart.subscribe((state, prev) => {
+        const lastAdd = state.lastAdd;
+        if (!lastAdd || lastAdd === prev.lastAdd || lastAdd.x === undefined || lastAdd.y === undefined || reduce) return;
     const targets = [
       ...document.querySelectorAll<HTMLElement>('[data-cart-target="primary"]'),
       ...document.querySelectorAll<HTMLElement>('[data-cart-target="secondary"]'),
@@ -25,8 +27,10 @@ export function FlyToCart() {
       from: { x: lastAdd.x, y: lastAdd.y },
       to: { x: target.left + Math.min(target.width / 2, 40), y: target.top + target.height / 2 },
     };
-    setFlights((f) => [...f.slice(-3), flight]);
-  }, [lastAdd, reduce]);
+        setFlights((f) => [...f.slice(-3), flight]);
+      }),
+    [reduce],
+  );
 
   return (
     <div aria-hidden className="pointer-events-none fixed inset-0 z-[60]">

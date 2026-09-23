@@ -32,7 +32,9 @@ export async function generateMetadata(): Promise<Metadata> {
       description: ogDescription,
       locale: "en_IN",
       url: "/",
-      ...(seo.ogImage ? { images: [{ url: seo.ogImage.src, width: seo.ogImage.width ?? undefined, height: seo.ogImage.height ?? undefined, alt: seo.ogImage.alt || brand.name }] } : {}),
+      images: seo.ogImage
+        ? [{ url: seo.ogImage.src, width: seo.ogImage.width ?? undefined, height: seo.ogImage.height ?? undefined, alt: seo.ogImage.alt || brand.name }]
+        : [{ url: "/og", width: 1200, height: 630, alt: brand.name }],
     },
     twitter: { card: "summary_large_image", title: ogTitle, description: ogDescription },
     icons: iconSource

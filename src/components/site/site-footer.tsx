@@ -3,10 +3,34 @@ import { resolveLink } from "@/lib/content/links";
 import type { SiteContent } from "@/lib/content/types";
 import { BrandLogo } from "./brand-logo";
 import { CtaLink } from "./cta-link";
+import { hasContactInfo } from "./sections/contact";
 import { PLATFORM_NAMES, SocialIcon } from "./social-icons";
 
+/** Section links only make sense when that homepage section actually has content. */
+function sectionAvailable(content: SiteContent, section: string) {
+  const enabled = (key: string) => content.homepage.sections.some((s) => s.key === key && s.enabled);
+  switch (section) {
+    case "offers":
+      return enabled("offers") && content.offers.length > 0;
+    case "reviews":
+      return enabled("reviews") && content.reviews.length > 0;
+    case "why":
+      return enabled("why") && content.features.length > 0;
+    case "bestsellers":
+      return enabled("bestsellers") && content.bestsellerIds.length > 0;
+    case "contact":
+      return enabled("contact") && hasContactInfo(content.contact);
+    case "story":
+    case "menu":
+      return enabled(section);
+    default:
+      return true;
+  }
+}
+
 export function SiteFooter({ content, showArtNote }: { content: SiteContent; showArtNote: boolean }) {
-  const { brand, footer, social, contact, ordering } = content;
+  const { brand, social, contact, ordering } = content;
+  const footer = { ...content.footer, links: content.footer.links.filter((l) => l.target.type !== "section" || sectionAvailable(content, l.target.value)) };
   const year = new Date().getFullYear();
   return (
     <footer className="grain relative overflow-hidden bg-ink text-cream">

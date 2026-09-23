@@ -11,7 +11,7 @@ export const mediaIdSchema = z.uuid({ message: "Choose an image from the media l
 export const hexColorSchema = z
   .string()
   .trim()
-  .regex(/^#[0-9a-fA-F]{6}$/, "Use a colour like #E5311B");
+  .regex(/^#[0-9a-fA-F]{6}$/, "Use a colour like #D62B16");
 
 /** Accepts https://… URLs or site-relative paths starting with "/". Empty allowed. */
 export const urlOrEmptySchema = z
@@ -173,7 +173,7 @@ export const brandSchema = z.object({
   faviconId: mediaIdSchema.nullable().default(null),
   colors: z
     .object({
-      primary: hexColorSchema.default("#E5311B"),
+      primary: hexColorSchema.default("#D62B16"),
       secondary: hexColorSchema.default("#FF7A1A"),
       accent: hexColorSchema.default("#FFC229"),
     })

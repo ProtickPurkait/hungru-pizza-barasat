@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import { cache } from "react";
 import { db } from "@/db";
 import { adminSessions, adminUsers, type AdminUser } from "@/db/schema";
-import { SESSION_COOKIE_NAMES, sessionCookieName, useSecureCookies } from "./cookie";
+import { SESSION_COOKIE_NAMES, sessionCookieName, shouldUseSecureCookies } from "./cookie";
 
 const IDLE_TIMEOUT_MS = 7 * 24 * 60 * 60 * 1000; // sign out after 7 days of inactivity
 const ABSOLUTE_TIMEOUT_MS = 30 * 24 * 60 * 60 * 1000; // always sign in again after 30 days
@@ -43,7 +43,7 @@ export async function createSession(userId: string) {
   const jar = await cookies();
   jar.set(sessionCookieName(), token, {
     httpOnly: true,
-    secure: useSecureCookies(),
+    secure: shouldUseSecureCookies(),
     sameSite: "lax",
     path: "/",
     maxAge: ABSOLUTE_TIMEOUT_MS / 1000,

@@ -2,7 +2,7 @@
 
 import { Bell, BellOff } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useSyncExternalStore } from "react";
 import { Button } from "@/components/admin/ui";
 
 const REFRESH_MS = 20_000;
@@ -29,16 +29,37 @@ function beep() {
   }
 }
 
+const SOUND_KEY = "hungru-order-sound";
+const soundListeners = new Set<() => void>();
+function subscribeSound(listener: () => void) {
+  soundListeners.add(listener);
+  window.addEventListener("storage", listener);
+  return () => {
+    soundListeners.delete(listener);
+    window.removeEventListener("storage", listener);
+  };
+}
+function readSound() {
+  try {
+    return localStorage.getItem(SOUND_KEY) === "on";
+  } catch {
+    return false;
+  }
+}
+function writeSound(on: boolean) {
+  try {
+    localStorage.setItem(SOUND_KEY, on ? "on" : "off");
+  } catch {
+    /* storage unavailable */
+  }
+  soundListeners.forEach((l) => l());
+}
+
 /** Refreshes the orders list every 20s and (optionally) plays a chime when new orders arrive. */
 export function OrdersLive({ newCount }: { newCount: number }) {
   const router = useRouter();
-  const [sound, setSound] = useState(false);
+  const sound = useSyncExternalStore(subscribeSound, readSound, () => false);
   const previous = useRef(newCount);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("hungru-order-sound") === "on";
-    setSound(saved);
-  }, []);
 
   useEffect(() => {
     if (newCount > previous.current) {
@@ -63,12 +84,7 @@ export function OrdersLive({ newCount }: { newCount: number }) {
       aria-pressed={sound}
       onClick={() => {
         const next = !sound;
-        setSound(next);
-        try {
-          localStorage.setItem("hungru-order-sound", next ? "on" : "off");
-        } catch {
-          /* ignore */
-        }
+        writeSound(next);
         if (next) beep();
       }}
     >

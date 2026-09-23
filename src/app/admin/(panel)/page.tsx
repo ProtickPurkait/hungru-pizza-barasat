@@ -80,7 +80,7 @@ export default async function DashboardPage() {
     { done: sampleReviews === 0, label: "Replace the placeholder reviews with real ones", href: "/admin/reviews" },
     { done: sampleFeatures === 0, label: "Write your “Why Hungru” points", href: "/admin/why-hungru" },
     { done: saved.has("seo") && Boolean(docs.seo.ogImageId), label: "Check Google & social sharing details", href: "/admin/seo" },
-    { done: !status.hasUnpublishedChanges, label: "Publish your latest changes", href: "#publish" },
+    { done: !status.hasUnpublishedChanges, label: "Publish your latest changes", href: "/admin/publish" },
   ].filter((item) => !item.hide);
   const doneCount = checklist.filter((i) => i.done).length;
 
@@ -152,7 +152,7 @@ export default async function DashboardPage() {
               bodyClassName="p-0 sm:p-0"
             >
               {recentOrders.length === 0 ? (
-                <p className="px-5 py-8 text-center text-sm text-stone-500">No orders yet. They'll appear here as soon as customers order.</p>
+                <p className="px-5 py-8 text-center text-sm text-stone-500">No orders yet. They&apos;ll appear here as soon as customers order.</p>
               ) : (
                 <ul className="divide-y divide-stone-100">
                   {recentOrders.map((o) => (

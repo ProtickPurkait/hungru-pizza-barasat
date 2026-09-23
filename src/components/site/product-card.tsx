@@ -105,7 +105,7 @@ export function MenuItemCard({ product, categoryName, priority }: { product: Sit
           categoryName={categoryName}
           priority={priority}
           sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 120px"
-          className={clsx("aspect-square rounded-2xl bg-cream-2 sm:rounded-t-[1.35rem] sm:rounded-b-none", !product.isAvailable && "grayscale")}
+          className={clsx("aspect-square rounded-2xl bg-cream-2 sm:aspect-[4/3] sm:rounded-t-[1.35rem] sm:rounded-b-none", !product.isAvailable && "grayscale")}
           imageClassName="transition-transform duration-500 group-hover:scale-105"
         />
         <div className="relative z-10 -mt-5 flex justify-center sm:hidden">

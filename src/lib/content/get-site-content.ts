@@ -1,6 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { draftMode } from "next/headers";
+import { connection } from "next/server";
 import { cache } from "react";
 import { db } from "@/db";
 import { getSession } from "@/lib/auth/session";
@@ -36,6 +37,9 @@ async function isPreviewing() {
 
 /** Single entry point for everything the public website renders. */
 export const getSiteData = cache(async (): Promise<SiteData> => {
+  // Public pages are prerendered and revalidated by tag when content is published. If the build
+  // runs without a database (e.g. CI), render them on demand instead of failing the build.
+  if (process.env.NEXT_PHASE === "phase-production-build" && !process.env.DATABASE_URL) await connection();
   if (await isPreviewing()) {
     const [content, live] = await Promise.all([compileSiteContent(db), loadLiveState(db)]);
     return finalize(applyLiveState(content, live), live.live, "preview", null);

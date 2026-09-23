@@ -2,10 +2,11 @@
 
 import { MessageSquareQuote, Pencil, Plus, Star, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { createReview, deleteReview, reorderReviews, setReviewEnabled, updateReview } from "@/app/admin/_actions/content";
 import { useConfirm } from "@/components/admin/confirm";
+import { useSyncedState } from "@/components/admin/use-synced-state";
 import { EditorDialog } from "@/components/admin/editor-dialog";
 import { MediaPicker, type MediaPreview } from "@/components/admin/media";
 import { SortableList } from "@/components/admin/sortable-list";
@@ -31,10 +32,9 @@ const EMPTY: FormValues = { authorName: "", content: "", rating: "", source: "",
 export function ReviewManager({ reviews: initial }: { reviews: Review[] }) {
   const router = useRouter();
   const confirm = useConfirm();
-  const [reviews, setReviews] = useState(initial);
+  const [reviews, setReviews] = useSyncedState(initial);
   const [editing, setEditing] = useState<Review | "new" | null>(null);
   const [, start] = useTransition();
-  useEffect(() => setReviews(initial), [initial]);
 
   const samples = reviews.filter((r) => r.isSample).length;
 

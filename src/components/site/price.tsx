@@ -21,7 +21,7 @@ export function Price({
       <span className={clsx("font-extrabold tabular-nums", main)}>{formatINR(discounted ? discountPrice! : price)}</span>
       {discounted && (
         <>
-          <s className="text-sm font-semibold tabular-nums opacity-55">
+          <s className="text-sm font-semibold tabular-nums opacity-75">
             <span className="sr-only">was </span>
             {formatINR(price)}
           </s>

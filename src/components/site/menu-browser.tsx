@@ -39,7 +39,6 @@ export function MenuBrowser() {
 
   // Scroll-spy: highlight the category currently on screen.
   useEffect(() => {
-    if (sections[0]) setActive((current) => (sections.some((s) => s.id === current) ? current : sections[0].id));
     const observer = new IntersectionObserver(
       (entries) => {
         const visible = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
@@ -54,11 +53,13 @@ export function MenuBrowser() {
     return () => observer.disconnect();
   }, [sections]);
 
+  const current = sections.some((s) => s.id === active) ? active : (sections[0]?.id ?? "");
+
   // Keep the active pill visible in the horizontal category bar.
   useEffect(() => {
-    const pill = navRef.current?.querySelector<HTMLElement>(`[data-cat="${active}"]`);
+    const pill = navRef.current?.querySelector<HTMLElement>(`[data-cat="${current}"]`);
     pill?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
-  }, [active]);
+  }, [current]);
 
   // Honour /menu#pizzas links once content is on screen.
   useEffect(() => {
@@ -104,7 +105,7 @@ export function MenuBrowser() {
           <div className="enter-fade-up mt-6 flex flex-col gap-3 sm:flex-row sm:items-center" style={{ ["--d" as string]: 220 }}>
             <label className="relative flex-1 sm:max-w-md">
               <span className="sr-only">Search the menu</span>
-              <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-ink/50" aria-hidden />
+              <Search className="pointer-events-none absolute top-1/2 left-4 size-5 -translate-y-1/2 text-ink/65" aria-hidden />
               <input
                 type="search"
                 value={query}
@@ -160,14 +161,14 @@ export function MenuBrowser() {
               type="button"
               data-cat={s.id}
               onClick={() => jump(s.id)}
-              aria-current={active === s.id ? "true" : undefined}
+              aria-current={current === s.id ? "true" : undefined}
               className={clsx(
                 "h-11 shrink-0 rounded-full px-5 text-sm font-extrabold tracking-wide whitespace-nowrap uppercase transition-all",
-                active === s.id ? "bg-ink text-cream shadow-[3px_3px_0_0_var(--brand-primary)]" : "bg-white text-ink ring-2 ring-ink/10 hover:ring-ink/30",
+                current === s.id ? "bg-ink text-cream shadow-[3px_3px_0_0_var(--brand-primary)]" : "bg-white text-ink ring-2 ring-ink/10 hover:ring-ink/30",
               )}
             >
               {s.name}
-              <span className={clsx("ml-1.5 text-xs", active === s.id ? "text-cream/60" : "text-ink/40")}>{s.items.length}</span>
+              <span className={clsx("ml-1.5 text-xs", current === s.id ? "text-cream/60" : "text-ink/65")}>{s.items.length}</span>
             </button>
           ))}
         </div>
@@ -197,7 +198,7 @@ export function MenuBrowser() {
                 <h2 id={`h-${section.id}`} className="font-display text-4xl leading-none uppercase sm:text-5xl">
                   {section.name}
                 </h2>
-                <span className="text-sm font-bold text-ink/50">
+                <span className="text-sm font-bold text-ink/65">
                   {section.items.length} item{section.items.length === 1 ? "" : "s"}
                 </span>
               </div>
@@ -238,7 +239,7 @@ function CartSidebar() {
                       {line.quantity} × {line.product?.name ?? "Unavailable item"}
                     </span>
                     {line.priced && line.priced.options.length > 0 && (
-                      <span className="block truncate text-ink/55">{line.priced.options.map((o) => o.optionName).join(", ")}</span>
+                      <span className="block truncate text-ink/65">{line.priced.options.map((o) => o.optionName).join(", ")}</span>
                     )}
                     {line.problem && <span className="block text-meat">{line.problem}</span>}
                   </span>

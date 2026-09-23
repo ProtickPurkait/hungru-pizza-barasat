@@ -36,7 +36,7 @@ export function WhyHungruSection({
                       <FeatureIcon icon={feature.icon} className="size-8" strokeWidth={2.2} />
                     </span>
                   )}
-                  <span className="font-display text-5xl leading-none text-ink/15">{String(i + 1).padStart(2, "0")}</span>
+                  <span aria-hidden className="font-display text-5xl leading-none text-ink/15">{String(i + 1).padStart(2, "0")}</span>
                 </div>
                 <h3 className="font-display mt-6 flex flex-wrap items-center gap-2 text-3xl leading-none uppercase">
                   {feature.title}

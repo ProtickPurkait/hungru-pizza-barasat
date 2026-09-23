@@ -95,7 +95,7 @@ export function CartView() {
                       type="button"
                       onClick={() => remove(line.key)}
                       aria-label={`Remove ${name}`}
-                      className="-mt-1 -mr-1 flex size-10 shrink-0 items-center justify-center rounded-full text-ink/45 hover:bg-ink/5 hover:text-meat"
+                      className="-mt-1 -mr-1 flex size-10 shrink-0 items-center justify-center rounded-full text-ink/65 hover:bg-ink/5 hover:text-meat"
                     >
                       <Trash2 className="size-4" aria-hidden />
                     </button>
@@ -115,7 +115,7 @@ export function CartView() {
                     {line.priced && (
                       <span className="text-right">
                         {line.priced.lineOriginalTotal > line.priced.lineTotal && (
-                          <s className="block text-xs font-semibold text-ink/45 tabular-nums">{formatINR(line.priced.lineOriginalTotal)}</s>
+                          <s className="block text-xs font-semibold text-ink/65 tabular-nums">{formatINR(line.priced.lineOriginalTotal)}</s>
                         )}
                         <span className="text-lg font-extrabold tabular-nums">{formatINR(line.priced.lineTotal)}</span>
                       </span>
@@ -187,7 +187,7 @@ export function CartView() {
               onClick={(e) => blocked && e.preventDefault()}
               className={clsx(
                 "flex h-16 items-center justify-between gap-3 rounded-full px-6 text-lg font-extrabold tracking-wide uppercase ring-2 ring-ink transition-transform",
-                blocked ? "cursor-not-allowed bg-ink/20 text-ink/50 ring-ink/20" : "bg-primary text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5",
+                blocked ? "cursor-not-allowed bg-ink/20 text-ink/65 ring-ink/20" : "bg-primary text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5",
               )}
             >
               <span>Proceed to order</span>

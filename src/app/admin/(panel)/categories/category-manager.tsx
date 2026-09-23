@@ -2,10 +2,11 @@
 
 import { Check, Pencil, Plus, Trash2, X } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { createCategory, deleteCategory, reorderCategories, setCategoryActive, updateCategory } from "@/app/admin/_actions/content";
 import { useConfirm } from "@/components/admin/confirm";
+import { useSyncedState } from "@/components/admin/use-synced-state";
 import { SortableList } from "@/components/admin/sortable-list";
 import { Badge, Button, Card, IconButton, Input, Switch } from "@/components/admin/ui";
 import type { ActionResult } from "@/lib/actions";
@@ -14,11 +15,10 @@ type Category = { id: string; name: string; slug: string; description: string; i
 
 export function CategoryManager({ categories: initial }: { categories: Category[] }) {
   const router = useRouter();
-  const [items, setItems] = useState(initial);
+  const [items, setItems] = useSyncedState(initial);
   const [name, setName] = useState("");
   const [addError, setAddError] = useState<string>();
   const [adding, startAdding] = useTransition();
-  useEffect(() => setItems(initial), [initial]);
 
   const add = () =>
     startAdding(async () => {

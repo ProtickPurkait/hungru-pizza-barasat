@@ -141,7 +141,7 @@ export default async function OrderPage({ params }: PageProps<"/order/[token]">)
           {ordering.paymentNote && <p className="rounded-xl bg-accent/30 px-3 py-2 text-sm font-semibold">{ordering.paymentNote}</p>}
           {(contact.phone || contact.whatsapp) && (
             <div className="mt-auto flex flex-col gap-2">
-              <p className="text-sm font-extrabold tracking-widest text-ink/50 uppercase">Need help?</p>
+              <p className="text-sm font-extrabold tracking-widest text-ink/65 uppercase">Need help?</p>
               {contact.phone && (
                 <a href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`} className="flex h-12 items-center justify-center gap-2 rounded-full bg-ink font-extrabold text-cream">
                   <Phone className="size-4" aria-hidden /> Call {brand.name}
@@ -157,7 +157,7 @@ export default async function OrderPage({ params }: PageProps<"/order/[token]">)
         </section>
       </div>
 
-      <p className="mt-8 text-center text-sm text-ink/55">
+      <p className="mt-8 text-center text-sm text-ink/65">
         Keep this page to check your order status. <Link href="/menu" className="font-bold text-primary underline-offset-2 hover:underline">Order something else</Link>
       </p>
     </div>

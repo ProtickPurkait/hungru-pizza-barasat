@@ -20,7 +20,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { clsx } from "clsx";
 import { ChevronDown, ChevronUp, GripVertical } from "lucide-react";
-import type { ReactNode } from "react";
+import { useId, type ReactNode } from "react";
 
 export type SortableRenderProps = {
   index: number;
@@ -47,6 +47,7 @@ export function SortableList<T>({
   className?: string;
   disabled?: boolean;
 }) {
+  const dndId = useId();
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
     useSensor(TouchSensor, { activationConstraint: { delay: 200, tolerance: 6 } }),
@@ -68,6 +69,7 @@ export function SortableList<T>({
 
   return (
     <DndContext
+      id={dndId}
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={onDragEnd}
@@ -138,7 +140,7 @@ function SortableRow({
           onClick={() => onMove(index, index - 1)}
           disabled={index === 0 || disabled}
           aria-label={`Move ${label} up`}
-          className="flex h-5 w-7 items-center justify-center rounded text-stone-400 hover:bg-stone-100 hover:text-stone-700 disabled:opacity-30"
+          className="flex h-6 w-8 items-center justify-center rounded text-stone-400 hover:bg-stone-100 hover:text-stone-700 disabled:opacity-30"
         >
           <ChevronUp className="size-4" aria-hidden />
         </button>
@@ -147,7 +149,7 @@ function SortableRow({
           onClick={() => onMove(index, index + 1)}
           disabled={index === count - 1 || disabled}
           aria-label={`Move ${label} down`}
-          className="flex h-5 w-7 items-center justify-center rounded text-stone-400 hover:bg-stone-100 hover:text-stone-700 disabled:opacity-30"
+          className="flex h-6 w-8 items-center justify-center rounded text-stone-400 hover:bg-stone-100 hover:text-stone-700 disabled:opacity-30"
         >
           <ChevronDown className="size-4" aria-hidden />
         </button>

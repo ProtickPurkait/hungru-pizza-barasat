@@ -72,7 +72,7 @@ export function OrderStatusTracker({
 
   return (
     <div aria-live="polite">
-      <p className="text-sm font-extrabold tracking-widest text-ink/50 uppercase">Status</p>
+      <p className="text-sm font-extrabold tracking-widest text-ink/65 uppercase">Status</p>
       <p className={clsx("mt-1 text-xl font-extrabold", status === "cancelled" && "text-meat")}>{ORDER_STATUS_CUSTOMER[status]}</p>
       {status === "cancelled" ? (
         <p className="mt-3 flex items-center gap-2 font-semibold text-meat">
@@ -87,13 +87,13 @@ export function OrderStatusTracker({
                 <span
                   className={clsx(
                     "flex size-9 items-center justify-center rounded-full ring-2 ring-ink transition-colors",
-                    done ? "bg-basil text-white" : "bg-white text-ink/30",
+                    done ? "bg-basil text-white" : "bg-white text-ink/60",
                     i === current && "ring-4 ring-basil/30",
                   )}
                 >
                   {done ? <Check className="size-4" strokeWidth={3} aria-hidden /> : <span className="text-sm font-bold">{i + 1}</span>}
                 </span>
-                <span className={clsx("text-[11px] leading-tight font-bold sm:text-xs", done ? "text-ink" : "text-ink/40")}>{labels[step]}</span>
+                <span className={clsx("text-[11px] leading-tight font-bold sm:text-xs", done ? "text-ink" : "text-ink/65")}>{labels[step]}</span>
               </li>
             );
           })}

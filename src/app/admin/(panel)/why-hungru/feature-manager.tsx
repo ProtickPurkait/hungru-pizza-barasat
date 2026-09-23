@@ -3,10 +3,11 @@
 import { clsx } from "clsx";
 import { Heart, Pencil, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
+import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { createFeature, deleteFeature, patchDocument, reorderFeatures, setFeatureActive, updateFeature } from "@/app/admin/_actions/content";
 import { useConfirm } from "@/components/admin/confirm";
+import { useSyncedState } from "@/components/admin/use-synced-state";
 import { EditorDialog } from "@/components/admin/editor-dialog";
 import { MediaPicker, type MediaPreview } from "@/components/admin/media";
 import { SortableList } from "@/components/admin/sortable-list";
@@ -29,10 +30,9 @@ type Feature = {
 export function FeatureManager({ features: initial, homepage }: { features: Feature[]; homepage: Homepage }) {
   const router = useRouter();
   const confirm = useConfirm();
-  const [features, setFeatures] = useState(initial);
+  const [features, setFeatures] = useSyncedState(initial);
   const [editing, setEditing] = useState<Feature | "new" | null>(null);
   const [, start] = useTransition();
-  useEffect(() => setFeatures(initial), [initial]);
 
   const heading = useAdminForm(homepage.why, (why) => patchDocument("homepage", { why }));
   const samples = features.filter((f) => f.isSample).length;

@@ -10,7 +10,7 @@ import { Button, Card, IconButton, Switch, TextField } from "@/components/admin/
 import { useAdminForm } from "@/components/admin/use-admin-form";
 import type { Brand, Footer } from "@/lib/content/schemas";
 
-const DEFAULT_COLORS = { primary: "#E5311B", secondary: "#FF7A1A", accent: "#FFC229" };
+const DEFAULT_COLORS = { primary: "#D62B16", secondary: "#FF7A1A", accent: "#FFC229" };
 
 export function AppearanceEditor({
   brand,

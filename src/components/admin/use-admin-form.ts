@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition } from "react";
 import { toast } from "sonner";
 import type { ActionResult, FieldErrors } from "@/lib/actions";
 
@@ -28,7 +28,9 @@ export function useAdminForm<T, R = undefined>(
   const [saving, startSaving] = useTransition();
   const [savedAt, setSavedAt] = useState<number | null>(null);
   const optionsRef = useRef(options);
-  optionsRef.current = options;
+  useLayoutEffect(() => {
+    optionsRef.current = options;
+  });
 
   const dirty = useMemo(() => JSON.stringify(values) !== baseline, [values, baseline]);
 
@@ -55,6 +57,7 @@ export function useAdminForm<T, R = undefined>(
   const submit = useCallback(
     (override?: T) => {
       const payload = override ?? values;
+      if (override) setValues(override);
       startSaving(async () => {
         const result = await save(payload);
         if (result.ok) {

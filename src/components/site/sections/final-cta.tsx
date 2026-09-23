@@ -11,7 +11,7 @@ export function FinalCtaSection({ heading, subtext, label, link }: { heading: st
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <Slice className="float-loop absolute top-8 left-[6%] w-16 sm:w-24" style={{ ["--r" as string]: "-18deg", ["--float-dur" as string]: "7s" }} />
         <Slice className="float-loop absolute right-[8%] bottom-10 w-20 sm:w-32" style={{ ["--r" as string]: "160deg", ["--float-dur" as string]: "8s", ["--float-delay" as string]: "-3s" }} />
-        <Slice className="float-loop absolute top-1/2 right-[30%] hidden w-14 lg:block" style={{ ["--r" as string]: "40deg", ["--float-dur" as string]: "6s", ["--float-delay" as string]: "-1s" }} />
+        <Slice className="float-loop absolute bottom-10 left-[22%] hidden w-14 lg:block" style={{ ["--r" as string]: "40deg", ["--float-dur" as string]: "6s", ["--float-delay" as string]: "-1s" }} />
       </div>
       <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center px-4 text-center sm:px-6">
         <Reveal as="h2" id="final-cta-heading" className="font-display text-[clamp(3rem,13vw,9rem)] leading-[0.84] tracking-[-0.035em] uppercase text-balance">

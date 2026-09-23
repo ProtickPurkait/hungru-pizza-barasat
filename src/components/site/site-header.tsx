@@ -17,8 +17,7 @@ export function SiteHeader({ logo, nav }: { logo: MediaRef | null; nav: NavLink[
   const { brand, contact } = useSite();
   const pathname = usePathname();
   const { totals, hydrated } = useCartView();
-  const lastAdd = useCart((s) => s.lastAdd);
-  const [bump, setBump] = useState(false);
+  const lastAddAt = useCart((s) => s.lastAdd?.at ?? 0);
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -29,13 +28,6 @@ export function SiteHeader({ logo, nav }: { logo: MediaRef | null; nav: NavLink[
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  useEffect(() => {
-    if (!lastAdd) return;
-    setBump(true);
-    const t = setTimeout(() => setBump(false), 450);
-    return () => clearTimeout(t);
-  }, [lastAdd]);
 
   useEffect(() => {
     dialogRef.current?.close();
@@ -83,9 +75,10 @@ export function SiteHeader({ logo, nav }: { logo: MediaRef | null; nav: NavLink[
             <ShoppingBag className="size-5" aria-hidden />
             {count > 0 && (
               <span
+                key={lastAddAt}
                 className={clsx(
                   "absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1 text-xs font-extrabold text-ink ring-2 ring-ink",
-                  bump && "animate-pop",
+                  lastAddAt > 0 && "animate-pop",
                 )}
               >
                 {count}

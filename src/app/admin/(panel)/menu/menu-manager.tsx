@@ -14,6 +14,7 @@ import {
   setProductVisibility,
 } from "@/app/admin/_actions/content";
 import { useConfirm } from "@/components/admin/confirm";
+import { useSyncedState } from "@/components/admin/use-synced-state";
 import { SortableList } from "@/components/admin/sortable-list";
 import { Badge, ButtonLink, EmptyState, Input, Select, Switch } from "@/components/admin/ui";
 import { FoodArt } from "@/components/ui/food-art";
@@ -39,12 +40,10 @@ type Product = {
 };
 
 export function MenuManager({ categories, products: initial }: { categories: Category[]; products: Product[] }) {
-  const [products, setProducts] = useState(initial);
+  const [products, setProducts] = useSyncedState(initial);
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [stockFilter, setStockFilter] = useState<"all" | "out">("all");
-
-  useEffect(() => setProducts(initial), [initial]);
 
   const filtering = query.trim() !== "" || stockFilter !== "all";
   const matches = (p: Product) =>

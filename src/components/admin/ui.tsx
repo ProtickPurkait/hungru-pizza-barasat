@@ -118,6 +118,7 @@ export function Field({
   children,
   className,
   optional,
+  aside,
 }: {
   label: ReactNode;
   help?: ReactNode;
@@ -127,14 +128,19 @@ export function Field({
   optional?: boolean;
   children: ReactNode;
   className?: string;
+  /** Right-aligned extra on the label row (e.g. a character counter). */
+  aside?: ReactNode;
 }) {
   return (
     <div className={clsx("flex flex-col gap-1.5", className)}>
-      <label htmlFor={htmlFor} className="text-sm font-semibold text-stone-800">
-        {label}
-        {required && <span className="ml-0.5 text-red-600" aria-hidden>*</span>}
-        {optional && <span className="ml-1.5 text-xs font-normal text-stone-500">Optional</span>}
-      </label>
+      <div className="flex items-baseline justify-between gap-2">
+        <label htmlFor={htmlFor} className="text-sm font-semibold text-stone-800">
+          {label}
+          {required && <span className="ml-0.5 text-red-600" aria-hidden>*</span>}
+          {optional && <span className="ml-1.5 text-xs font-normal text-stone-500">Optional</span>}
+        </label>
+        {aside}
+      </div>
       {children}
       {error ? (
         <p id={htmlFor ? `${htmlFor}-error` : undefined} className="text-sm font-medium text-red-600" role="alert">
@@ -229,12 +235,8 @@ export function TextField({
     ) : null;
   return (
     <Field
-      label={
-        <span className="flex items-baseline justify-between gap-2">
-          <span>{label}</span>
-          {counter}
-        </span>
-      }
+      label={label}
+      aside={counter}
       help={help}
       error={error}
       htmlFor={id}

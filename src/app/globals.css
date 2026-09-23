@@ -6,7 +6,7 @@
    via --brand-primary / --brand-secondary / --brand-accent on a wrapping element. */
 
 :root {
-  --brand-primary: #e5311b; /* tomato */
+  --brand-primary: #d62b16; /* tomato: 4.98:1 with white text (WCAG AA) */
   --brand-secondary: #ff7a1a; /* ember */
   --brand-accent: #ffc229; /* crust yellow */
   --sticky-bar-h: 0px;

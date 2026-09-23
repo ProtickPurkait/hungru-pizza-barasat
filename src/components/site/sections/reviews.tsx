@@ -15,7 +15,10 @@ export function ReviewsSection({ heading, reviews }: { heading: { eyebrow: strin
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading id="reviews-heading" {...heading} tone="brand" />
       </div>
-      <ul className="mx-auto mt-10 flex max-w-7xl snap-x snap-mandatory gap-4 overflow-x-auto px-4 pt-2 pb-8 no-scrollbar sm:gap-6 sm:px-6 md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-3 lg:px-8">
+      <ul
+        tabIndex={0}
+        aria-label="Customer reviews (scroll sideways for more)"
+        className="mx-auto mt-10 flex max-w-7xl snap-x snap-mandatory gap-4 overflow-x-auto px-4 pt-2 pb-8 no-scrollbar sm:gap-6 sm:px-6 md:grid md:grid-cols-2 md:overflow-visible lg:grid-cols-3 lg:px-8">
         {reviews.map((review, i) => (
           <Reveal as="li" key={review.id} index={i % 3} className="w-[85%] max-w-sm shrink-0 snap-center md:w-auto md:max-w-none">
             <figure className={`relative flex h-full flex-col rounded-[1.75rem] p-6 ring-2 ring-ink shadow-[5px_5px_0_0_var(--color-ink)] ${COLORS[i % 4]} ${TILTS[i % 4]}`}>

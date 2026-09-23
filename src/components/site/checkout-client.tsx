@@ -4,7 +4,7 @@ import { clsx } from "clsx";
 import { ArrowRight, Bike, ChevronDown, ExternalLink, Loader2, MessageCircle, Phone, Store } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useId, useState, useTransition } from "react";
+import { useId, useState, useTransition } from "react";
 import { submitOrder } from "@/app/(site)/checkout/actions";
 import { track } from "@/lib/analytics";
 import { useCart } from "@/lib/cart/store";
@@ -109,7 +109,7 @@ function Field({
         </p>
       ) : (
         hint && (
-          <p id={`${id}-hint`} className="text-sm text-ink/55">
+          <p id={`${id}-hint`} className="text-sm text-ink/65">
             {hint}
           </p>
         )
@@ -133,17 +133,13 @@ function CheckoutForm() {
   const defaultFulfillment = ordering.delivery ? "delivery" : "pickup";
   const [fulfillment, setFulfillment] = useState<"delivery" | "pickup">(defaultFulfillment);
   const { validLines, totals, hasProblems, belowMinimum } = useCartView(fulfillment);
-  const [details, setDetails] = useState<Details>({ name: "", phone: "", address: "" });
+  // CheckoutForm only renders in the browser (after the cart hydrates), so localStorage is safe here.
+  const [details, setDetails] = useState<Details>(() => loadDetails() ?? { name: "", phone: "", address: "" });
   const [notes, setNotes] = useState("");
   const [honeypot, setHoneypot] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState<string | null>(null);
   const [pending, start] = useTransition();
-
-  useEffect(() => {
-    const saved = loadDetails();
-    if (saved) setDetails(saved);
-  }, []);
 
   const whatsapp = ordering.mode === "whatsapp";
   const blocked = live.ordersPaused || hasProblems || belowMinimum;
@@ -188,7 +184,7 @@ function CheckoutForm() {
         className="flex flex-col gap-6"
       >
         <div>
-          <Link href="/cart" className="text-sm font-extrabold tracking-wide text-ink/55 uppercase hover:text-ink">
+          <Link href="/cart" className="text-sm font-extrabold tracking-wide text-ink/65 uppercase hover:text-ink">
             ← Back to cart
           </Link>
           <h1 className="font-display mt-2 text-[clamp(3rem,12vw,5.5rem)] leading-[0.85] uppercase">Checkout</h1>
@@ -314,7 +310,7 @@ function CheckoutForm() {
             disabled={blocked || pending}
             className={clsx(
               "flex h-16 w-full items-center justify-between gap-3 rounded-full px-6 text-lg font-extrabold tracking-wide uppercase ring-2 ring-ink transition-transform",
-              blocked ? "cursor-not-allowed bg-ink/20 text-ink/50 ring-ink/20" : whatsapp ? "bg-basil text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5" : "bg-primary text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5",
+              blocked ? "cursor-not-allowed bg-ink/20 text-ink/65 ring-ink/20" : whatsapp ? "bg-basil text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5" : "bg-primary text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5",
             )}
           >
             <span className="flex items-center gap-2">
@@ -377,7 +373,7 @@ function Handoff() {
 
   return (
     <div className="mx-auto max-w-2xl px-4 pt-8 pb-16 sm:px-6">
-      <Link href="/cart" className="text-sm font-extrabold tracking-wide text-ink/55 uppercase hover:text-ink">
+      <Link href="/cart" className="text-sm font-extrabold tracking-wide text-ink/65 uppercase hover:text-ink">
         ← Back to cart
       </Link>
       <h1 className="font-display mt-2 text-[clamp(2.8rem,11vw,5rem)] leading-[0.88] uppercase">
@@ -392,7 +388,7 @@ function Handoff() {
         <h2 className="font-display mb-4 text-2xl uppercase">Your list</h2>
         <OrderSummary lines={validLines} />
         <Totals totals={totals} />
-        <p className="mt-3 text-xs text-ink/50">Prices on {external ? platform : "the phone"} may differ from this website.</p>
+        <p className="mt-3 text-xs text-ink/65">Prices on {external ? platform : "the phone"} may differ from this website.</p>
       </div>
       <div className="mt-6">
         {external ? (
