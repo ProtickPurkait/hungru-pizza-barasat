@@ -5,7 +5,14 @@ import { Heart, Pencil, Plus, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { createFeature, deleteFeature, patchDocument, reorderFeatures, setFeatureActive, updateFeature } from "@/app/admin/_actions/content";
+import {
+  createFeature,
+  deleteFeature,
+  patchDocument,
+  reorderFeatures,
+  setFeatureActive,
+  updateFeature,
+} from "@/app/admin/_actions/content";
 import { useConfirm } from "@/components/admin/confirm";
 import { useSyncedState } from "@/components/admin/use-synced-state";
 import { EditorDialog } from "@/components/admin/editor-dialog";
@@ -41,9 +48,28 @@ export function FeatureManager({ features: initial, homepage }: { features: Feat
     <div className="flex flex-col gap-6">
       <Card title="Section heading">
         <div className="grid gap-4 sm:grid-cols-2">
-          <TextField label="Small label" value={heading.values.eyebrow} onChange={(v) => heading.set("eyebrow", v)} maxLength={40} error={heading.error("why.eyebrow")} />
-          <TextField label="Heading" value={heading.values.heading} onChange={(v) => heading.set("heading", v)} maxLength={90} error={heading.error("why.heading")} />
-          <TextField label="Intro text" optional className="sm:col-span-2" value={heading.values.subtext} onChange={(v) => heading.set("subtext", v)} maxLength={280} />
+          <TextField
+            label="Small label"
+            value={heading.values.eyebrow}
+            onChange={(v) => heading.set("eyebrow", v)}
+            maxLength={40}
+            error={heading.error("why.eyebrow")}
+          />
+          <TextField
+            label="Heading"
+            value={heading.values.heading}
+            onChange={(v) => heading.set("heading", v)}
+            maxLength={90}
+            error={heading.error("why.heading")}
+          />
+          <TextField
+            label="Intro text"
+            optional
+            className="sm:col-span-2"
+            value={heading.values.subtext}
+            onChange={(v) => heading.set("subtext", v)}
+            maxLength={280}
+          />
         </div>
         <div className="mt-4 flex justify-end">
           <Button onClick={() => heading.submit()} loading={heading.saving} disabled={!heading.dirty} size="sm">
@@ -54,7 +80,8 @@ export function FeatureManager({ features: initial, homepage }: { features: Feat
 
       {samples > 0 && (
         <Notice tone="warning" title="Sample points">
-          {samples} point{samples === 1 ? " is" : "s are"} placeholder text marked “Sample” on the website. Rewrite them with what really makes Hungru special.
+          {samples} point{samples === 1 ? " is" : "s are"} placeholder text marked “Sample” on the website. Rewrite them with what really
+          makes Hungru special.
         </Notice>
       )}
 
@@ -65,7 +92,11 @@ export function FeatureManager({ features: initial, homepage }: { features: Feat
       </div>
 
       {features.length === 0 ? (
-        <EmptyState icon={<Heart className="size-6" />} title="No points yet" description="This section stays hidden until you add at least one point." />
+        <EmptyState
+          icon={<Heart className="size-6" />}
+          title="No points yet"
+          description="This section stays hidden until you add at least one point."
+        />
       ) : (
         <SortableList
           items={features}
@@ -161,8 +192,25 @@ function FeatureEditor({ feature, onClose }: { feature: Feature | null; onClose:
       }
     >
       <div className="flex flex-col gap-5">
-        <TextField label="Title" required value={values.title} onChange={(v) => set("title", v)} error={error("title")} maxLength={50} placeholder="e.g. Dough made fresh" />
-        <TextField label="Description" multiline rows={3} value={values.description} onChange={(v) => set("description", v)} error={error("description")} maxLength={240} optional />
+        <TextField
+          label="Title"
+          required
+          value={values.title}
+          onChange={(v) => set("title", v)}
+          error={error("title")}
+          maxLength={50}
+          placeholder="e.g. Dough made fresh"
+        />
+        <TextField
+          label="Description"
+          multiline
+          rows={3}
+          value={values.description}
+          onChange={(v) => set("description", v)}
+          error={error("description")}
+          maxLength={240}
+          optional
+        />
         <fieldset>
           <legend className="text-sm font-semibold text-stone-800">Icon</legend>
           <div className="mt-2 grid grid-cols-8 gap-1.5">
@@ -175,7 +223,9 @@ function FeatureEditor({ feature, onClose }: { feature: Feature | null; onClose:
                 aria-pressed={values.icon === icon}
                 className={clsx(
                   "flex aspect-square items-center justify-center rounded-lg border-2 transition-colors",
-                  values.icon === icon ? "border-stone-900 bg-stone-900 text-white" : "border-stone-200 text-stone-600 hover:border-stone-400",
+                  values.icon === icon
+                    ? "border-stone-900 bg-stone-900 text-white"
+                    : "border-stone-200 text-stone-600 hover:border-stone-400",
                 )}
               >
                 <FeatureIcon icon={icon} className="size-5" />
@@ -183,7 +233,14 @@ function FeatureEditor({ feature, onClose }: { feature: Feature | null; onClose:
             ))}
           </div>
         </fieldset>
-        <MediaPicker label="Image (instead of icon)" optional value={values.imageId} preview={feature?.image ?? null} onChange={(id) => set("imageId", id)} aspect="aspect-square" />
+        <MediaPicker
+          label="Image (instead of icon)"
+          optional
+          value={values.imageId}
+          preview={feature?.image ?? null}
+          onChange={(id) => set("imageId", id)}
+          aspect="aspect-square"
+        />
         <Switch label="Show on website" checked={values.isActive} onChange={(v) => set("isActive", v)} />
       </div>
     </EditorDialog>

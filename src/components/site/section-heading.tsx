@@ -22,7 +22,13 @@ export function SectionHeading({
   action?: React.ReactNode;
 }) {
   return (
-    <div className={clsx("flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between", align === "center" && "items-center text-center sm:flex-col sm:items-center", className)}>
+    <div
+      className={clsx(
+        "flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between",
+        align === "center" && "items-center text-center sm:flex-col sm:items-center",
+        className,
+      )}
+    >
       <div className={clsx("max-w-3xl", align === "center" && "mx-auto")}>
         {eyebrow && (
           <Reveal
@@ -35,11 +41,23 @@ export function SectionHeading({
             {eyebrow}
           </Reveal>
         )}
-        <Reveal as="h2" index={1} id={id} className="font-display mt-4 text-[clamp(2.5rem,9.5vw,5.75rem)] leading-[0.88] tracking-[-0.03em] uppercase text-balance">
+        <Reveal
+          as="h2"
+          index={1}
+          id={id}
+          className="font-display mt-4 text-[clamp(2.5rem,9.5vw,5.75rem)] leading-[0.88] tracking-[-0.03em] uppercase text-balance"
+        >
           <Headline text={heading} accentClassName={tone === "brand" ? "text-ink" : "text-primary"} />
         </Reveal>
         {subtext && (
-          <Reveal as="p" index={2} className={clsx("mt-4 max-w-xl text-base leading-relaxed sm:text-lg", tone === "light" ? "text-ink/70" : "text-current opacity-80")}>
+          <Reveal
+            as="p"
+            index={2}
+            className={clsx(
+              "mt-4 max-w-xl text-base leading-relaxed sm:text-lg",
+              tone === "light" ? "text-ink/70" : "text-current opacity-80",
+            )}
+          >
             {subtext}
           </Reveal>
         )}

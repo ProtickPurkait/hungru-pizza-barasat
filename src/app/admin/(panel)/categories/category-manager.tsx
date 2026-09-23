@@ -47,7 +47,14 @@ export function CategoryManager({ categories: initial }: { categories: Category[
             <label htmlFor="new-category" className="sr-only">
               Category name
             </label>
-            <Input id="new-category" value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Desserts" invalid={Boolean(addError)} maxLength={40} />
+            <Input
+              id="new-category"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g. Desserts"
+              invalid={Boolean(addError)}
+              maxLength={40}
+            />
             {addError && <p className="mt-1 text-sm text-red-600">{addError}</p>}
           </div>
           <Button type="submit" loading={adding} disabled={!name.trim()} icon={<Plus className="size-4" />}>
@@ -103,11 +110,27 @@ function CategoryRow({ category, handle, onChanged }: { category: Category; hand
             className="flex flex-col gap-2"
             onSubmit={(e) => {
               e.preventDefault();
-              run(() => updateCategory(category.id, { name, slug: category.slug, description, isActive: active }), () => setEditing(false));
+              run(
+                () => updateCategory(category.id, { name, slug: category.slug, description, isActive: active }),
+                () => setEditing(false),
+              );
             }}
           >
-            <Input aria-label="Category name" value={name} onChange={(e) => setName(e.target.value)} invalid={Boolean(error)} autoFocus maxLength={40} />
-            <Input aria-label="Short description (optional)" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Short description (optional)" maxLength={200} />
+            <Input
+              aria-label="Category name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              invalid={Boolean(error)}
+              autoFocus
+              maxLength={40}
+            />
+            <Input
+              aria-label="Short description (optional)"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Short description (optional)"
+              maxLength={200}
+            />
             {error && <p className="text-sm text-red-600">{error}</p>}
             <div className="flex gap-2">
               <Button type="submit" size="sm" loading={pending} icon={<Check className="size-4" />}>
@@ -132,7 +155,9 @@ function CategoryRow({ category, handle, onChanged }: { category: Category; hand
           <>
             <p className="flex flex-wrap items-center gap-2 font-semibold text-stone-900">
               {category.name}
-              <Badge>{category.productCount} item{category.productCount === 1 ? "" : "s"}</Badge>
+              <Badge>
+                {category.productCount} item{category.productCount === 1 ? "" : "s"}
+              </Badge>
               {!active && <Badge tone="warning">Hidden</Badge>}
             </p>
             {category.description && <p className="text-sm text-stone-500">{category.description}</p>}
@@ -160,10 +185,14 @@ function CategoryRow({ category, handle, onChanged }: { category: Category; hand
             tone="danger"
             onClick={async () => {
               if (category.productCount > 0) {
-                toast.error(`Move or delete the ${category.productCount} item${category.productCount === 1 ? "" : "s"} in “${category.name}” first.`);
+                toast.error(
+                  `Move or delete the ${category.productCount} item${category.productCount === 1 ? "" : "s"} in “${category.name}” first.`,
+                );
                 return;
               }
-              if (await confirm({ title: `Delete “${category.name}”?`, description: "This category is empty, so nothing else is affected." })) {
+              if (
+                await confirm({ title: `Delete “${category.name}”?`, description: "This category is empty, so nothing else is affected." })
+              ) {
                 run(() => deleteCategory(category.id));
               }
             }}

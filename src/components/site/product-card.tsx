@@ -12,7 +12,10 @@ const TINTS = ["bg-accent", "bg-primary", "bg-secondary", "bg-cream-2"];
 export function SampleChip({ className }: { className?: string }) {
   return (
     <span
-      className={clsx("inline-flex items-center rounded-full bg-ink/80 px-2 py-0.5 text-[10px] font-extrabold tracking-wider text-cream uppercase", className)}
+      className={clsx(
+        "inline-flex items-center rounded-full bg-ink/80 px-2 py-0.5 text-[10px] font-extrabold tracking-wider text-cream uppercase",
+        className,
+      )}
       title="Sample content: the restaurant hasn't replaced this yet"
     >
       Sample
@@ -44,7 +47,9 @@ export function FeatureProductCard({ product, index, categoryName }: { product: 
           />
           <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
             {product.badge && (
-              <span className="-rotate-3 rounded-full bg-ink px-2.5 py-1 text-[11px] font-extrabold tracking-wider text-accent uppercase">{product.badge}</span>
+              <span className="-rotate-3 rounded-full bg-ink px-2.5 py-1 text-[11px] font-extrabold tracking-wider text-accent uppercase">
+                {product.badge}
+              </span>
             )}
             {product.isSample && <SampleChip />}
           </div>
@@ -84,11 +89,17 @@ export function MenuItemCard({ product, categoryName, priority }: { product: Sit
         <div className="flex items-center gap-2">
           <VegMark diet={product.diet} size={15} />
           {product.isBestseller && <span className="text-[11px] font-extrabold tracking-wider text-primary uppercase">★ Best seller</span>}
-          {product.badge && !product.isBestseller && <span className="text-[11px] font-extrabold tracking-wider text-primary uppercase">{product.badge}</span>}
+          {product.badge && !product.isBestseller && (
+            <span className="text-[11px] font-extrabold tracking-wider text-primary uppercase">{product.badge}</span>
+          )}
           {product.isSample && <SampleChip />}
         </div>
         <h3>
-          <button type="button" onClick={() => openProduct(product)} className="text-left text-lg leading-tight font-extrabold after:absolute after:inset-0 sm:text-xl">
+          <button
+            type="button"
+            onClick={() => openProduct(product)}
+            className="text-left text-lg leading-tight font-extrabold after:absolute after:inset-0 sm:text-xl"
+          >
             {product.name}
           </button>
         </h3>
@@ -105,7 +116,10 @@ export function MenuItemCard({ product, categoryName, priority }: { product: Sit
           categoryName={categoryName}
           priority={priority}
           sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 120px"
-          className={clsx("aspect-square rounded-2xl bg-cream-2 sm:aspect-[4/3] sm:rounded-t-[1.35rem] sm:rounded-b-none", !product.isAvailable && "grayscale")}
+          className={clsx(
+            "aspect-square rounded-2xl bg-cream-2 sm:aspect-[4/3] sm:rounded-t-[1.35rem] sm:rounded-b-none",
+            !product.isAvailable && "grayscale",
+          )}
           imageClassName="transition-transform duration-500 group-hover:scale-105"
         />
         <div className="relative z-10 -mt-5 flex justify-center sm:hidden">

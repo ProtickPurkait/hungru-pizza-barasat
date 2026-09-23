@@ -12,7 +12,9 @@ test("admin area is protected", async ({ page, request }) => {
   await page.getByRole("button", { name: "Sign in" }).click();
   await expect(page.getByText("That email and password don't match.")).toBeVisible();
 
-  const upload = await request.post("/api/admin/media", { multipart: { file: { name: "x.png", mimeType: "image/png", buffer: Buffer.from("x") } } });
+  const upload = await request.post("/api/admin/media", {
+    multipart: { file: { name: "x.png", mimeType: "image/png", buffer: Buffer.from("x") } },
+  });
   expect(upload.status()).toBe(401);
   const list = await request.get("/api/admin/media");
   expect(list.status()).toBe(401);
@@ -112,4 +114,47 @@ test("new orders appear in the admin and can be progressed", async ({ page }) =>
   await first.click();
   await page.getByRole("button", { name: /mark as confirmed/i }).click();
   await expect(page.getByText(/Order marked “Confirmed”/)).toBeVisible();
+});
+
+test("uploaded photos are optimised, served and used on the menu", async ({ page, browser }) => {
+  await login(page);
+  const sharp = (await import("sharp")).default;
+  const png = await sharp({ create: { width: 1600, height: 1200, channels: 3, background: { r: 229, g: 49, b: 27 } } })
+    .png()
+    .toBuffer();
+
+  // Rejects files that aren't images, whatever they claim to be.
+  const bad = await page.request.post("/api/admin/media", {
+    multipart: { file: { name: "evil.png", mimeType: "image/png", buffer: Buffer.from("<svg onload=alert(1)>") } },
+  });
+  expect(bad.status()).toBe(422);
+
+  const res = await page.request.post("/api/admin/media", {
+    multipart: { file: { name: "Test Pizza.png", mimeType: "image/png", buffer: png }, alt: "Test pizza photo" },
+  });
+  expect(res.status()).toBe(201);
+  const { item } = (await res.json()) as { item: { id: string; url: string; mime: string; width: number } };
+  expect(item.mime).toBe("image/webp");
+  expect(item.width).toBe(1600);
+
+  const served = await page.request.get(item.url);
+  expect(served.headers()["content-type"]).toBe("image/webp");
+  expect(served.headers()["cache-control"]).toContain("immutable");
+  const icon = await page.request.get(`/media/${item.id}/icon-180.png`);
+  expect(icon.headers()["content-type"]).toBe("image/png");
+
+  // Use it as the Margherita photo via the product editor's media library.
+  await openProduct(page, "Margherita");
+  await page.getByRole("button", { name: "Choose image" }).click();
+  await page
+    .locator("dialog[open]")
+    .getByRole("button", { name: /Test Pizza/ })
+    .click();
+  await page.getByRole("button", { name: "Save changes" }).click();
+  await expect(page.getByText(/Saved\./).first()).toBeVisible();
+  await publish(page);
+
+  const visitor = await (await browser.newContext()).newPage();
+  await visitor.goto("/menu");
+  await expect(menuCard(visitor, "Margherita").locator("img").first()).toHaveAttribute("alt", "Test pizza photo");
 });

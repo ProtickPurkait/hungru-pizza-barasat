@@ -6,8 +6,7 @@ import { getSiteData } from "@/lib/content/get-site-content";
 import { CheckoutError, checkoutSchema, placeOrder } from "@/lib/ordering/place-order";
 
 export type CheckoutResult =
-  | { ok: true; token: string; reference: string; total: number }
-  | { ok: false; message: string; fieldErrors?: Record<string, string> };
+  { ok: true; token: string; reference: string; total: number } | { ok: false; message: string; fieldErrors?: Record<string, string> };
 
 export async function submitOrder(input: unknown): Promise<CheckoutResult> {
   const parsed = checkoutSchema.safeParse(input);

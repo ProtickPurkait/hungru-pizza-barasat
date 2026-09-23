@@ -5,7 +5,13 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
 import { saveDocument } from "@/app/admin/_actions/content";
-import { changeOwnPassword, createAdminUser, deleteAdminUser, resetAdminUserPassword, setAdminUserDisabled } from "@/app/admin/_actions/users";
+import {
+  changeOwnPassword,
+  createAdminUser,
+  deleteAdminUser,
+  resetAdminUserPassword,
+  setAdminUserDisabled,
+} from "@/app/admin/_actions/users";
 import { useConfirm } from "@/components/admin/confirm";
 import { EditorDialog } from "@/components/admin/editor-dialog";
 import { Badge, Button, Card, Field, IconButton, Select, TextField } from "@/components/admin/ui";
@@ -28,9 +34,31 @@ export function AccountSettings({ name, email }: { name: string; email: string }
         noValidate
       >
         <input type="text" name="username" autoComplete="username" value={email} readOnly hidden />
-        <TextField label="Current password" type="password" autoComplete="current-password" value={values.current} onChange={(v) => set("current", v)} error={error("current")} />
-        <TextField label="New password" type="password" autoComplete="new-password" value={values.next} onChange={(v) => set("next", v)} error={error("next")} help="At least 10 characters." />
-        <TextField label="Repeat new password" type="password" autoComplete="new-password" value={values.confirm} onChange={(v) => set("confirm", v)} error={error("confirm")} />
+        <TextField
+          label="Current password"
+          type="password"
+          autoComplete="current-password"
+          value={values.current}
+          onChange={(v) => set("current", v)}
+          error={error("current")}
+        />
+        <TextField
+          label="New password"
+          type="password"
+          autoComplete="new-password"
+          value={values.next}
+          onChange={(v) => set("next", v)}
+          error={error("next")}
+          help="At least 10 characters."
+        />
+        <TextField
+          label="Repeat new password"
+          type="password"
+          autoComplete="new-password"
+          value={values.confirm}
+          onChange={(v) => set("confirm", v)}
+          error={error("confirm")}
+        />
         <div className="md:col-span-3">
           <Button type="submit" loading={form.saving} disabled={!values.current || !values.next} icon={<KeyRound className="size-4" />}>
             Change password
@@ -80,7 +108,10 @@ export function TeamSettings({ users, meId }: { users: TeamUser[]; meId: string 
                 {u.disabled && <Badge tone="danger">Disabled</Badge>}
               </p>
               <p className="truncate text-sm text-stone-500">
-                {u.email} · {u.lastLoginAt ? `last signed in ${new Date(u.lastLoginAt).toLocaleDateString("en-IN", { dateStyle: "medium" })}` : "never signed in"}
+                {u.email} ·{" "}
+                {u.lastLoginAt
+                  ? `last signed in ${new Date(u.lastLoginAt).toLocaleDateString("en-IN", { dateStyle: "medium" })}`
+                  : "never signed in"}
               </p>
             </div>
             {u.id !== meId && (
@@ -88,14 +119,18 @@ export function TeamSettings({ users, meId }: { users: TeamUser[]; meId: string 
                 <IconButton label={`Reset password for ${u.name}`} onClick={() => setResetting(u)}>
                   <KeyRound className="size-4" aria-hidden />
                 </IconButton>
-                <IconButton label={u.disabled ? `Re-enable ${u.name}` : `Disable ${u.name}`} onClick={() => run(() => setAdminUserDisabled(u.id, !u.disabled))}>
+                <IconButton
+                  label={u.disabled ? `Re-enable ${u.name}` : `Disable ${u.name}`}
+                  onClick={() => run(() => setAdminUserDisabled(u.id, !u.disabled))}
+                >
                   {u.disabled ? <UserCheck className="size-4" aria-hidden /> : <UserX className="size-4" aria-hidden />}
                 </IconButton>
                 <IconButton
                   label={`Delete ${u.name}`}
                   tone="danger"
                   onClick={async () => {
-                    if (await confirm({ title: `Remove ${u.name}?`, description: "They'll lose access to the admin immediately." })) run(() => deleteAdminUser(u.id));
+                    if (await confirm({ title: `Remove ${u.name}?`, description: "They'll lose access to the admin immediately." }))
+                      run(() => deleteAdminUser(u.id));
                   }}
                 >
                   <Trash2 className="size-4" aria-hidden />
@@ -112,7 +147,9 @@ export function TeamSettings({ users, meId }: { users: TeamUser[]; meId: string 
 }
 
 function AddUserDialog({ onClose }: { onClose: () => void }) {
-  const form = useAdminForm({ name: "", email: "", password: "", role: "editor" as "owner" | "editor" }, (v) => createAdminUser(v), { onSuccess: onClose });
+  const form = useAdminForm({ name: "", email: "", password: "", role: "editor" as "owner" | "editor" }, (v) => createAdminUser(v), {
+    onSuccess: onClose,
+  });
   const { values, set, error } = form;
   return (
     <EditorDialog
@@ -133,7 +170,16 @@ function AddUserDialog({ onClose }: { onClose: () => void }) {
       <div className="flex flex-col gap-4">
         <TextField label="Name" required value={values.name} onChange={(v) => set("name", v)} error={error("name")} />
         <TextField label="Email" required type="email" value={values.email} onChange={(v) => set("email", v)} error={error("email")} />
-        <TextField label="Temporary password" required type="text" autoComplete="off" value={values.password} onChange={(v) => set("password", v)} error={error("password")} help="At least 10 characters. Share it privately; they can change it in Settings." />
+        <TextField
+          label="Temporary password"
+          required
+          type="text"
+          autoComplete="off"
+          value={values.password}
+          onChange={(v) => set("password", v)}
+          error={error("password")}
+          help="At least 10 characters. Share it privately; they can change it in Settings."
+        />
         <Field label="Role">
           <Select value={values.role} onChange={(e) => set("role", e.target.value as "owner" | "editor")}>
             <option value="editor">Editor: manages website content</option>
@@ -163,7 +209,15 @@ function ResetPasswordDialog({ user, onClose }: { user: TeamUser; onClose: () =>
         </>
       }
     >
-      <TextField label="New password" type="text" autoComplete="off" value={form.values.password} onChange={(v) => form.set("password", v)} error={form.error("password")} help="At least 10 characters. They'll be signed out everywhere." />
+      <TextField
+        label="New password"
+        type="text"
+        autoComplete="off"
+        value={form.values.password}
+        onChange={(v) => form.set("password", v)}
+        error={form.error("password")}
+        help="At least 10 characters. They'll be signed out everywhere."
+      />
     </EditorDialog>
   );
 }
@@ -172,7 +226,10 @@ export function AnalyticsSettings({ analytics }: { analytics: Analytics }) {
   const form = useAdminForm(analytics, (v) => saveDocument("analytics", v));
   const { values, set, error } = form;
   return (
-    <Card title="Analytics" description="Optional. Connect Google Analytics 4 or Plausible to measure visits and the ordering funnel. Nothing is tracked until you add an ID.">
+    <Card
+      title="Analytics"
+      description="Optional. Connect Google Analytics 4 or Plausible to measure visits and the ordering funnel. Nothing is tracked until you add an ID."
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -181,10 +238,25 @@ export function AnalyticsSettings({ analytics }: { analytics: Analytics }) {
         className="grid gap-4 md:grid-cols-2"
         noValidate
       >
-        <TextField label="Google Analytics 4 measurement ID" optional value={values.ga4Id} onChange={(v) => set("ga4Id", v.trim().toUpperCase())} error={error("ga4Id")} placeholder="G-XXXXXXXXXX" />
-        <TextField label="Plausible domain" optional value={values.plausibleDomain} onChange={(v) => set("plausibleDomain", v.trim().toLowerCase())} error={error("plausibleDomain")} placeholder="hungrupizza.in" />
+        <TextField
+          label="Google Analytics 4 measurement ID"
+          optional
+          value={values.ga4Id}
+          onChange={(v) => set("ga4Id", v.trim().toUpperCase())}
+          error={error("ga4Id")}
+          placeholder="G-XXXXXXXXXX"
+        />
+        <TextField
+          label="Plausible domain"
+          optional
+          value={values.plausibleDomain}
+          onChange={(v) => set("plausibleDomain", v.trim().toLowerCase())}
+          error={error("plausibleDomain")}
+          placeholder="hungrupizza.in"
+        />
         <p className="text-sm text-stone-500 md:col-span-2">
-          Funnel events sent: homepage view → menu view → product view → add to cart → cart view → order started → order placed. Takes effect after publishing.
+          Funnel events sent: homepage view → menu view → product view → add to cart → cart view → order started → order placed. Takes
+          effect after publishing.
         </p>
         <div className="md:col-span-2">
           <Button type="submit" loading={form.saving} disabled={!form.dirty}>

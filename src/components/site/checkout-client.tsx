@@ -44,7 +44,10 @@ export function CheckoutClient() {
       <div className="mx-auto flex max-w-xl flex-col items-center px-4 py-24 text-center">
         <h1 className="font-display text-5xl uppercase">Nothing to order yet</h1>
         <p className="mt-3 text-ink/65">Add something delicious to your cart first.</p>
-        <Link href="/menu" className="mt-8 inline-flex h-14 items-center gap-2 rounded-full bg-primary px-8 font-extrabold text-white uppercase ring-2 ring-ink">
+        <Link
+          href="/menu"
+          className="mt-8 inline-flex h-14 items-center gap-2 rounded-full bg-primary px-8 font-extrabold text-white uppercase ring-2 ring-ink"
+        >
           Go to menu <ArrowRight className="size-5" aria-hidden />
         </Link>
       </div>
@@ -63,7 +66,9 @@ function OrderSummary({ lines, collapsible }: { lines: CartViewLine[]; collapsib
             <span className="font-bold">
               {line.quantity} × {line.product!.name}
             </span>
-            {line.priced!.options.length > 0 && <span className="block text-sm text-ink/60">{line.priced!.options.map((o) => o.optionName).join(" · ")}</span>}
+            {line.priced!.options.length > 0 && (
+              <span className="block text-sm text-ink/60">{line.priced!.options.map((o) => o.optionName).join(" · ")}</span>
+            )}
           </span>
           <span className="shrink-0 font-bold tabular-nums">{formatINR(line.priced!.lineTotal)}</span>
         </li>
@@ -74,9 +79,7 @@ function OrderSummary({ lines, collapsible }: { lines: CartViewLine[]; collapsib
   return (
     <details className="group rounded-3xl bg-white p-4 ring-1 ring-ink/10 lg:hidden">
       <summary className="flex cursor-pointer list-none items-center justify-between font-extrabold">
-        <span>
-          Order summary · {lines.reduce((n, l) => n + l.quantity, 0)} items
-        </span>
+        <span>Order summary · {lines.reduce((n, l) => n + l.quantity, 0)} items</span>
         <ChevronDown className="size-5 transition-transform group-open:rotate-180" aria-hidden />
       </summary>
       <div className="mt-4">{content}</div>
@@ -207,10 +210,19 @@ function CheckoutForm() {
                   key={value}
                   className={clsx(
                     "flex h-16 cursor-pointer items-center justify-center gap-2 rounded-2xl border-2 text-lg font-extrabold transition-all has-[:focus-visible]:ring-4 has-[:focus-visible]:ring-accent",
-                    fulfillment === value ? "border-ink bg-ink text-cream shadow-[3px_3px_0_0_var(--brand-primary)]" : "border-ink/15 bg-white hover:border-ink/40",
+                    fulfillment === value
+                      ? "border-ink bg-ink text-cream shadow-[3px_3px_0_0_var(--brand-primary)]"
+                      : "border-ink/15 bg-white hover:border-ink/40",
                   )}
                 >
-                  <input type="radio" name="fulfillment" value={value} checked={fulfillment === value} onChange={() => setFulfillment(value)} className="sr-only" />
+                  <input
+                    type="radio"
+                    name="fulfillment"
+                    value={value}
+                    checked={fulfillment === value}
+                    onChange={() => setFulfillment(value)}
+                    className="sr-only"
+                  />
                   {icon}
                   {label}
                 </label>
@@ -255,7 +267,12 @@ function CheckoutForm() {
             />
           </Field>
           {fulfillment === "delivery" && (
-            <Field label="Delivery address" id={ids.address} error={errors.address} hint={ordering.deliveryNote || "House no., street, landmark and area."}>
+            <Field
+              label="Delivery address"
+              id={ids.address}
+              error={errors.address}
+              hint={ordering.deliveryNote || "House no., street, landmark and area."}
+            >
               <textarea
                 id={ids.address}
                 autoComplete="street-address"
@@ -297,7 +314,12 @@ function CheckoutForm() {
         )}
 
         {formError && (
-          <p data-form-error tabIndex={-1} role="alert" className="rounded-2xl bg-primary/10 px-4 py-3 font-bold text-primary ring-2 ring-primary focus:outline-none">
+          <p
+            data-form-error
+            tabIndex={-1}
+            role="alert"
+            className="rounded-2xl bg-primary/10 px-4 py-3 font-bold text-primary ring-2 ring-primary focus:outline-none"
+          >
             {formError}
           </p>
         )}
@@ -310,11 +332,19 @@ function CheckoutForm() {
             disabled={blocked || pending}
             className={clsx(
               "flex h-16 w-full items-center justify-between gap-3 rounded-full px-6 text-lg font-extrabold tracking-wide uppercase ring-2 ring-ink transition-transform",
-              blocked ? "cursor-not-allowed bg-ink/20 text-ink/65 ring-ink/20" : whatsapp ? "bg-basil text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5" : "bg-primary text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5",
+              blocked
+                ? "cursor-not-allowed bg-ink/20 text-ink/65 ring-ink/20"
+                : whatsapp
+                  ? "bg-basil text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5"
+                  : "bg-primary text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5",
             )}
           >
             <span className="flex items-center gap-2">
-              {pending ? <Loader2 className="size-5 animate-spin" aria-hidden /> : whatsapp ? <MessageCircle className="size-5" aria-hidden /> : null}
+              {pending ? (
+                <Loader2 className="size-5 animate-spin" aria-hidden />
+              ) : whatsapp ? (
+                <MessageCircle className="size-5" aria-hidden />
+              ) : null}
               {pending ? "Placing order…" : whatsapp ? "Continue to WhatsApp" : "Place order"}
             </span>
             <span className="tabular-nums">{formatINR(totals.total)}</span>

@@ -13,7 +13,10 @@ export const metadata: Metadata = { title: "Menu" };
 export default async function MenuPage() {
   await requireAdmin();
   const [categories, products] = await Promise.all([
-    db.select({ id: t.categories.id, name: t.categories.name, isActive: t.categories.isActive }).from(t.categories).orderBy(asc(t.categories.sortOrder)),
+    db
+      .select({ id: t.categories.id, name: t.categories.name, isActive: t.categories.isActive })
+      .from(t.categories)
+      .orderBy(asc(t.categories.sortOrder)),
     db
       .select({
         id: t.products.id,

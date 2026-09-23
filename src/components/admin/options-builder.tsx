@@ -109,7 +109,11 @@ export function OptionsBuilder({
                 />
               </label>
             )}
-            <IconButton label={`Remove ${group.name || "option group"}`} tone="danger" onClick={() => onChange(value.filter((_, i) => i !== gi))}>
+            <IconButton
+              label={`Remove ${group.name || "option group"}`}
+              tone="danger"
+              onClick={() => onChange(value.filter((_, i) => i !== gi))}
+            >
               <Trash2 className="size-4" aria-hidden />
             </IconButton>
           </div>
@@ -135,7 +139,10 @@ export function OptionsBuilder({
             {group.options.map((option, oi) => {
               const base = `options.${gi}.options.${oi}`;
               return (
-                <div key={option.id} className="grid grid-cols-[1fr_auto] gap-2 rounded-lg bg-white p-2 ring-1 ring-stone-200 sm:grid-cols-[1fr_8rem_5.5rem_5.5rem_2.5rem] sm:items-center sm:bg-transparent sm:p-0 sm:ring-0">
+                <div
+                  key={option.id}
+                  className="grid grid-cols-[1fr_auto] gap-2 rounded-lg bg-white p-2 ring-1 ring-stone-200 sm:grid-cols-[1fr_8rem_5.5rem_5.5rem_2.5rem] sm:items-center sm:bg-transparent sm:p-0 sm:ring-0"
+                >
                   <Input
                     aria-label="Choice name"
                     value={option.name}

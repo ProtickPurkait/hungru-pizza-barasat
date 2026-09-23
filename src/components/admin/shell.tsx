@@ -170,10 +170,7 @@ export function AdminShell({ user, brandName, status, newOrders, children }: She
 
   return (
     <div className="admin min-h-dvh bg-stone-50 text-stone-900">
-      <a
-        href="#admin-main"
-        className="sr-only z-50 rounded bg-white px-3 py-2 focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
-      >
+      <a href="#admin-main" className="sr-only z-50 rounded bg-white px-3 py-2 focus:not-sr-only focus:fixed focus:top-2 focus:left-2">
         Skip to content
       </a>
 

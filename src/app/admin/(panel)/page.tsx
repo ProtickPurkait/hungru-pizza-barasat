@@ -1,16 +1,5 @@
 import { and, count, desc, eq, gte } from "drizzle-orm";
-import {
-  CheckCircle2,
-  Circle,
-  Home,
-  MessageSquareQuote,
-  PauseCircle,
-  Pizza,
-  PlayCircle,
-  Plus,
-  Tag,
-  UtensilsCrossed,
-} from "lucide-react";
+import { CheckCircle2, Circle, Home, MessageSquareQuote, PauseCircle, Pizza, PlayCircle, Plus, Tag, UtensilsCrossed } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Badge, ButtonLink, Card, PageHeader, Stat } from "@/components/admin/ui";
@@ -43,7 +32,12 @@ export default async function DashboardPage() {
     loadAllDocuments(db),
     getPublishStatus(db),
     db
-      .select({ isAvailable: t.products.isAvailable, isVisible: t.products.isVisible, isSample: t.products.isSample, isBestseller: t.products.isBestseller })
+      .select({
+        isAvailable: t.products.isAvailable,
+        isVisible: t.products.isVisible,
+        isSample: t.products.isSample,
+        isBestseller: t.products.isBestseller,
+      })
       .from(t.products),
     db.select({ isActive: t.offers.isActive, startsAt: t.offers.startsAt, endsAt: t.offers.endsAt }).from(t.offers),
     db.select({ isEnabled: t.reviews.isEnabled, isSample: t.reviews.isSample }).from(t.reviews),
@@ -52,7 +46,10 @@ export default async function DashboardPage() {
     db.select({ n: count() }).from(t.orders).where(gte(t.orders.createdAt, startOfDay)),
     db.select().from(t.orders).orderBy(desc(t.orders.createdAt)).limit(5),
   ]);
-  const [newOrderCount] = await db.select({ n: count() }).from(t.orders).where(and(eq(t.orders.status, "new")));
+  const [newOrderCount] = await db
+    .select({ n: count() })
+    .from(t.orders)
+    .where(and(eq(t.orders.status, "new")));
 
   const saved = new Set(savedDocs.map((d) => d.key));
   const shown = products.filter((p) => p.isVisible);
@@ -70,7 +67,12 @@ export default async function DashboardPage() {
 
   const checklist = [
     { done: products.length > 0, label: "Add your menu items", href: "/admin/menu/new" },
-    { done: products.length > 0 && sampleProducts === 0, label: "Replace the sample menu items", href: "/admin/menu", hide: sampleProducts === 0 },
+    {
+      done: products.length > 0 && sampleProducts === 0,
+      label: "Replace the sample menu items",
+      href: "/admin/menu",
+      hide: sampleProducts === 0,
+    },
     { done: Boolean(docs.brand.logoId), label: "Upload your logo", href: "/admin/appearance" },
     { done: Boolean(docs.contact.address), label: "Add your address", href: "/admin/contact" },
     { done: Boolean(docs.contact.phone || docs.contact.whatsapp), label: "Add a phone or WhatsApp number", href: "/admin/contact" },
@@ -152,12 +154,17 @@ export default async function DashboardPage() {
               bodyClassName="p-0 sm:p-0"
             >
               {recentOrders.length === 0 ? (
-                <p className="px-5 py-8 text-center text-sm text-stone-500">No orders yet. They&apos;ll appear here as soon as customers order.</p>
+                <p className="px-5 py-8 text-center text-sm text-stone-500">
+                  No orders yet. They&apos;ll appear here as soon as customers order.
+                </p>
               ) : (
                 <ul className="divide-y divide-stone-100">
                   {recentOrders.map((o) => (
                     <li key={o.id}>
-                      <Link href={`/admin/orders/${o.id}`} className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-stone-50 sm:px-5">
+                      <Link
+                        href={`/admin/orders/${o.id}`}
+                        className="flex items-center justify-between gap-3 px-4 py-3 hover:bg-stone-50 sm:px-5"
+                      >
                         <div className="min-w-0">
                           <p className="font-semibold text-stone-900">
                             {o.reference} · {o.customerName}
@@ -169,7 +176,17 @@ export default async function DashboardPage() {
                         </div>
                         <div className="flex shrink-0 flex-col items-end gap-1">
                           <span className="font-bold tabular-nums">{formatINR(o.total)}</span>
-                          <Badge tone={o.status === "new" ? "brand" : o.status === "cancelled" ? "danger" : o.status === "completed" ? "success" : "info"}>
+                          <Badge
+                            tone={
+                              o.status === "new"
+                                ? "brand"
+                                : o.status === "cancelled"
+                                  ? "danger"
+                                  : o.status === "completed"
+                                    ? "success"
+                                    : "info"
+                            }
+                          >
                             {ORDER_STATUS_LABELS[o.status]}
                           </Badge>
                         </div>
@@ -219,34 +236,42 @@ export default async function DashboardPage() {
           </Card>
         </div>
 
-        <div className="flex flex-col gap-6 lg:col-span-2">
-          <Card title="Launch checklist" description={`${doneCount} of ${checklist.length} done`}>
-            <div className="mb-4 h-2 overflow-hidden rounded-full bg-stone-100" aria-hidden>
-              <div className="h-full rounded-full bg-emerald-500 transition-all" style={{ width: `${(doneCount / checklist.length) * 100}%` }} />
-            </div>
-            <ul className="flex flex-col gap-1">
-              {checklist.map((item) => (
-                <li key={item.label}>
-                  <Link
-                    href={item.href}
-                    className="flex items-start gap-2.5 rounded-lg px-2 py-2 text-sm hover:bg-stone-50"
-                  >
-                    {item.done ? (
-                      <CheckCircle2 className="mt-0.5 size-[18px] shrink-0 text-emerald-600" aria-label="Done" />
-                    ) : (
-                      <Circle className="mt-0.5 size-[18px] shrink-0 text-stone-300" aria-label="To do" />
-                    )}
-                    <span className={item.done ? "text-stone-500 line-through" : "font-medium text-stone-800"}>{item.label}</span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </Card>
+        <div className={`flex flex-col gap-6 lg:order-none lg:col-span-2 ${doneCount < checklist.length ? "order-first" : ""}`}>
+          {doneCount === checklist.length ? (
+            <Card title="Launch checklist">
+              <p className="flex items-center gap-2 text-sm font-semibold text-emerald-700">
+                <CheckCircle2 className="size-5" aria-hidden /> Everything&apos;s set up. Nice work!
+              </p>
+            </Card>
+          ) : (
+            <Card title="Launch checklist" description={`${doneCount} of ${checklist.length} done`}>
+              <div className="mb-4 h-2 overflow-hidden rounded-full bg-stone-100" aria-hidden>
+                <div
+                  className="h-full rounded-full bg-emerald-500 transition-all"
+                  style={{ width: `${(doneCount / checklist.length) * 100}%` }}
+                />
+              </div>
+              <ul className="flex flex-col gap-1">
+                {checklist.map((item) => (
+                  <li key={item.label}>
+                    <Link href={item.href} className="flex items-start gap-2.5 rounded-lg px-2 py-2 text-sm hover:bg-stone-50">
+                      {item.done ? (
+                        <CheckCircle2 className="mt-0.5 size-[18px] shrink-0 text-emerald-600" aria-label="Done" />
+                      ) : (
+                        <Circle className="mt-0.5 size-[18px] shrink-0 text-stone-300" aria-label="To do" />
+                      )}
+                      <span className={item.done ? "text-stone-500 line-through" : "font-medium text-stone-800"}>{item.label}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          )}
           {sampleTotal > 0 && (
             <Card title="Sample content" description="Placeholder items are marked “Sample” on the website until you replace them.">
               <p className="text-sm text-stone-600">
-                {sampleTotal} sample item{sampleTotal === 1 ? "" : "s"} (menu, reviews, “Why Hungru” points). Edit them to make them yours, or
-                remove them all at once.
+                {sampleTotal} sample item{sampleTotal === 1 ? "" : "s"} (menu, reviews, “Why Hungru” points). Edit them to make them yours,
+                or remove them all at once.
               </p>
               <div className="mt-3">
                 <RemoveSamplesButton />

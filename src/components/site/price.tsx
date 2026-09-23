@@ -26,7 +26,9 @@ export function Price({
             {formatINR(price)}
           </s>
           {showPercent && (
-            <span className="rounded-full bg-basil px-1.5 py-0.5 text-[11px] font-extrabold text-white">{discountPercent(price, discountPrice!)}% off</span>
+            <span className="rounded-full bg-basil px-1.5 py-0.5 text-[11px] font-extrabold text-white">
+              {discountPercent(price, discountPrice!)}% off
+            </span>
           )}
         </>
       )}

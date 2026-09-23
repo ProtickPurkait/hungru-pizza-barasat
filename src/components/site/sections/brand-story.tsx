@@ -22,23 +22,43 @@ export function BrandStorySection({ story, brandName }: { story: SiteContent["st
   const yA = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : 60, reduce ? 0 : -60]);
   const yB = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : 120, reduce ? 0 : -120]);
   const rotate = useTransform(scrollYProgress, [0, 1], [reduce ? 0 : -25, reduce ? 0 : 25]);
-  const paragraphs = story.body.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
+  const paragraphs = story.body
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
 
   return (
     <section ref={ref} id="story" aria-labelledby="story-heading" className="relative overflow-hidden bg-cream py-16 sm:py-28">
       <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 md:grid-cols-[1.1fr_1fr] md:items-center lg:gap-20 lg:px-8">
         <div className="relative order-2 md:order-1">
           {story.eyebrow && (
-            <Reveal as="p" className="inline-flex -rotate-2 rounded-full bg-primary px-3 py-1 text-xs font-extrabold tracking-[0.18em] text-white uppercase sm:text-sm">
+            <Reveal
+              as="p"
+              className="inline-flex -rotate-2 rounded-full bg-primary px-3 py-1 text-xs font-extrabold tracking-[0.18em] text-white uppercase sm:text-sm"
+            >
               {story.eyebrow}
             </Reveal>
           )}
-          <Reveal as="h2" index={1} id="story-heading" className="font-display mt-4 text-[clamp(2.75rem,10vw,6.5rem)] leading-[0.86] tracking-[-0.03em] uppercase text-balance">
+          <Reveal
+            as="h2"
+            index={1}
+            id="story-heading"
+            className="font-display mt-4 text-[clamp(2.75rem,10vw,6.5rem)] leading-[0.86] tracking-[-0.03em] uppercase text-balance"
+          >
             <Headline text={story.heading} accentClassName="text-primary" />
           </Reveal>
           <div className="mt-6 flex max-w-xl flex-col gap-4 text-lg leading-relaxed text-ink/80">
             {paragraphs.map((p, i) => (
-              <Reveal as="p" key={i} index={i + 2} className={i === 0 ? "text-xl font-semibold text-ink first-letter:float-left first-letter:mr-2 first-letter:font-display first-letter:text-7xl first-letter:leading-[0.8] first-letter:text-primary" : undefined}>
+              <Reveal
+                as="p"
+                key={i}
+                index={i + 2}
+                className={
+                  i === 0
+                    ? "text-xl font-semibold text-ink first-letter:float-left first-letter:mr-2 first-letter:font-display first-letter:text-7xl first-letter:leading-[0.8] first-letter:text-primary"
+                    : undefined
+                }
+              >
                 {p}
               </Reveal>
             ))}

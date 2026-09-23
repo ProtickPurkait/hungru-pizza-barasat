@@ -48,12 +48,7 @@ export const getSiteData = cache(async (): Promise<SiteData> => {
   return finalize(applyLiveState(published.content, live), live.live, "published", published.publishedAt);
 });
 
-function finalize(
-  content: SiteContent,
-  live: SiteData["live"],
-  mode: SiteData["mode"],
-  publishedAt: string | null,
-): SiteData {
+function finalize(content: SiteContent, live: SiteData["live"], mode: SiteData["mode"], publishedAt: string | null): SiteData {
   const now = Date.now();
   return {
     content: { ...content, offers: content.offers.filter((o) => isOfferLive(o, now)) },

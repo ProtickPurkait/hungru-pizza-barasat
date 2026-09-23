@@ -14,7 +14,10 @@ export default async function BrandStoryPage() {
   const previews = await getMediaPreviews(story.imageIds);
   return (
     <>
-      <PageHeader title="Brand story" description="Tell customers who you are. Real stories beat marketing speak: how Hungru started, the people, the kitchen." />
+      <PageHeader
+        title="Brand story"
+        description="Tell customers who you are. Real stories beat marketing speak: how Hungru started, the people, the kitchen."
+      />
       <StoryEditor story={story} previews={Object.values(previews)} />
     </>
   );

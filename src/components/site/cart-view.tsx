@@ -59,7 +59,10 @@ export function CartView() {
       <div>
         <div className="flex items-end justify-between gap-4">
           <h1 className="font-display text-[clamp(3rem,12vw,5.5rem)] leading-[0.85] uppercase">Your cart</h1>
-          <Link href="/menu" className="mb-2 shrink-0 text-sm font-extrabold tracking-wide text-primary uppercase underline-offset-4 hover:underline">
+          <Link
+            href="/menu"
+            className="mb-2 shrink-0 text-sm font-extrabold tracking-wide text-primary uppercase underline-offset-4 hover:underline"
+          >
             + Add more
           </Link>
         </div>
@@ -78,10 +81,17 @@ export function CartView() {
             return (
               <li
                 key={line.key}
-                className={clsx("flex gap-3 rounded-3xl bg-white p-3 ring-1 ring-ink/10 sm:gap-4 sm:p-4", line.problem && "bg-white/60 ring-2 ring-meat/40")}
+                className={clsx(
+                  "flex gap-3 rounded-3xl bg-white p-3 ring-1 ring-ink/10 sm:gap-4 sm:p-4",
+                  line.problem && "bg-white/60 ring-2 ring-meat/40",
+                )}
               >
                 {product ? (
-                  <ProductVisual product={product} sizes="96px" className={clsx("size-20 shrink-0 rounded-2xl bg-cream-2 sm:size-24", line.problem && "grayscale")} />
+                  <ProductVisual
+                    product={product}
+                    sizes="96px"
+                    className={clsx("size-20 shrink-0 rounded-2xl bg-cream-2 sm:size-24", line.problem && "grayscale")}
+                  />
                 ) : (
                   <span className="size-20 shrink-0 rounded-2xl bg-ink/5 sm:size-24" />
                 )}
@@ -108,7 +118,11 @@ export function CartView() {
                     {line.priced ? (
                       <QuantityStepper quantity={line.quantity} onChange={(q) => setQuantity(line.key, q)} label={name} size="sm" />
                     ) : (
-                      <button type="button" onClick={() => remove(line.key)} className="h-9 rounded-full bg-ink px-4 text-sm font-bold text-cream">
+                      <button
+                        type="button"
+                        onClick={() => remove(line.key)}
+                        className="h-9 rounded-full bg-ink px-4 text-sm font-bold text-cream"
+                      >
                         Remove
                       </button>
                     )}
@@ -153,7 +167,9 @@ export function CartView() {
           <h2 className="font-display text-3xl uppercase">Summary</h2>
           <dl className="mt-4 flex flex-col gap-2 text-base">
             <div className="flex justify-between">
-              <dt className="text-ink/70">Subtotal ({totals.itemCount} item{totals.itemCount === 1 ? "" : "s"})</dt>
+              <dt className="text-ink/70">
+                Subtotal ({totals.itemCount} item{totals.itemCount === 1 ? "" : "s"})
+              </dt>
               <dd className="font-bold tabular-nums">{formatINR(totals.subtotal)}</dd>
             </div>
             {totals.discount > 0 && (
@@ -175,11 +191,16 @@ export function CartView() {
           </dl>
           {belowMinimum && ordering.minOrder !== null && (
             <p className="mt-3 rounded-xl bg-accent/40 px-3 py-2 text-sm font-bold">
-              Minimum order is {formatINR(ordering.minOrder)}. Add {formatINR(ordering.minOrder - (totals.total - totals.deliveryFee))} more.
+              Minimum order is {formatINR(ordering.minOrder)}. Add {formatINR(ordering.minOrder - (totals.total - totals.deliveryFee))}{" "}
+              more.
             </p>
           )}
-          {!handoff && live.ordersPaused && <p className="mt-3 rounded-xl bg-accent/40 px-3 py-2 text-sm font-bold">{live.pausedMessage}</p>}
-          {mode === "preview" && <p className="mt-3 text-sm font-semibold text-ink/60">Preview mode: you can try checkout, but real orders are disabled.</p>}
+          {!handoff && live.ordersPaused && (
+            <p className="mt-3 rounded-xl bg-accent/40 px-3 py-2 text-sm font-bold">{live.pausedMessage}</p>
+          )}
+          {mode === "preview" && (
+            <p className="mt-3 text-sm font-semibold text-ink/60">Preview mode: you can try checkout, but real orders are disabled.</p>
+          )}
           <div className="fixed inset-x-0 bottom-0 z-30 border-t-2 border-ink/10 bg-cream/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:static lg:mt-5 lg:border-0 lg:bg-transparent lg:p-0">
             <Link
               href={blocked ? "#" : "/checkout"}
@@ -187,7 +208,9 @@ export function CartView() {
               onClick={(e) => blocked && e.preventDefault()}
               className={clsx(
                 "flex h-16 items-center justify-between gap-3 rounded-full px-6 text-lg font-extrabold tracking-wide uppercase ring-2 ring-ink transition-transform",
-                blocked ? "cursor-not-allowed bg-ink/20 text-ink/65 ring-ink/20" : "bg-primary text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5",
+                blocked
+                  ? "cursor-not-allowed bg-ink/20 text-ink/65 ring-ink/20"
+                  : "bg-primary text-white shadow-[4px_4px_0_0_var(--color-ink)] active:translate-y-0.5",
               )}
             >
               <span>Proceed to order</span>

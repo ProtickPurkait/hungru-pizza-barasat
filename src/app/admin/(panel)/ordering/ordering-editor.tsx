@@ -10,9 +10,24 @@ import { rupeesToPaise, type Live, type Ordering, type OrderingMode } from "@/li
 import { paiseToInput } from "@/lib/money";
 
 const MODES: { mode: OrderingMode; title: string; description: string; icon: React.ReactNode }[] = [
-  { mode: "native", title: "Website checkout", description: "Customers place the order here. You see it in Admin → Orders.", icon: <ShoppingBag /> },
-  { mode: "whatsapp", title: "WhatsApp", description: "The order is saved and sent to your WhatsApp as a ready-made message.", icon: <MessageCircle /> },
-  { mode: "external", title: "Other platform", description: "Send customers to Zomato, Swiggy or your own ordering link.", icon: <Globe /> },
+  {
+    mode: "native",
+    title: "Website checkout",
+    description: "Customers place the order here. You see it in Admin → Orders.",
+    icon: <ShoppingBag />,
+  },
+  {
+    mode: "whatsapp",
+    title: "WhatsApp",
+    description: "The order is saved and sent to your WhatsApp as a ready-made message.",
+    icon: <MessageCircle />,
+  },
+  {
+    mode: "external",
+    title: "Other platform",
+    description: "Send customers to Zomato, Swiggy or your own ordering link.",
+    icon: <Globe />,
+  },
   { mode: "phone", title: "Phone call", description: "Customers see their order summary and call you to place it.", icon: <Phone /> },
 ];
 
@@ -59,7 +74,9 @@ export function OrderingEditor({
           <div className="flex flex-col gap-4">
             <Switch
               label={liveForm.values.ordersPaused ? "Orders are paused" : "Taking orders"}
-              description={liveForm.values.ordersPaused ? "Customers can browse the menu but can't check out." : "Customers can order normally."}
+              description={
+                liveForm.values.ordersPaused ? "Customers can browse the menu but can't check out." : "Customers can order normally."
+              }
               checked={!liveForm.values.ordersPaused}
               tone="success"
               onChange={(open) => liveForm.submit({ ...liveForm.values, ordersPaused: !open })}
@@ -94,7 +111,13 @@ export function OrderingEditor({
                     values.mode === m.mode ? "border-stone-900 bg-stone-50" : "border-stone-200 hover:border-stone-300",
                   )}
                 >
-                  <input type="radio" name="mode" className="sr-only" checked={values.mode === m.mode} onChange={() => set("mode", m.mode)} />
+                  <input
+                    type="radio"
+                    name="mode"
+                    className="sr-only"
+                    checked={values.mode === m.mode}
+                    onChange={() => set("mode", m.mode)}
+                  />
                   <span className={clsx("mt-0.5 shrink-0", values.mode === m.mode ? "text-primary" : "text-stone-400")} aria-hidden>
                     {m.icon}
                   </span>
@@ -110,7 +133,18 @@ export function OrderingEditor({
           <div className="mt-5 flex flex-col gap-5">
             {values.mode === "native" && (
               <Notice tone="info" title="Keep an eye on Admin → Orders">
-                New orders appear there (with a sound alert while the page is open). Payment is collected on delivery or pickup. The website doesn&apos;t take card payments.
+                New orders appear there (with a sound alert while the page is open). Payment is collected on delivery or pickup. The website
+                doesn&apos;t take card payments.
+              </Notice>
+            )}
+            {values.mode === "whatsapp" && !values.whatsappNumber && !contactWhatsapp && (
+              <Notice tone="warning" title="Add a WhatsApp number">
+                Customers can&apos;t send orders until there&apos;s a number here or in Contact &amp; hours.
+              </Notice>
+            )}
+            {values.mode === "phone" && !values.phoneNumber && !contactPhone && (
+              <Notice tone="warning" title="Add a phone number">
+                Customers need a number to call. Add it here or in Contact &amp; hours.
               </Notice>
             )}
             {values.mode === "whatsapp" && (
@@ -121,13 +155,32 @@ export function OrderingEditor({
                 onChange={(v) => set("whatsappNumber", v)}
                 error={error("whatsappNumber")}
                 placeholder={contactWhatsapp || "+91 98765 43210"}
-                help={contactWhatsapp ? `Leave empty to use your contact WhatsApp (${contactWhatsapp}).` : "Required: add it here or in Contact & hours."}
+                help={
+                  contactWhatsapp
+                    ? `Leave empty to use your contact WhatsApp (${contactWhatsapp}).`
+                    : "Required: add it here or in Contact & hours."
+                }
               />
             )}
             {values.mode === "external" && (
               <div className="grid gap-5 sm:grid-cols-2">
-                <TextField label="Platform name" value={values.externalPlatformName} onChange={(v) => set("externalPlatformName", v)} error={error("externalPlatformName")} placeholder="e.g. Zomato" maxLength={40} />
-                <TextField label="Ordering link" inputMode="url" value={values.externalUrl} onChange={(v) => set("externalUrl", v)} error={error("externalUrl")} placeholder="https://…" required />
+                <TextField
+                  label="Platform name"
+                  value={values.externalPlatformName}
+                  onChange={(v) => set("externalPlatformName", v)}
+                  error={error("externalPlatformName")}
+                  placeholder="e.g. Zomato"
+                  maxLength={40}
+                />
+                <TextField
+                  label="Ordering link"
+                  inputMode="url"
+                  value={values.externalUrl}
+                  onChange={(v) => set("externalUrl", v)}
+                  error={error("externalUrl")}
+                  placeholder="https://…"
+                  required
+                />
               </div>
             )}
             {values.mode === "phone" && (
@@ -138,7 +191,9 @@ export function OrderingEditor({
                 onChange={(v) => set("phoneNumber", v)}
                 error={error("phoneNumber")}
                 placeholder={contactPhone || "+91 98765 43210"}
-                help={contactPhone ? `Leave empty to use your contact phone (${contactPhone}).` : "Required: add it here or in Contact & hours."}
+                help={
+                  contactPhone ? `Leave empty to use your contact phone (${contactPhone}).` : "Required: add it here or in Contact & hours."
+                }
               />
             )}
           </div>
@@ -147,17 +202,49 @@ export function OrderingEditor({
         {collectsOrders && (
           <Card title="Delivery & pickup">
             <div className="flex flex-col gap-5">
-              <Switch label="Delivery" description="Customers can ask for delivery and enter an address." checked={values.delivery} onChange={(v) => set("delivery", v)} />
-              <Switch label="Pickup" description="Customers can collect from the restaurant." checked={values.pickup} onChange={(v) => set("pickup", v)} />
+              <Switch
+                label="Delivery"
+                description="Customers can ask for delivery and enter an address."
+                checked={values.delivery}
+                onChange={(v) => set("delivery", v)}
+              />
+              <Switch
+                label="Pickup"
+                description="Customers can collect from the restaurant."
+                checked={values.pickup}
+                onChange={(v) => set("pickup", v)}
+              />
               {error("pickup") && <p className="text-sm text-red-600">{error("pickup")}</p>}
               <div className="grid gap-5 sm:grid-cols-2">
                 {values.delivery && (
-                  <PriceField label="Delivery fee" optional value={values.deliveryFee} onChange={(v) => set("deliveryFee", v)} error={error("deliveryFee")} help="Leave empty if you don't charge one." />
+                  <PriceField
+                    label="Delivery fee"
+                    optional
+                    value={values.deliveryFee}
+                    onChange={(v) => set("deliveryFee", v)}
+                    error={error("deliveryFee")}
+                    help="Leave empty if you don't charge one."
+                  />
                 )}
-                <PriceField label="Minimum order" optional value={values.minOrder} onChange={(v) => set("minOrder", v)} error={error("minOrder")} help="Leave empty for no minimum." />
+                <PriceField
+                  label="Minimum order"
+                  optional
+                  value={values.minOrder}
+                  onChange={(v) => set("minOrder", v)}
+                  error={error("minOrder")}
+                  help="Leave empty for no minimum."
+                />
               </div>
               {values.delivery && (
-                <TextField label="Delivery info" optional value={values.deliveryNote} onChange={(v) => set("deliveryNote", v)} maxLength={200} placeholder="e.g. We deliver within 3 km of the shop" help="Shown at checkout. Only include what's true." />
+                <TextField
+                  label="Delivery info"
+                  optional
+                  value={values.deliveryNote}
+                  onChange={(v) => set("deliveryNote", v)}
+                  maxLength={200}
+                  placeholder="e.g. We deliver within 3 km of the shop"
+                  help="Shown at checkout. Only include what's true."
+                />
               )}
             </div>
           </Card>
@@ -166,7 +253,14 @@ export function OrderingEditor({
         {collectsOrders && (
           <Card title="Checkout & confirmation">
             <div className="flex flex-col gap-5">
-              <TextField label="Payment note" value={values.paymentNote} onChange={(v) => set("paymentNote", v)} maxLength={200} error={error("paymentNote")} help="e.g. which payment methods you accept on delivery/pickup." />
+              <TextField
+                label="Payment note"
+                value={values.paymentNote}
+                onChange={(v) => set("paymentNote", v)}
+                maxLength={200}
+                error={error("paymentNote")}
+                help="e.g. which payment methods you accept on delivery/pickup."
+              />
               <TextField
                 label="Message after ordering"
                 optional
@@ -181,7 +275,15 @@ export function OrderingEditor({
               <TextField
                 label="Order number prefix"
                 value={values.orderPrefix}
-                onChange={(v) => set("orderPrefix", v.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 6))}
+                onChange={(v) =>
+                  set(
+                    "orderPrefix",
+                    v
+                      .toUpperCase()
+                      .replace(/[^A-Z0-9]/g, "")
+                      .slice(0, 6),
+                  )
+                }
                 error={error("orderPrefix")}
                 help={`Orders look like ${values.orderPrefix || "HP"}-1042.`}
               />

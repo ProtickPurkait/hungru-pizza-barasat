@@ -33,7 +33,11 @@ export async function findMediaUsage(mediaId: string): Promise<string[]> {
       .where(sql`${t.publishedSnapshots.data}::text like ${`%${mediaId}%`}`)
       .orderBy(desc(t.publishedSnapshots.id))
       .limit(1);
-    const latest = await db.select({ id: t.publishedSnapshots.id }).from(t.publishedSnapshots).orderBy(desc(t.publishedSnapshots.id)).limit(1);
+    const latest = await db
+      .select({ id: t.publishedSnapshots.id })
+      .from(t.publishedSnapshots)
+      .orderBy(desc(t.publishedSnapshots.id))
+      .limit(1);
     if (live[0] && latest[0] && live[0].id === latest[0].id) uses.push("The live website (publish your latest changes first)");
   }
   return uses;

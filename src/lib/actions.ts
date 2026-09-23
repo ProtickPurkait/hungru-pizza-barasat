@@ -4,8 +4,7 @@ import type { z } from "zod";
 export type FieldErrors = Record<string, string>;
 
 export type ActionResult<T = undefined> =
-  | { ok: true; message?: string; data?: T }
-  | { ok: false; message: string; fieldErrors?: FieldErrors };
+  { ok: true; message?: string; data?: T } | { ok: false; message: string; fieldErrors?: FieldErrors };
 
 /** An error whose message is safe to show to the admin. */
 export class UserFacingError extends Error {}

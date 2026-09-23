@@ -34,8 +34,7 @@ export function groupedHours(hours: OpeningHours) {
   }
   const short = (d: Day) => DAY_LABELS[d].slice(0, 3);
   for (const row of rows) {
-    row.label =
-      row.days.length === 1 ? DAY_LABELS[row.days[0]] : `${short(row.days[0])} – ${short(row.days[row.days.length - 1])}`;
+    row.label = row.days.length === 1 ? DAY_LABELS[row.days[0]] : `${short(row.days[0])} – ${short(row.days[row.days.length - 1])}`;
   }
   return rows.filter((r) => r.value !== "Hours not set");
 }

@@ -26,7 +26,9 @@ export function OpenStatus({ hours, className, tone = "dark" }: { hours: Opening
       )}
     >
       <span className="relative flex size-2.5" aria-hidden>
-        {label.open && <span className="motion-loop absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />}
+        {label.open && (
+          <span className="motion-loop absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+        )}
         <span className={clsx("relative inline-flex size-2.5 rounded-full", label.open ? "bg-emerald-400" : "bg-red-400")} />
       </span>
       {label.label}

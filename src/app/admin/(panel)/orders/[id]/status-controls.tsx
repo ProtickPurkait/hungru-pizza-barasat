@@ -35,7 +35,15 @@ export function OrderStatusControls({ id, status, fulfillment }: { id: string; s
           className="text-red-600 hover:bg-red-50"
           disabled={pending}
           onClick={async () => {
-            if (await confirm({ title: "Cancel this order?", description: "Let the customer know by phone or WhatsApp.", confirmLabel: "Cancel order", cancelLabel: "Keep order" })) change("cancelled");
+            if (
+              await confirm({
+                title: "Cancel this order?",
+                description: "Let the customer know by phone or WhatsApp.",
+                confirmLabel: "Cancel order",
+                cancelLabel: "Keep order",
+              })
+            )
+              change("cancelled");
           }}
         >
           Cancel order

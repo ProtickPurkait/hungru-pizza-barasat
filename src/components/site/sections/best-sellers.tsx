@@ -23,7 +23,10 @@ export function BestSellersSection({
           id="bestsellers-heading"
           {...heading}
           action={
-            <Link href="/menu" className="group inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 font-extrabold tracking-wide text-cream uppercase">
+            <Link
+              href="/menu"
+              className="group inline-flex h-12 items-center gap-2 rounded-full bg-ink px-6 font-extrabold tracking-wide text-cream uppercase"
+            >
               Full menu <ArrowRight className="size-4 transition-transform group-hover:translate-x-1" aria-hidden />
             </Link>
           }
@@ -32,7 +35,12 @@ export function BestSellersSection({
       <div className="mx-auto mt-10 max-w-7xl lg:px-8">
         <ul className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pt-2 pb-8 no-scrollbar sm:gap-6 sm:px-6 lg:grid lg:grid-cols-4 lg:overflow-visible lg:px-0">
           {products.map((product, i) => (
-            <Reveal as="li" key={product.id} index={i % 4} className="w-[78%] max-w-[20rem] shrink-0 snap-start xs:w-[70%] sm:w-[45%] lg:w-auto lg:max-w-none">
+            <Reveal
+              as="li"
+              key={product.id}
+              index={i % 4}
+              className="w-[78%] max-w-[20rem] shrink-0 snap-start xs:w-[70%] sm:w-[45%] lg:w-auto lg:max-w-none"
+            >
               <FeatureProductCard product={product} index={i} categoryName={categoryName(product.categoryId)} />
             </Reveal>
           ))}

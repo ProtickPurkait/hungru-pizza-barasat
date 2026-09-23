@@ -200,9 +200,7 @@ export function MediaLibraryDialog({
     if (!open && dialog.open) dialog.close();
   }, [open]);
 
-  const filtered = (items ?? []).filter(
-    (i) => !query || `${i.filename} ${i.alt}`.toLowerCase().includes(query.toLowerCase()),
-  );
+  const filtered = (items ?? []).filter((i) => !query || `${i.filename} ${i.alt}`.toLowerCase().includes(query.toLowerCase()));
 
   return (
     <dialog
@@ -323,7 +321,7 @@ export function MediaPicker({
 }) {
   const [open, setOpen] = useState(false);
   const [current, setCurrent] = useState<MediaPreview | null>(preview ?? null);
-  const shown = value && current?.id === value ? current : value ? preview ?? null : null;
+  const shown = value && current?.id === value ? current : value ? (preview ?? null) : null;
 
   return (
     <Field label={label} help={help} error={error} optional={optional}>

@@ -45,7 +45,12 @@ export function BrandLogo({
           {first}
           <span className="text-primary">.</span>
         </span>
-        <span className={clsx("mt-0.5 text-[0.62rem] font-bold tracking-[0.22em] uppercase", tone === "light" ? "text-cream/60" : "text-ink/60")}>
+        <span
+          className={clsx(
+            "mt-0.5 text-[0.62rem] font-bold tracking-[0.22em] uppercase",
+            tone === "light" ? "text-cream/60" : "text-ink/60",
+          )}
+        >
           {[rest.join(" "), location].filter(Boolean).join(" · ")}
         </span>
       </span>

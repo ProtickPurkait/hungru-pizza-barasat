@@ -59,10 +59,7 @@ export async function processUpload(buffer: Buffer): Promise<ProcessedMedia> {
     .webp({ quality: 82, effort: 4 });
   const { data, info } = await pipeline.toBuffer({ resolveWithObject: true });
 
-  const blur = await sharp(data, { animated: false })
-    .resize(16, 16, { fit: "inside" })
-    .webp({ quality: 40 })
-    .toBuffer();
+  const blur = await sharp(data, { animated: false }).resize(16, 16, { fit: "inside" }).webp({ quality: 40 }).toBuffer();
 
   return {
     kind: "image",

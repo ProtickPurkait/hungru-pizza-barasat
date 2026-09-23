@@ -21,7 +21,10 @@ export function OffersSection({
   const single = offers.length === 1;
   return (
     <section id="offers" aria-labelledby="offers-heading" className="grain relative overflow-hidden bg-primary py-16 text-cream sm:py-24">
-      <p aria-hidden className="font-display text-stroke pointer-events-none absolute -top-6 right-0 left-0 text-center text-[30vw] leading-none text-ink/15 uppercase select-none">
+      <p
+        aria-hidden
+        className="font-display text-stroke pointer-events-none absolute -top-6 right-0 left-0 text-center text-[30vw] leading-none text-ink/15 uppercase select-none"
+      >
         Deals
       </p>
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -47,7 +50,11 @@ export function OffersSection({
                       blurDataURL={offer.image.blurDataUrl ?? undefined}
                     />
                   ) : (
-                    <FoodArt name={offer.title} kind="combo" className="absolute inset-0 h-full w-full p-6 transition-transform duration-700 group-hover:scale-105 group-hover:-rotate-3" />
+                    <FoodArt
+                      name={offer.title}
+                      kind="combo"
+                      className="absolute inset-0 h-full w-full p-6 transition-transform duration-700 group-hover:scale-105 group-hover:-rotate-3"
+                    />
                   )}
                   <div className="absolute top-4 left-4 flex flex-wrap gap-2">
                     {offer.badge && (
@@ -59,7 +66,9 @@ export function OffersSection({
                   </div>
                   {offer.price !== null && offer.originalPrice !== null && offer.originalPrice > offer.price && (
                     <span className="absolute right-4 bottom-4 flex size-20 rotate-12 flex-col items-center justify-center rounded-full bg-accent text-ink ring-2 ring-ink sm:size-24">
-                      <span className="font-display text-2xl leading-none sm:text-3xl">{discountPercent(offer.originalPrice, offer.price)}%</span>
+                      <span className="font-display text-2xl leading-none sm:text-3xl">
+                        {discountPercent(offer.originalPrice, offer.price)}%
+                      </span>
                       <span className="text-[10px] font-extrabold tracking-widest uppercase">off</span>
                     </span>
                   )}

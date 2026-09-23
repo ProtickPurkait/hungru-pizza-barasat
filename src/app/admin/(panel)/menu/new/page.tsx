@@ -11,7 +11,10 @@ export const metadata: Metadata = { title: "Add menu item" };
 export default async function NewProductPage({ searchParams }: PageProps<"/admin/menu/new">) {
   await requireAdmin();
   const { category } = await searchParams;
-  const categories = await db.select({ id: t.categories.id, name: t.categories.name }).from(t.categories).orderBy(asc(t.categories.sortOrder));
+  const categories = await db
+    .select({ id: t.categories.id, name: t.categories.name })
+    .from(t.categories)
+    .orderBy(asc(t.categories.sortOrder));
   const preselected = categories.find((c) => c.id === category)?.id ?? categories[0]?.id ?? "";
 
   return (

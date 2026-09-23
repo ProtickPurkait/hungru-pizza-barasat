@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 import { getSession } from "@/lib/auth/session";
 
 function safePath(value: string | null) {
-  if (!value || !value.startsWith("/") || value.startsWith("//") || value.startsWith("/admin")) return "/";
+  if (!value || !value.startsWith("/") || value.startsWith("//") || value.includes("\\") || value.startsWith("/admin")) return "/";
   return value;
 }
 

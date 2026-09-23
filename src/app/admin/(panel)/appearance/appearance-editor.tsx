@@ -42,9 +42,32 @@ export function AppearanceEditor({
       <div className="flex flex-col gap-6">
         <Card title="Brand">
           <div className="grid gap-5 md:grid-cols-2">
-            <TextField label="Brand name" required value={b.name} onChange={(v) => setB("name", v)} error={error("brand.name")} maxLength={60} />
-            <TextField label="Location" optional value={b.location} onChange={(v) => setB("location", v)} error={error("brand.location")} maxLength={60} help="Shown next to your name, e.g. Barasat." />
-            <TextField label="Tagline" optional className="md:col-span-2" value={b.tagline} onChange={(v) => setB("tagline", v)} error={error("brand.tagline")} maxLength={120} />
+            <TextField
+              label="Brand name"
+              required
+              value={b.name}
+              onChange={(v) => setB("name", v)}
+              error={error("brand.name")}
+              maxLength={60}
+            />
+            <TextField
+              label="Location"
+              optional
+              value={b.location}
+              onChange={(v) => setB("location", v)}
+              error={error("brand.location")}
+              maxLength={60}
+              help="Shown next to your name, e.g. Barasat."
+            />
+            <TextField
+              label="Tagline"
+              optional
+              className="md:col-span-2"
+              value={b.tagline}
+              onChange={(v) => setB("tagline", v)}
+              error={error("brand.tagline")}
+              maxLength={120}
+            />
             <MediaPicker
               label="Logo"
               value={b.logoId}
@@ -74,11 +97,34 @@ export function AppearanceEditor({
           }
         >
           <div className="grid gap-5 md:grid-cols-3">
-            <ColorField label="Primary" help="Main buttons (Order now)" value={b.colors.primary} onChange={(v) => setColor("primary", v)} error={error("brand.colors.primary")} checkAgainst={{ color: "#FFFFFF", label: "white button text" }} />
-            <ColorField label="Secondary" help="Glows and gradients" value={b.colors.secondary} onChange={(v) => setColor("secondary", v)} error={error("brand.colors.secondary")} />
-            <ColorField label="Accent" help="Stickers and highlights" value={b.colors.accent} onChange={(v) => setColor("accent", v)} error={error("brand.colors.accent")} checkAgainst={{ color: "#141110", label: "dark text" }} />
+            <ColorField
+              label="Primary"
+              help="Main buttons (Order now)"
+              value={b.colors.primary}
+              onChange={(v) => setColor("primary", v)}
+              error={error("brand.colors.primary")}
+              checkAgainst={{ color: "#FFFFFF", label: "white button text" }}
+            />
+            <ColorField
+              label="Secondary"
+              help="Glows and gradients"
+              value={b.colors.secondary}
+              onChange={(v) => setColor("secondary", v)}
+              error={error("brand.colors.secondary")}
+            />
+            <ColorField
+              label="Accent"
+              help="Stickers and highlights"
+              value={b.colors.accent}
+              onChange={(v) => setColor("accent", v)}
+              error={error("brand.colors.accent")}
+              checkAgainst={{ color: "#141110", label: "dark text" }}
+            />
           </div>
-          <div className="mt-5 flex flex-wrap items-center gap-3 rounded-xl bg-[#141110] p-4" style={{ "--p": b.colors.primary, "--a": b.colors.accent } as React.CSSProperties}>
+          <div
+            className="mt-5 flex flex-wrap items-center gap-3 rounded-xl bg-[#141110] p-4"
+            style={{ "--p": b.colors.primary, "--a": b.colors.accent } as React.CSSProperties}
+          >
             <span className="rounded-full bg-[var(--p)] px-5 py-2.5 text-sm font-bold text-white">Order now</span>
             <span className="-rotate-3 rounded-full bg-[var(--a)] px-3 py-1 text-xs font-bold text-[#141110]">Best seller</span>
             <span className="text-2xl font-extrabold text-[#FFF3DF]">
@@ -98,18 +144,38 @@ export function AppearanceEditor({
                     <TextField
                       label="Text"
                       value={link.label}
-                      onChange={(v) => setF("links", f.links.map((l, j) => (j === i ? { ...l, label: v } : l)))}
+                      onChange={(v) =>
+                        setF(
+                          "links",
+                          f.links.map((l, j) => (j === i ? { ...l, label: v } : l)),
+                        )
+                      }
                       error={error(`footer.links.${i}.label`)}
                       maxLength={30}
                     />
                     <LinkTargetField
                       label="Goes to"
                       value={link.target}
-                      onChange={(target) => setF("links", f.links.map((l, j) => (j === i ? { ...l, target } : l)))}
+                      onChange={(target) =>
+                        setF(
+                          "links",
+                          f.links.map((l, j) => (j === i ? { ...l, target } : l)),
+                        )
+                      }
                       options={linkOptions}
                       error={error(`footer.links.${i}.target.value`)}
                     />
-                    <IconButton label={`Remove ${link.label || "link"}`} tone="danger" className="md:mt-7" onClick={() => setF("links", f.links.filter((_, j) => j !== i))}>
+                    <IconButton
+                      label={`Remove ${link.label || "link"}`}
+                      tone="danger"
+                      className="md:mt-7"
+                      onClick={() =>
+                        setF(
+                          "links",
+                          f.links.filter((_, j) => j !== i),
+                        )
+                      }
+                    >
                       <Trash2 className="size-4" aria-hidden />
                     </IconButton>
                   </div>
@@ -131,7 +197,11 @@ export function AppearanceEditor({
               label="Show social links in the footer"
               description={
                 <>
-                  Manage them in <Link href="/admin/contact" className="font-medium text-blue-700 hover:underline">Contact &amp; hours</Link>.
+                  Manage them in{" "}
+                  <Link href="/admin/contact" className="font-medium text-blue-700 hover:underline">
+                    Contact &amp; hours
+                  </Link>
+                  .
                 </>
               }
               checked={f.showSocial}

@@ -28,13 +28,21 @@ export function StickyOrderBar() {
         data-cart-target="primary"
         className={clsx(
           "pointer-events-auto flex h-16 items-center justify-between gap-3 rounded-full px-6 font-extrabold tracking-wide uppercase ring-2 ring-ink transition-all duration-300",
-          hasItems ? "bg-ink text-cream shadow-[4px_4px_0_0_var(--brand-primary)]" : "bg-primary text-white shadow-[4px_4px_0_0_var(--color-ink)]",
+          hasItems
+            ? "bg-ink text-cream shadow-[4px_4px_0_0_var(--brand-primary)]"
+            : "bg-primary text-white shadow-[4px_4px_0_0_var(--color-ink)]",
         )}
       >
         {hasItems ? (
           <>
             <span className="flex min-w-0 items-center gap-3">
-              <span key={lastAddAt} className={clsx("flex h-8 min-w-8 items-center justify-center rounded-full bg-accent px-2 text-sm text-ink", lastAddAt > 0 && "animate-pop")}>
+              <span
+                key={lastAddAt}
+                className={clsx(
+                  "flex h-8 min-w-8 items-center justify-center rounded-full bg-accent px-2 text-sm text-ink",
+                  lastAddAt > 0 && "animate-pop",
+                )}
+              >
                 {totals.itemCount}
               </span>
               <span className="truncate text-base tabular-nums">

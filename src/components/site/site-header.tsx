@@ -42,7 +42,10 @@ export function SiteHeader({ logo, nav }: { logo: MediaRef | null; nav: NavLink[
         scrolled ? "bg-ink/92 shadow-[0_8px_30px_-12px_rgb(0_0_0/0.6)] backdrop-blur-md" : "bg-ink",
       )}
     >
-      <a href="#main" className="sr-only z-50 rounded bg-accent px-3 py-2 text-ink focus:not-sr-only focus:absolute focus:top-2 focus:left-2">
+      <a
+        href="#main"
+        className="sr-only z-50 rounded bg-accent px-3 py-2 text-ink focus:not-sr-only focus:absolute focus:top-2 focus:left-2"
+      >
         Skip to content
       </a>
       <div className="hero-enter-nav mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
@@ -147,12 +150,20 @@ export function SiteHeader({ logo, nav }: { logo: MediaRef | null; nav: NavLink[
             </Link>
             <div className="grid grid-cols-2 gap-3">
               {contact.phone && (
-                <a href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`} className="flex h-12 items-center justify-center gap-2 rounded-full bg-cream/10 font-bold">
+                <a
+                  href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`}
+                  className="flex h-12 items-center justify-center gap-2 rounded-full bg-cream/10 font-bold"
+                >
                   <Phone className="size-4" aria-hidden /> Call
                 </a>
               )}
               {contact.whatsapp && (
-                <a href={whatsappLink(contact.whatsapp)} target="_blank" rel="noreferrer" className="flex h-12 items-center justify-center gap-2 rounded-full bg-cream/10 font-bold">
+                <a
+                  href={whatsappLink(contact.whatsapp)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex h-12 items-center justify-center gap-2 rounded-full bg-cream/10 font-bold"
+                >
                   <MessageCircle className="size-4" aria-hidden /> WhatsApp
                 </a>
               )}

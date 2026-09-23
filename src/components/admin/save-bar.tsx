@@ -30,8 +30,7 @@ export function SaveBar({
             "You have unsaved changes"
           ) : savedAt ? (
             <span className="inline-flex items-center gap-1.5">
-              <Check className="size-4 text-emerald-600" aria-hidden /> Saved.{" "}
-              <span className="hidden sm:inline">{note}</span>
+              <Check className="size-4 text-emerald-600" aria-hidden /> Saved. <span className="hidden sm:inline">{note}</span>
             </span>
           ) : (
             <span className="hidden sm:inline">{note}</span>

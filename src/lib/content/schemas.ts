@@ -22,11 +22,7 @@ export const urlOrEmptySchema = z
     message: "Enter a full link starting with https:// (or a page path like /menu)",
   });
 
-export const httpUrlSchema = z
-  .string()
-  .trim()
-  .max(1000)
-  .refine(isHttpUrl, { message: "Enter a full link starting with https://" });
+export const httpUrlSchema = z.string().trim().max(1000).refine(isHttpUrl, { message: "Enter a full link starting with https://" });
 
 export function isHttpUrl(value: string) {
   try {
@@ -69,65 +65,43 @@ export function rupeesToPaise(input: string | number): number | null {
   return Math.round(Number.parseFloat(cleaned) * 100);
 }
 
-export const requiredRupeesSchema = z
-  .union([z.string(), z.number()])
-  .transform((v, ctx) => {
-    const paise = rupeesToPaise(v);
-    if (paise === null) {
-      ctx.addIssue({ code: "custom", message: "Enter a price" });
-      return z.NEVER;
-    }
-    if (Number.isNaN(paise) || paise < 0) {
-      ctx.addIssue({ code: "custom", message: "Enter a price like 299 or 299.50" });
-      return z.NEVER;
-    }
-    if (paise > MAX_PRICE_PAISE) {
-      ctx.addIssue({ code: "custom", message: "That price looks too high" });
-      return z.NEVER;
-    }
-    return paise;
-  });
+export const requiredRupeesSchema = z.union([z.string(), z.number()]).transform((v, ctx) => {
+  const paise = rupeesToPaise(v);
+  if (paise === null) {
+    ctx.addIssue({ code: "custom", message: "Enter a price" });
+    return z.NEVER;
+  }
+  if (Number.isNaN(paise) || paise < 0) {
+    ctx.addIssue({ code: "custom", message: "Enter a price like 299 or 299.50" });
+    return z.NEVER;
+  }
+  if (paise > MAX_PRICE_PAISE) {
+    ctx.addIssue({ code: "custom", message: "That price looks too high" });
+    return z.NEVER;
+  }
+  return paise;
+});
 
-export const optionalRupeesSchema = z
-  .union([z.string(), z.number(), z.null()])
-  .transform((v, ctx) => {
-    if (v === null) return null;
-    const paise = rupeesToPaise(v);
-    if (paise === null) return null;
-    if (Number.isNaN(paise) || paise < 0) {
-      ctx.addIssue({ code: "custom", message: "Enter a price like 299 or 299.50" });
-      return z.NEVER;
-    }
-    if (paise > MAX_PRICE_PAISE) {
-      ctx.addIssue({ code: "custom", message: "That price looks too high" });
-      return z.NEVER;
-    }
-    return paise;
-  });
+export const optionalRupeesSchema = z.union([z.string(), z.number(), z.null()]).transform((v, ctx) => {
+  if (v === null) return null;
+  const paise = rupeesToPaise(v);
+  if (paise === null) return null;
+  if (Number.isNaN(paise) || paise < 0) {
+    ctx.addIssue({ code: "custom", message: "Enter a price like 299 or 299.50" });
+    return z.NEVER;
+  }
+  if (paise > MAX_PRICE_PAISE) {
+    ctx.addIssue({ code: "custom", message: "That price looks too high" });
+    return z.NEVER;
+  }
+  return paise;
+});
 
 /* ───────────────────────── Link targets (CTA destinations) ───────────────────────── */
 
-export const LINK_TARGET_TYPES = [
-  "menu",
-  "category",
-  "product",
-  "cart",
-  "section",
-  "url",
-  "whatsapp",
-  "phone",
-] as const;
+export const LINK_TARGET_TYPES = ["menu", "category", "product", "cart", "section", "url", "whatsapp", "phone"] as const;
 
-export const HOMEPAGE_ANCHORS = [
-  "top",
-  "bestsellers",
-  "menu",
-  "offers",
-  "why",
-  "story",
-  "reviews",
-  "contact",
-] as const;
+export const HOMEPAGE_ANCHORS = ["top", "bestsellers", "menu", "offers", "why", "story", "reviews", "contact"] as const;
 
 export const linkTargetSchema = z
   .object({
@@ -207,9 +181,7 @@ export const HERO_MEDIA_TYPES = ["illustration", "image", "video"] as const;
 export const heroSchema = z.object({
   badge: trimmed(60).default("Hot • Cheesy • Loaded"),
   headline: trimmed(90).min(1, "Headline is required").default("Pizza that *hits* different."),
-  subtext: trimmed(280).default(
-    "Big flavour, bigger cheese pull. Pick your pizza, make it yours and order in a few taps.",
-  ),
+  subtext: trimmed(280).default("Big flavour, bigger cheese pull. Pick your pizza, make it yours and order in a few taps."),
   media: z
     .object({
       type: z.enum(HERO_MEDIA_TYPES).default("illustration"),
@@ -255,10 +227,7 @@ export const homepageSchema = z.object({
     .transform(normalizeSections),
   marquee: z
     .object({
-      items: z
-        .array(trimmed(40).min(1))
-        .max(12)
-        .default(["Hot", "Cheesy", "Loaded", "Hungru", "Barasat"]),
+      items: z.array(trimmed(40).min(1)).max(12).default(["Hot", "Cheesy", "Loaded", "Hungru", "Barasat"]),
     })
     .prefault({}),
   bestsellers: sectionHeadingSchema({
@@ -338,10 +307,7 @@ export const dayHoursSchema = z.object({
 export const hoursSchema = z.object({
   timezone: z.string().default("Asia/Kolkata"),
   days: z
-    .object(Object.fromEntries(DAYS.map((d) => [d, dayHoursSchema.prefault({})])) as Record<
-      Day,
-      z.ZodPrefault<typeof dayHoursSchema>
-    >)
+    .object(Object.fromEntries(DAYS.map((d) => [d, dayHoursSchema.prefault({})])) as Record<Day, z.ZodPrefault<typeof dayHoursSchema>>)
     .prefault({}),
   note: trimmed(160).default(""),
 });
@@ -374,11 +340,7 @@ export function extractMapEmbedSrc(value: string) {
 export function isGoogleMapsEmbed(value: string) {
   try {
     const url = new URL(value);
-    return (
-      url.protocol === "https:" &&
-      /(^|\.)google\.[a-z.]+$/.test(url.hostname) &&
-      url.pathname.startsWith("/maps/embed")
-    );
+    return url.protocol === "https:" && /(^|\.)google\.[a-z.]+$/.test(url.hostname) && url.pathname.startsWith("/maps/embed");
   } catch {
     return false;
   }

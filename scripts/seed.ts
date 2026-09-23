@@ -70,8 +70,7 @@ async function main() {
 
   const [{ n: featureCount }] = await db.select({ n: count() }).from(t.features);
   if (featureCount === 0) {
-    const sample = (topic: string) =>
-      `Sample text: tell customers about your ${topic}. Replace this in Admin → Why Hungru.`;
+    const sample = (topic: string) => `Sample text: tell customers about your ${topic}. Replace this in Admin → Why Hungru.`;
     await db.insert(t.features).values([
       { title: "Freshness", description: sample("ingredients and freshness"), icon: "leaf", isSample: true, sortOrder: 0 },
       { title: "Flavour", description: sample("signature flavours"), icon: "flame", isSample: true, sortOrder: 1 },
@@ -85,9 +84,17 @@ async function main() {
   if (reviewCount === 0) {
     const text =
       "Placeholder review: paste a real customer review here (from Google, Zomato, Instagram or in person). Edit in Admin → Reviews.";
-    await db.insert(t.reviews).values(
-      [0, 1, 2].map((i) => ({ authorName: `Sample reviewer ${i + 1}`, content: text, source: "Placeholder", isSample: true, sortOrder: i })),
-    );
+    await db
+      .insert(t.reviews)
+      .values(
+        [0, 1, 2].map((i) => ({
+          authorName: `Sample reviewer ${i + 1}`,
+          content: text,
+          source: "Placeholder",
+          isSample: true,
+          sortOrder: i,
+        })),
+      );
     console.log("✓ Reviews: 3 PLACEHOLDER reviews (marked as sample until replaced)");
   }
 

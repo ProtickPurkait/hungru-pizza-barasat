@@ -83,7 +83,10 @@ export function MenuBrowser() {
         <p className="font-display text-6xl uppercase">Menu coming soon</p>
         <p className="mt-4 text-lg text-ink/70">We&apos;re putting the finishing touches on our menu. Check back shortly!</p>
         {contact.phone && (
-          <a href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`} className="mt-8 inline-flex h-14 items-center rounded-full bg-primary px-8 font-extrabold text-white uppercase">
+          <a
+            href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`}
+            className="mt-8 inline-flex h-14 items-center rounded-full bg-primary px-8 font-extrabold text-white uppercase"
+          >
             Call us
           </a>
         )}
@@ -94,7 +97,10 @@ export function MenuBrowser() {
   return (
     <>
       <div className="grain relative overflow-hidden bg-ink text-cream">
-        <div aria-hidden className="pointer-events-none absolute -top-40 right-[-10%] h-96 w-96 rounded-full bg-[radial-gradient(circle,var(--brand-secondary)_0%,transparent_65%)] opacity-50" />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-40 right-[-10%] h-96 w-96 rounded-full bg-[radial-gradient(circle,var(--brand-secondary)_0%,transparent_65%)] opacity-50"
+        />
         <div className="relative z-10 mx-auto max-w-7xl px-4 pt-8 pb-7 sm:px-6 sm:pt-12 lg:px-8">
           <h1 className="font-display enter-rise text-[clamp(3.2rem,15vw,7.5rem)] leading-[0.85] tracking-[-0.035em] uppercase">
             The <span className="text-accent [text-shadow:4px_4px_0_var(--brand-primary)]">menu</span>
@@ -137,8 +143,19 @@ export function MenuBrowser() {
               >
                 <VegMark diet="veg" />
                 Veg only
-                <span aria-hidden className={clsx("relative block h-6 w-10 shrink-0 rounded-full transition-colors", vegOnly ? "bg-white/30" : "bg-cream/20")}>
-                  <span className={clsx("absolute top-1 left-0 size-4 rounded-full bg-white transition-transform", vegOnly ? "translate-x-5" : "translate-x-1")} />
+                <span
+                  aria-hidden
+                  className={clsx(
+                    "relative block h-6 w-10 shrink-0 rounded-full transition-colors",
+                    vegOnly ? "bg-white/30" : "bg-cream/20",
+                  )}
+                >
+                  <span
+                    className={clsx(
+                      "absolute top-1 left-0 size-4 rounded-full bg-white transition-transform",
+                      vegOnly ? "translate-x-5" : "translate-x-1",
+                    )}
+                  />
                 </span>
               </button>
             )}
@@ -164,7 +181,9 @@ export function MenuBrowser() {
               aria-current={current === s.id ? "true" : undefined}
               className={clsx(
                 "h-11 shrink-0 rounded-full px-5 text-sm font-extrabold tracking-wide whitespace-nowrap uppercase transition-all",
-                current === s.id ? "bg-ink text-cream shadow-[3px_3px_0_0_var(--brand-primary)]" : "bg-white text-ink ring-2 ring-ink/10 hover:ring-ink/30",
+                current === s.id
+                  ? "bg-ink text-cream shadow-[3px_3px_0_0_var(--brand-primary)]"
+                  : "bg-white text-ink ring-2 ring-ink/10 hover:ring-ink/30",
               )}
             >
               {s.name}
@@ -179,7 +198,9 @@ export function MenuBrowser() {
           {sections.length === 0 && (
             <div className="flex flex-col items-center py-20 text-center">
               <p className="font-display text-4xl uppercase">No matches</p>
-              <p className="mt-2 text-ink/60">Nothing on the menu matches “{query}”{vegOnly ? " in veg" : ""}.</p>
+              <p className="mt-2 text-ink/60">
+                Nothing on the menu matches “{query}”{vegOnly ? " in veg" : ""}.
+              </p>
               <button
                 type="button"
                 onClick={() => {

@@ -44,10 +44,16 @@ export default async function OrderPage({ params }: PageProps<"/order/[token]">)
   return (
     <div className="mx-auto max-w-3xl px-4 pt-8 pb-20 sm:px-6">
       <div className="grain relative overflow-hidden rounded-[2rem] bg-ink p-6 text-cream ring-2 ring-ink shadow-[6px_6px_0_0_var(--brand-primary)] sm:p-10">
-        <p className="enter-pop inline-flex rounded-full bg-accent px-3 py-1 text-xs font-extrabold tracking-[0.18em] text-ink uppercase" style={{ ["--r" as string]: "-3deg" }}>
+        <p
+          className="enter-pop inline-flex rounded-full bg-accent px-3 py-1 text-xs font-extrabold tracking-[0.18em] text-ink uppercase"
+          style={{ ["--r" as string]: "-3deg" }}
+        >
           Order {order.reference}
         </p>
-        <h1 className="font-display enter-rise mt-4 text-[clamp(2.8rem,12vw,6rem)] leading-[0.85] uppercase" style={{ ["--d" as string]: 120 }}>
+        <h1
+          className="font-display enter-rise mt-4 text-[clamp(2.8rem,12vw,6rem)] leading-[0.85] uppercase"
+          style={{ ["--d" as string]: 120 }}
+        >
           {awaitingWhatsapp ? (
             <>
               Almost <span className="text-accent">there!</span>
@@ -78,7 +84,13 @@ export default async function OrderPage({ params }: PageProps<"/order/[token]">)
       </div>
 
       <div className="mt-6 rounded-[1.75rem] bg-white p-6 ring-2 ring-ink">
-        <OrderStatusTracker token={token} initialStatus={order.status} fulfillment={order.fulfillment} total={order.total} reference={order.reference} />
+        <OrderStatusTracker
+          token={token}
+          initialStatus={order.status}
+          fulfillment={order.fulfillment}
+          total={order.total}
+          reference={order.reference}
+        />
       </div>
 
       <div className="mt-6 grid gap-6 md:grid-cols-[1.3fr_1fr]">
@@ -93,7 +105,9 @@ export default async function OrderPage({ params }: PageProps<"/order/[token]">)
                   <span className="flex items-center gap-2 font-bold">
                     <VegMark diet={item.diet} size={13} /> {item.quantity} × {item.name}
                   </span>
-                  {item.options.length > 0 && <span className="block text-sm text-ink/60">{item.options.map((o) => o.optionName).join(" · ")}</span>}
+                  {item.options.length > 0 && (
+                    <span className="block text-sm text-ink/60">{item.options.map((o) => o.optionName).join(" · ")}</span>
+                  )}
                 </span>
                 <span className="shrink-0 font-bold tabular-nums">{formatINR(item.lineTotal)}</span>
               </li>
@@ -143,12 +157,20 @@ export default async function OrderPage({ params }: PageProps<"/order/[token]">)
             <div className="mt-auto flex flex-col gap-2">
               <p className="text-sm font-extrabold tracking-widest text-ink/65 uppercase">Need help?</p>
               {contact.phone && (
-                <a href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`} className="flex h-12 items-center justify-center gap-2 rounded-full bg-ink font-extrabold text-cream">
+                <a
+                  href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`}
+                  className="flex h-12 items-center justify-center gap-2 rounded-full bg-ink font-extrabold text-cream"
+                >
                   <Phone className="size-4" aria-hidden /> Call {brand.name}
                 </a>
               )}
               {contact.whatsapp && !waHref && (
-                <a href={whatsappLink(contact.whatsapp, `Hi! About my order ${order.reference}`)} target="_blank" rel="noopener noreferrer" className="flex h-12 items-center justify-center gap-2 rounded-full font-extrabold ring-2 ring-ink">
+                <a
+                  href={whatsappLink(contact.whatsapp, `Hi! About my order ${order.reference}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-12 items-center justify-center gap-2 rounded-full font-extrabold ring-2 ring-ink"
+                >
                   <MessageCircle className="size-4" aria-hidden /> WhatsApp us
                 </a>
               )}
@@ -158,7 +180,10 @@ export default async function OrderPage({ params }: PageProps<"/order/[token]">)
       </div>
 
       <p className="mt-8 text-center text-sm text-ink/65">
-        Keep this page to check your order status. <Link href="/menu" className="font-bold text-primary underline-offset-2 hover:underline">Order something else</Link>
+        Keep this page to check your order status.{" "}
+        <Link href="/menu" className="font-bold text-primary underline-offset-2 hover:underline">
+          Order something else
+        </Link>
       </p>
     </div>
   );

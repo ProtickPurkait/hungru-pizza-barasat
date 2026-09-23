@@ -5,13 +5,7 @@
  * Admin → Settings → Analytics. Nothing is tracked (and no scripts load) otherwise.
  */
 export type FunnelEvent =
-  | "homepage_view"
-  | "menu_view"
-  | "product_view"
-  | "add_to_cart"
-  | "cart_view"
-  | "order_initiated"
-  | "order_completed";
+  "homepage_view" | "menu_view" | "product_view" | "add_to_cart" | "cart_view" | "order_initiated" | "order_completed";
 
 type Props = Record<string, string | number | boolean | undefined>;
 

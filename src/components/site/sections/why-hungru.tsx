@@ -17,7 +17,10 @@ export function WhyHungruSection({
   if (features.length === 0) return null;
   return (
     <section id="why" aria-labelledby="why-heading" className="grain relative overflow-hidden bg-ink py-16 text-cream sm:py-24">
-      <div aria-hidden className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-[radial-gradient(circle,var(--brand-secondary)_0%,transparent_65%)] opacity-40" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 -right-32 h-96 w-96 rounded-full bg-[radial-gradient(circle,var(--brand-secondary)_0%,transparent_65%)] opacity-40"
+      />
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading id="why-heading" {...heading} tone="dark" />
         <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -36,7 +39,9 @@ export function WhyHungruSection({
                       <FeatureIcon icon={feature.icon} className="size-8" strokeWidth={2.2} />
                     </span>
                   )}
-                  <span aria-hidden className="font-display text-5xl leading-none text-ink/15">{String(i + 1).padStart(2, "0")}</span>
+                  <span aria-hidden className="font-display text-5xl leading-none text-ink/15">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                 </div>
                 <h3 className="font-display mt-6 flex flex-wrap items-center gap-2 text-3xl leading-none uppercase">
                   {feature.title}

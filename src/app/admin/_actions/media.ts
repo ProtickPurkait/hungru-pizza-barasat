@@ -15,7 +15,10 @@ export async function updateMediaAlt(id: string, alt: string): Promise<ActionRes
   return safeAction(async () => {
     await requireAdmin();
     const mediaId = idSchema.parse(id);
-    await db.update(media).set({ alt: String(alt).trim().slice(0, 200) }).where(eq(media.id, mediaId));
+    await db
+      .update(media)
+      .set({ alt: String(alt).trim().slice(0, 200) })
+      .where(eq(media.id, mediaId));
     return { ok: true, message: "Description saved. Publish to update it on the website." };
   });
 }

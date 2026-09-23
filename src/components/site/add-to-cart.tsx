@@ -94,7 +94,10 @@ export function QuantityStepper({
         onClick={() => onChange(quantity + 1)}
         disabled={quantity >= max}
         aria-label={`One more ${label}`}
-        className={clsx("flex h-full items-center justify-center transition-colors hover:bg-black/10 active:scale-90 disabled:opacity-40", btn)}
+        className={clsx(
+          "flex h-full items-center justify-center transition-colors hover:bg-black/10 active:scale-90 disabled:opacity-40",
+          btn,
+        )}
       >
         <Plus className="size-4" strokeWidth={3} aria-hidden />
       </button>
@@ -117,7 +120,12 @@ export function AddControl({ product, size = "md", className }: { product: SiteP
 
   if (!product.isAvailable) {
     return (
-      <span className={clsx("inline-flex h-11 items-center rounded-full bg-ink/10 px-4 text-sm font-extrabold text-ink/65 uppercase", className)}>
+      <span
+        className={clsx(
+          "inline-flex h-11 items-center rounded-full bg-ink/10 px-4 text-sm font-extrabold text-ink/65 uppercase",
+          className,
+        )}
+      >
         Sold out
       </span>
     );
@@ -151,12 +159,14 @@ export function AddControl({ product, size = "md", className }: { product: SiteP
           size === "sm" ? "h-10 px-4 text-sm" : "h-11 px-5 text-sm",
         )}
       >
-        {justAdded ? <Check className="size-4" strokeWidth={3} aria-hidden /> : <Plus className="size-4 transition-transform group-hover/add:rotate-90" strokeWidth={3} aria-hidden />}
+        {justAdded ? (
+          <Check className="size-4" strokeWidth={3} aria-hidden />
+        ) : (
+          <Plus className="size-4 transition-transform group-hover/add:rotate-90" strokeWidth={3} aria-hidden />
+        )}
         {justAdded ? "Added" : "Add"}
       </button>
-      {customisable && (
-        <span className="text-[11px] font-semibold text-ink/65">{inCart > 0 ? `${inCart} in cart` : "Customisable"}</span>
-      )}
+      {customisable && <span className="text-[11px] font-semibold text-ink/65">{inCart > 0 ? `${inCart} in cart` : "Customisable"}</span>}
     </div>
   );
 }

@@ -36,7 +36,12 @@ export function EditorDialog({
         <div className="flex max-h-[inherit] flex-col">
           <div className="flex items-center justify-between border-b border-stone-200 px-4 py-3 sm:px-5">
             <h2 className="text-lg font-bold">{title}</h2>
-            <button type="button" onClick={onClose} className="flex size-10 items-center justify-center rounded-lg hover:bg-stone-100" aria-label="Close">
+            <button
+              type="button"
+              onClick={onClose}
+              className="flex size-10 items-center justify-center rounded-lg hover:bg-stone-100"
+              aria-label="Close"
+            >
               <X className="size-5" aria-hidden />
             </button>
           </div>

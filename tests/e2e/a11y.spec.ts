@@ -18,6 +18,9 @@ test("reduced motion keeps the page usable and static", async ({ browser }) => {
   const page = await context.newPage();
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  const opacity = await page.locator(".enter-rise").first().evaluate((el) => getComputedStyle(el).opacity);
+  const opacity = await page
+    .locator(".enter-rise")
+    .first()
+    .evaluate((el) => getComputedStyle(el).opacity);
   expect(opacity).toBe("1");
 });

@@ -6,18 +6,7 @@ import type { SVGProps } from "react";
 
 export type ArtKind = "pizza" | "drink" | "side" | "combo" | "dessert";
 
-type Topping =
-  | "pepperoni"
-  | "mushroom"
-  | "olive"
-  | "capsicum"
-  | "onion"
-  | "paneer"
-  | "chicken"
-  | "corn"
-  | "jalapeno"
-  | "basil"
-  | "tomato";
+type Topping = "pepperoni" | "mushroom" | "olive" | "capsicum" | "onion" | "paneer" | "chicken" | "corn" | "jalapeno" | "basil" | "tomato";
 
 const TOPPING_WORDS: [RegExp, Topping[]][] = [
   [/pepperoni|salami/, ["pepperoni"]],
@@ -270,7 +259,14 @@ function Drink({ name }: { name: string }) {
       <ellipse cx="100" cy="182" rx="44" ry="7" fill="#000" opacity="0.18" />
       <path d="M126 20 L112 70" stroke="#e5311b" strokeWidth="7" strokeLinecap="round" />
       <path d="M126 20 L144 14" stroke="#e5311b" strokeWidth="7" strokeLinecap="round" />
-      <path d="M58 52 L142 52 L132 178 Q100 186 68 178 Z" fill="#fff3df" opacity="0.5" stroke="#141110" strokeWidth="4" strokeLinejoin="round" />
+      <path
+        d="M58 52 L142 52 L132 178 Q100 186 68 178 Z"
+        fill="#fff3df"
+        opacity="0.5"
+        stroke="#141110"
+        strokeWidth="4"
+        strokeLinejoin="round"
+      />
       <path d="M62 78 L138 78 L131 172 Q100 179 69 172 Z" fill={liquid} />
       <ellipse cx="100" cy="78" rx="38" ry="5" fill="#fff" opacity="0.35" />
       <rect x="72" y="92" width="14" height="14" rx="3" fill="#fff" opacity="0.5" transform="rotate(-12 79 99)" />
@@ -292,7 +288,18 @@ function Side({ name, seed }: { name: string; seed: number }) {
           const x = 62 + i * 9.5;
           const h = 70 + rand() * 30;
           return (
-            <rect key={i} x={r1(x)} y={r1(110 - h)} width="10" height={r1(h)} rx="2" fill="#ffc94a" stroke="#d99a1d" strokeWidth="1.5" transform={`rotate(${r1((rand() - 0.5) * 16)} ${r1(x + 5)} 110)`} />
+            <rect
+              key={i}
+              x={r1(x)}
+              y={r1(110 - h)}
+              width="10"
+              height={r1(h)}
+              rx="2"
+              fill="#ffc94a"
+              stroke="#d99a1d"
+              strokeWidth="1.5"
+              transform={`rotate(${r1((rand() - 0.5) * 16)} ${r1(x + 5)} 110)`}
+            />
           );
         })}
         <path d="M52 96 L148 96 L136 180 L64 180 Z" fill="#e5311b" stroke="#141110" strokeWidth="4" strokeLinejoin="round" />

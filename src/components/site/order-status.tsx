@@ -58,7 +58,9 @@ export function OrderStatusTracker({
   }, [status, token]);
 
   const steps: OrderStatus[] =
-    fulfillment === "delivery" ? ["new", "confirmed", "preparing", "out_for_delivery", "completed"] : ["new", "confirmed", "preparing", "ready", "completed"];
+    fulfillment === "delivery"
+      ? ["new", "confirmed", "preparing", "out_for_delivery", "completed"]
+      : ["new", "confirmed", "preparing", "ready", "completed"];
   const labels: Record<OrderStatus, string> = {
     new: "Received",
     confirmed: "Confirmed",
@@ -93,7 +95,9 @@ export function OrderStatusTracker({
                 >
                   {done ? <Check className="size-4" strokeWidth={3} aria-hidden /> : <span className="text-sm font-bold">{i + 1}</span>}
                 </span>
-                <span className={clsx("text-[11px] leading-tight font-bold sm:text-xs", done ? "text-ink" : "text-ink/65")}>{labels[step]}</span>
+                <span className={clsx("text-[11px] leading-tight font-bold sm:text-xs", done ? "text-ink" : "text-ink/65")}>
+                  {labels[step]}
+                </span>
               </li>
             );
           })}

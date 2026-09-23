@@ -58,9 +58,11 @@ export default async function HomePage() {
         secondaryExternal={secondary.external}
         hours={contact.hours}
       />
-      {homepage.sections.filter((s) => s.enabled).map((s) => (
-        <div key={s.key}>{sections[s.key]}</div>
-      ))}
+      {homepage.sections
+        .filter((s) => s.enabled)
+        .map((s) => (
+          <div key={s.key}>{sections[s.key]}</div>
+        ))}
     </>
   );
 }

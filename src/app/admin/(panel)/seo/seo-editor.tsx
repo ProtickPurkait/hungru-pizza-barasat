@@ -7,7 +7,17 @@ import { Card, Switch, TextField } from "@/components/admin/ui";
 import { useAdminForm } from "@/components/admin/use-admin-form";
 import type { Seo } from "@/lib/content/schemas";
 
-export function SeoEditor({ seo, brandName, siteUrl, ogPreview }: { seo: Seo; brandName: string; siteUrl: string; ogPreview: MediaPreview | null }) {
+export function SeoEditor({
+  seo,
+  brandName,
+  siteUrl,
+  ogPreview,
+}: {
+  seo: Seo;
+  brandName: string;
+  siteUrl: string;
+  ogPreview: MediaPreview | null;
+}) {
   const form = useAdminForm(seo, (v) => saveDocument("seo", v));
   const { values, set, error } = form;
   const ogTitle = values.ogTitle || values.title;
@@ -26,8 +36,24 @@ export function SeoEditor({ seo, brandName, siteUrl, ogPreview }: { seo: Seo; br
         <div className="flex flex-col gap-6 lg:col-span-3">
           <Card title="Google search">
             <div className="flex flex-col gap-5">
-              <TextField label="Page title" value={values.title} onChange={(v) => set("title", v)} error={error("title")} maxLength={70} help="Aim for 50–60 characters. Include “Barasat” so locals find you." />
-              <TextField label="Description" multiline rows={3} value={values.description} onChange={(v) => set("description", v)} error={error("description")} maxLength={170} help="Aim for 120–160 characters. Only describe what's true." />
+              <TextField
+                label="Page title"
+                value={values.title}
+                onChange={(v) => set("title", v)}
+                error={error("title")}
+                maxLength={70}
+                help="Aim for 50–60 characters. Include “Barasat” so locals find you."
+              />
+              <TextField
+                label="Description"
+                multiline
+                rows={3}
+                value={values.description}
+                onChange={(v) => set("description", v)}
+                error={error("description")}
+                maxLength={170}
+                help="Aim for 120–160 characters. Only describe what's true."
+              />
               <Switch
                 label="Business info for Google"
                 description="Adds structured data (name, address, phone, hours) from your Contact page so Google can show it. Only filled-in details are included."
@@ -38,8 +64,26 @@ export function SeoEditor({ seo, brandName, siteUrl, ogPreview }: { seo: Seo; br
           </Card>
           <Card title="Social sharing" description="Leave the fields empty to reuse the Google title and description.">
             <div className="flex flex-col gap-5">
-              <TextField label="Share title" optional value={values.ogTitle} onChange={(v) => set("ogTitle", v)} error={error("ogTitle")} maxLength={90} placeholder={values.title} />
-              <TextField label="Share description" optional multiline rows={2} value={values.ogDescription} onChange={(v) => set("ogDescription", v)} error={error("ogDescription")} maxLength={200} placeholder={values.description} />
+              <TextField
+                label="Share title"
+                optional
+                value={values.ogTitle}
+                onChange={(v) => set("ogTitle", v)}
+                error={error("ogTitle")}
+                maxLength={90}
+                placeholder={values.title}
+              />
+              <TextField
+                label="Share description"
+                optional
+                multiline
+                rows={2}
+                value={values.ogDescription}
+                onChange={(v) => set("ogDescription", v)}
+                error={error("ogDescription")}
+                maxLength={200}
+                placeholder={values.description}
+              />
               <MediaPicker
                 label="Share image"
                 value={values.ogImageId}

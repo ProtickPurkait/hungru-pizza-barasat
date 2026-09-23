@@ -1,13 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  basePrice,
-  checkSelection,
-  computeTotals,
-  defaultSelection,
-  lineKey,
-  priceItem,
-  type PriceableProduct,
-} from "@/lib/cart/pricing";
+import { basePrice, checkSelection, computeTotals, defaultSelection, lineKey, priceItem, type PriceableProduct } from "@/lib/cart/pricing";
 
 const pizza: PriceableProduct = {
   id: "p1",

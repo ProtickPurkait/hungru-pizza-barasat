@@ -22,7 +22,17 @@ type Props = {
   hours: OpeningHours;
 };
 
-function CtaLink({ href, external, className, children }: { href: string; external: boolean; className: string; children: React.ReactNode }) {
+function CtaLink({
+  href,
+  external,
+  className,
+  children,
+}: {
+  href: string;
+  external: boolean;
+  className: string;
+  children: React.ReactNode;
+}) {
   return external ? (
     <a href={href} className={className} target={href.startsWith("http") ? "_blank" : undefined} rel="noreferrer">
       {children}
@@ -59,7 +69,7 @@ export function HeroSection({ hero, brandName, primaryHref, secondaryHref, prima
         </p>
       </div>
 
-      <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4rem)] max-w-7xl grid-rows-[auto_1fr] px-4 pt-7 sm:px-6 md:grid-cols-[1.05fr_1fr] md:grid-rows-1 md:items-center md:gap-6 md:pt-10 md:pb-16 lg:px-8">
+      <div className="relative z-10 mx-auto grid min-h-[calc(100svh-4rem)] max-w-7xl grid-rows-[auto_1fr] px-4 pt-5 xs:pt-7 sm:px-6 md:grid-cols-[1.05fr_1fr] md:grid-rows-1 md:items-center md:gap-6 md:pt-10 md:pb-16 lg:px-8">
         <motion.div style={{ y: yText, opacity: textOpacity }} className="relative z-20 max-w-2xl">
           {hero.badge && (
             <p
@@ -69,7 +79,10 @@ export function HeroSection({ hero, brandName, primaryHref, secondaryHref, prima
               <span aria-hidden>🔥</span> {hero.badge}
             </p>
           )}
-          <h1 id="hero-heading" className="font-display mt-5 text-[clamp(3.1rem,14.5vw,7.4rem)] leading-[0.86] tracking-[-0.035em] uppercase text-balance">
+          <h1
+            id="hero-heading"
+            className="font-display mt-4 text-[clamp(2.9rem,14.5vw,7.4rem)] xs:mt-5 leading-[0.86] tracking-[-0.035em] uppercase text-balance"
+          >
             <Headline
               text={hero.headline}
               accentClassName="text-accent [text-shadow:4px_4px_0_var(--brand-primary)]"
@@ -79,28 +92,31 @@ export function HeroSection({ hero, brandName, primaryHref, secondaryHref, prima
           </h1>
           {hero.subtext && (
             <p
-              className="enter-fade-up mt-5 max-w-md text-base leading-relaxed text-cream/80 sm:text-lg"
+              className="enter-fade-up mt-4 max-w-md text-[15px] leading-relaxed text-cream/80 xs:mt-5 xs:text-base sm:text-lg"
               style={{ ["--d" as string]: 300 + headlineWords * 85 }}
             >
               {hero.subtext}
             </p>
           )}
-          <div className="enter-fade-up mt-7 flex flex-wrap items-center gap-2.5 xs:gap-3" style={{ ["--d" as string]: 380 + headlineWords * 85 }}>
+          <div
+            className="enter-fade-up mt-6 flex flex-wrap items-center gap-2 xs:mt-7 xs:gap-3"
+            style={{ ["--d" as string]: 380 + headlineWords * 85 }}
+          >
             <CtaLink
               href={primaryHref}
               external={primaryExternal}
-              className="group inline-flex h-14 items-center gap-2 rounded-full bg-primary px-6 text-[15px] font-extrabold tracking-wide uppercase shadow-[4px_4px_0_0_var(--brand-accent)] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_var(--brand-accent)] active:translate-y-0.5 active:shadow-[2px_2px_0_0_var(--brand-accent)] sm:h-16 sm:px-9 sm:text-lg"
+              className="group inline-flex h-14 items-center gap-2 rounded-full bg-primary px-5 text-sm font-extrabold xs:px-6 xs:text-[15px] tracking-wide uppercase shadow-[4px_4px_0_0_var(--brand-accent)] transition-transform duration-200 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_var(--brand-accent)] active:translate-y-0.5 active:shadow-[2px_2px_0_0_var(--brand-accent)] sm:h-16 sm:px-9 sm:text-lg"
             >
               {hero.primaryCta.label}
-              <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" aria-hidden />
+              <ArrowRight className="hidden size-5 transition-transform group-hover:translate-x-1 xs:block" aria-hidden />
             </CtaLink>
             <CtaLink
               href={secondaryHref}
               external={secondaryExternal}
-              className="inline-flex h-14 items-center gap-2 rounded-full px-5 text-[15px] font-extrabold tracking-wide uppercase ring-2 ring-cream/40 transition-colors hover:bg-cream hover:text-ink sm:h-16 sm:px-8"
+              className="inline-flex h-14 items-center gap-2 rounded-full px-5 text-sm font-extrabold tracking-wide uppercase ring-2 ring-cream/40 xs:text-[15px] transition-colors hover:bg-cream hover:text-ink sm:h-16 sm:px-8"
             >
               {hero.secondaryCta.label}
-              <ArrowDown className="size-4" aria-hidden />
+              <ArrowDown className="hidden size-4 xs:block" aria-hidden />
             </CtaLink>
           </div>
           <div className="enter-fade-up mt-5" style={{ ["--d" as string]: 460 + headlineWords * 85 }}>
@@ -108,8 +124,11 @@ export function HeroSection({ hero, brandName, primaryHref, secondaryHref, prima
           </div>
         </motion.div>
 
-        <div className="relative -mx-4 mt-2 min-h-[300px] sm:mx-0 md:mt-0 md:min-h-0">
-          <div className="enter-land relative mx-auto aspect-square w-[118%] max-w-[44rem] translate-x-[8%] md:w-full md:translate-x-[4%]" style={{ ["--d" as string]: 450 }}>
+        <div className="relative -mx-4 -mt-4 min-h-[300px] sm:mx-0 md:mt-0 md:min-h-0">
+          <div
+            className="enter-land relative mx-auto aspect-square w-[118%] max-w-[44rem] translate-x-[8%] md:w-full md:translate-x-[4%]"
+            style={{ ["--d" as string]: 450 }}
+          >
             {media === "illustration" && <HeroPizza scrollTarget={ref} className="h-full w-full" />}
             {media === "image" && hero.image && (
               <div className="relative h-full w-full overflow-hidden rounded-full shadow-[0_40px_80px_-30px_rgb(0_0_0/0.8)] ring-8 ring-cream/10">
@@ -148,13 +167,28 @@ export function HeroSection({ hero, brandName, primaryHref, secondaryHref, prima
 
           {/* Floating ingredients (decorative) */}
           <motion.div aria-hidden style={{ y: yFast }} className="pointer-events-none absolute inset-0">
-            <Basil className="float-loop absolute top-[4%] left-[8%] w-12 md:w-16" style={{ ["--r" as string]: "-20deg", ["--float-dur" as string]: "6s" }} />
-            <Chili className="float-loop absolute right-[4%] bottom-[12%] w-14 md:w-20" style={{ ["--r" as string]: "25deg", ["--float-dur" as string]: "7s", ["--float-delay" as string]: "-2s" }} />
+            <Basil
+              className="float-loop absolute top-[4%] left-[8%] w-12 md:w-16"
+              style={{ ["--r" as string]: "-20deg", ["--float-dur" as string]: "6s" }}
+            />
+            <Chili
+              className="float-loop absolute right-[4%] bottom-[12%] w-14 md:w-20"
+              style={{ ["--r" as string]: "25deg", ["--float-dur" as string]: "7s", ["--float-delay" as string]: "-2s" }}
+            />
           </motion.div>
           <motion.div aria-hidden style={{ y: ySlow }} className="pointer-events-none absolute inset-0">
-            <TomatoSlice className="float-loop absolute top-[2%] right-[14%] w-11 md:w-14" style={{ ["--float-dur" as string]: "8s", ["--float-delay" as string]: "-1s" }} />
-            <Olive className="float-loop absolute bottom-[22%] left-[2%] w-8 md:w-10" style={{ ["--r" as string]: "15deg", ["--float-dur" as string]: "5.5s" }} />
-            <Pepperoni className="float-loop absolute top-[42%] right-[-2%] w-10 md:w-12" style={{ ["--float-dur" as string]: "6.5s", ["--float-delay" as string]: "-3s" }} />
+            <TomatoSlice
+              className="float-loop absolute top-[2%] right-[14%] w-11 md:w-14"
+              style={{ ["--float-dur" as string]: "8s", ["--float-delay" as string]: "-1s" }}
+            />
+            <Olive
+              className="float-loop absolute bottom-[22%] left-[2%] w-8 md:w-10"
+              style={{ ["--r" as string]: "15deg", ["--float-dur" as string]: "5.5s" }}
+            />
+            <Pepperoni
+              className="float-loop absolute top-[42%] right-[-2%] w-10 md:w-12"
+              style={{ ["--float-dur" as string]: "6.5s", ["--float-delay" as string]: "-3s" }}
+            />
           </motion.div>
         </div>
       </div>

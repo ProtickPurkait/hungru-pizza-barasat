@@ -25,7 +25,10 @@ export async function changeOwnPassword(input: unknown): Promise<ActionResult> {
     if (!row || !(await verifyPassword(row.passwordHash, parsed.data.current))) {
       return { ok: false, message: "Your current password is incorrect.", fieldErrors: { current: "Incorrect password" } };
     }
-    await db.update(adminUsers).set({ passwordHash: await hashPassword(parsed.data.next) }).where(eq(adminUsers.id, user.id));
+    await db
+      .update(adminUsers)
+      .set({ passwordHash: await hashPassword(parsed.data.next) })
+      .where(eq(adminUsers.id, user.id));
     // Sign out every other device, keep this one signed in.
     await destroyAllSessionsForUser(user.id);
     await createSession(user.id);
@@ -71,7 +74,10 @@ export async function setAdminUserDisabled(id: string, disabled: boolean): Promi
     const userId = z.uuid().parse(id);
     if (userId === me.id) return { ok: false, message: "You can't disable your own account." };
     if (disabled && !(await assertNotLastOwner(userId))) return { ok: false, message: "Keep at least one active owner." };
-    await db.update(adminUsers).set({ disabled: Boolean(disabled) }).where(eq(adminUsers.id, userId));
+    await db
+      .update(adminUsers)
+      .set({ disabled: Boolean(disabled) })
+      .where(eq(adminUsers.id, userId));
     if (disabled) await destroyAllSessionsForUser(userId);
     return { ok: true, message: disabled ? "Account disabled and signed out." : "Account re-enabled." };
   });
@@ -84,7 +90,10 @@ export async function resetAdminUserPassword(id: string, password: string): Prom
     if (userId === me.id) return { ok: false, message: "Use “Change your password” for your own account." };
     const parsed = passwordSchema.safeParse(password);
     if (!parsed.success) return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid password." };
-    await db.update(adminUsers).set({ passwordHash: await hashPassword(parsed.data) }).where(eq(adminUsers.id, userId));
+    await db
+      .update(adminUsers)
+      .set({ passwordHash: await hashPassword(parsed.data) })
+      .where(eq(adminUsers.id, userId));
     await destroyAllSessionsForUser(userId);
     return { ok: true, message: "Password reset. They'll need to sign in again." };
   });

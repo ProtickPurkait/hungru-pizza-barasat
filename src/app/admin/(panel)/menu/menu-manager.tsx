@@ -55,7 +55,8 @@ export function MenuManager({ categories, products: initial }: { categories: Cat
     const cats = categoryFilter === "all" ? categories : categories.filter((c) => c.id === categoryFilter);
     const list = cats.map((c) => ({ category: c, items: products.filter((p) => p.categoryId === c.id && matches(p)) }));
     const orphans = products.filter((p) => !p.categoryId && matches(p));
-    if (orphans.length && categoryFilter === "all") list.push({ category: { id: "none", name: "No category", isActive: false }, items: orphans });
+    if (orphans.length && categoryFilter === "all")
+      list.push({ category: { id: "none", name: "No category", isActive: false }, items: orphans });
     return list;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, categories, categoryFilter, query, stockFilter]);
@@ -84,9 +85,21 @@ export function MenuManager({ categories, products: initial }: { categories: Cat
       <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
           <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-stone-400" aria-hidden />
-          <Input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search menu items" aria-label="Search menu items" className="pl-9" type="search" />
+          <Input
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search menu items"
+            aria-label="Search menu items"
+            className="pl-9"
+            type="search"
+          />
         </div>
-        <Select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)} aria-label="Filter by category" className="sm:w-48">
+        <Select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          aria-label="Filter by category"
+          className="sm:w-48"
+        >
           <option value="all">All categories</option>
           {categories.map((c) => (
             <option key={c.id} value={c.id}>
@@ -94,7 +107,12 @@ export function MenuManager({ categories, products: initial }: { categories: Cat
             </option>
           ))}
         </Select>
-        <Select value={stockFilter} onChange={(e) => setStockFilter(e.target.value as "all" | "out")} aria-label="Filter by stock" className="sm:w-48">
+        <Select
+          value={stockFilter}
+          onChange={(e) => setStockFilter(e.target.value as "all" | "out")}
+          aria-label="Filter by stock"
+          className="sm:w-48"
+        >
           <option value="all">All items</option>
           <option value="out">Out of stock ({outCount})</option>
         </Select>
@@ -133,7 +151,9 @@ export function MenuManager({ categories, products: initial }: { categories: Cat
                 const result = await reorderProducts(ids);
                 if (!result.ok) toast.error(result.message);
               }}
-              renderItem={(p, { handle }) => <ProductRow product={p} handle={filtering ? null : handle} onChange={(patch) => update(p.id, patch)} />}
+              renderItem={(p, { handle }) => (
+                <ProductRow product={p} handle={filtering ? null : handle} onChange={(patch) => update(p.id, patch)} />
+              )}
             />
           )}
         </section>
@@ -142,7 +162,15 @@ export function MenuManager({ categories, products: initial }: { categories: Cat
   );
 }
 
-function ProductRow({ product: p, handle, onChange }: { product: Product; handle: React.ReactNode; onChange: (patch: Partial<Product>) => void }) {
+function ProductRow({
+  product: p,
+  handle,
+  onChange,
+}: {
+  product: Product;
+  handle: React.ReactNode;
+  onChange: (patch: Partial<Product>) => void;
+}) {
   const router = useRouter();
   const confirm = useConfirm();
   const [pending, start] = useTransition();
@@ -218,7 +246,11 @@ function ProductRow({ product: p, handle, onChange }: { product: Product; handle
               <span className="font-semibold tabular-nums">{formatINR(p.price)}</span>
             )}
             {p.isBestseller && <Badge tone="brand">Best seller</Badge>}
-            {p.optionCount > 0 && <Badge>{p.optionCount} option group{p.optionCount === 1 ? "" : "s"}</Badge>}
+            {p.optionCount > 0 && (
+              <Badge>
+                {p.optionCount} option group{p.optionCount === 1 ? "" : "s"}
+              </Badge>
+            )}
             {!p.isVisible && <Badge tone="warning">Hidden</Badge>}
             {p.isSample && <Badge tone="info">Sample</Badge>}
           </span>
@@ -251,7 +283,10 @@ function ProductRow({ product: p, handle, onChange }: { product: Product; handle
             <MoreHorizontal className="size-5" aria-hidden />
           </button>
           {menuOpen && (
-            <div role="menu" className="absolute right-0 z-20 mt-1 w-48 overflow-hidden rounded-xl border border-stone-200 bg-white py-1 shadow-lg">
+            <div
+              role="menu"
+              className="absolute right-0 z-20 mt-1 w-48 overflow-hidden rounded-xl border border-stone-200 bg-white py-1 shadow-lg"
+            >
               <Link role="menuitem" href={`/admin/menu/${p.id}`} className="flex items-center gap-2 px-3 py-2.5 text-sm hover:bg-stone-50">
                 <Pencil className="size-4 text-stone-400" aria-hidden /> Edit
               </Link>
@@ -261,7 +296,10 @@ function ProductRow({ product: p, handle, onChange }: { product: Product; handle
                 className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm hover:bg-stone-50"
                 onClick={() => {
                   setMenuOpen(false);
-                  run(() => duplicateProduct(p.id), (id) => id && router.push(`/admin/menu/${id}`));
+                  run(
+                    () => duplicateProduct(p.id),
+                    (id) => id && router.push(`/admin/menu/${id}`),
+                  );
                 }}
               >
                 <Copy className="size-4 text-stone-400" aria-hidden /> Duplicate
@@ -276,7 +314,11 @@ function ProductRow({ product: p, handle, onChange }: { product: Product; handle
                   run(() => setProductVisibility(p.id, !p.isVisible));
                 }}
               >
-                {p.isVisible ? <EyeOff className="size-4 text-stone-400" aria-hidden /> : <Eye className="size-4 text-stone-400" aria-hidden />}
+                {p.isVisible ? (
+                  <EyeOff className="size-4 text-stone-400" aria-hidden />
+                ) : (
+                  <Eye className="size-4 text-stone-400" aria-hidden />
+                )}
                 {p.isVisible ? "Hide from website" : "Show on website"}
               </button>
               <button
@@ -285,7 +327,13 @@ function ProductRow({ product: p, handle, onChange }: { product: Product; handle
                 className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm text-red-600 hover:bg-red-50"
                 onClick={async () => {
                   setMenuOpen(false);
-                  if (await confirm({ title: `Delete “${p.name}”?`, description: "This can't be undone. If you only want to stop selling it for now, mark it sold out or hide it instead." })) {
+                  if (
+                    await confirm({
+                      title: `Delete “${p.name}”?`,
+                      description:
+                        "This can't be undone. If you only want to stop selling it for now, mark it sold out or hide it instead.",
+                    })
+                  ) {
                     run(() => deleteProduct(p.id));
                   }
                 }}

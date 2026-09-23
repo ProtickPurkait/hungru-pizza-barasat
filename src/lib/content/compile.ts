@@ -3,25 +3,14 @@ import { asc, eq, inArray } from "drizzle-orm";
 import type { Database } from "@/db";
 import * as t from "@/db/schema";
 import { mediaUrl } from "./media-url";
-import {
-  documentSchemas,
-  linkTargetSchema,
-  type DocumentData,
-  type DocumentKey,
-  type FeatureIconKey,
-  FEATURE_ICONS,
-} from "./schemas";
+import { documentSchemas, linkTargetSchema, type DocumentData, type DocumentKey, type FeatureIconKey, FEATURE_ICONS } from "./schemas";
 import type { LiveState, MediaRef, SiteContent } from "./types";
 
 type Db = Pick<Database, "select" | "query">;
 
 /** Reads a singleton document, falling back to schema defaults for anything missing. */
 export async function loadDocument<K extends DocumentKey>(db: Db, key: K): Promise<DocumentData<K>> {
-  const rows = await db
-    .select({ data: t.contentDocuments.data })
-    .from(t.contentDocuments)
-    .where(eq(t.contentDocuments.key, key))
-    .limit(1);
+  const rows = await db.select({ data: t.contentDocuments.data }).from(t.contentDocuments).where(eq(t.contentDocuments.key, key)).limit(1);
   return parseDocument(key, rows[0]?.data);
 }
 
@@ -51,8 +40,7 @@ export async function loadAllDocuments(db: Db) {
   };
 }
 
-const toIcon = (icon: string): FeatureIconKey =>
-  (FEATURE_ICONS as readonly string[]).includes(icon) ? (icon as FeatureIconKey) : "flame";
+const toIcon = (icon: string): FeatureIconKey => ((FEATURE_ICONS as readonly string[]).includes(icon) ? (icon as FeatureIconKey) : "flame");
 
 /**
  * Compiles the CMS working tables into the exact data the public site renders.

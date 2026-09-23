@@ -72,10 +72,7 @@ export const loginAttempts = pgTable(
     success: boolean("success").notNull(),
     attemptedAt: timestamp("attempted_at", { withTimezone: true }).notNull().defaultNow(),
   },
-  (t) => [
-    index("login_attempts_email_idx").on(t.email, t.attemptedAt),
-    index("login_attempts_ip_idx").on(t.ip, t.attemptedAt),
-  ],
+  (t) => [index("login_attempts_email_idx").on(t.email, t.attemptedAt), index("login_attempts_ip_idx").on(t.ip, t.attemptedAt)],
 );
 
 /* ───────────────────────── Media ───────────────────────── */
@@ -143,7 +140,10 @@ export const products = pgTable(
     isAvailable: boolean("is_available").notNull().default(true),
     /** Hidden products are not shown on the website at all. */
     isVisible: boolean("is_visible").notNull().default(true),
-    options: jsonb("options").$type<ProductOptionGroup[]>().notNull().default(sql`'[]'::jsonb`),
+    options: jsonb("options")
+      .$type<ProductOptionGroup[]>()
+      .notNull()
+      .default(sql`'[]'::jsonb`),
     isSample: boolean("is_sample").notNull().default(false),
     sortOrder: integer("sort_order").notNull().default(0),
     ...timestamps,
@@ -211,15 +211,7 @@ export const publishedSnapshots = pgTable("published_snapshots", {
 
 export const orderNumberSeq = pgSequence("order_number_seq", { startWith: 1001 });
 
-export const orderStatus = pgEnum("order_status", [
-  "new",
-  "confirmed",
-  "preparing",
-  "ready",
-  "out_for_delivery",
-  "completed",
-  "cancelled",
-]);
+export const orderStatus = pgEnum("order_status", ["new", "confirmed", "preparing", "ready", "out_for_delivery", "completed", "cancelled"]);
 
 export const orders = pgTable(
   "orders",

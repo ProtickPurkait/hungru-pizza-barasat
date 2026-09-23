@@ -65,11 +65,15 @@ export function ProductForm({
   const router = useRouter();
   const confirm = useConfirm();
   const [deleting, startDelete] = useTransition();
-  const form = useAdminForm(initial, (values) => (productId ? updateProduct(productId, toPayload(values)) : createProduct(toPayload(values))), {
-    onSuccess: (result) => {
-      if (!productId && result.data && "id" in result.data) router.replace(`/admin/menu/${(result.data as { id: string }).id}`);
+  const form = useAdminForm(
+    initial,
+    (values) => (productId ? updateProduct(productId, toPayload(values)) : createProduct(toPayload(values))),
+    {
+      onSuccess: (result) => {
+        if (!productId && result.data && "id" in result.data) router.replace(`/admin/menu/${(result.data as { id: string }).id}`);
+      },
     },
-  });
+  );
   const { values, set, error } = form;
 
   const price = rupeesToPaise(values.price) ?? 0;
@@ -90,7 +94,15 @@ export function ProductForm({
         <div className="flex flex-col gap-6 lg:col-span-2">
           <Card title="Basics">
             <div className="flex flex-col gap-5">
-              <TextField label="Name" required value={values.name} onChange={(v) => set("name", v)} error={error("name")} maxLength={80} placeholder="e.g. Margherita" />
+              <TextField
+                label="Name"
+                required
+                value={values.name}
+                onChange={(v) => set("name", v)}
+                error={error("name")}
+                maxLength={80}
+                placeholder="e.g. Margherita"
+              />
               <TextField
                 label="Description"
                 multiline
@@ -104,7 +116,12 @@ export function ProductForm({
               />
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field label="Category" required error={error("categoryId")} htmlFor="product-category">
-                  <Select id="product-category" value={values.categoryId} onChange={(e) => set("categoryId", e.target.value)} invalid={Boolean(error("categoryId"))}>
+                  <Select
+                    id="product-category"
+                    value={values.categoryId}
+                    onChange={(e) => set("categoryId", e.target.value)}
+                    invalid={Boolean(error("categoryId"))}
+                  >
                     <option value="" disabled>
                       Choose a category
                     </option>
@@ -136,10 +153,21 @@ export function ProductForm({
                       key={diet}
                       className={clsx(
                         "flex h-12 cursor-pointer items-center justify-center gap-2 rounded-lg border-2 text-sm font-semibold transition-colors",
-                        values.diet === diet ? (diet === "veg" ? "border-basil bg-emerald-50" : "border-meat bg-red-50") : "border-stone-200 bg-white hover:border-stone-300",
+                        values.diet === diet
+                          ? diet === "veg"
+                            ? "border-basil bg-emerald-50"
+                            : "border-meat bg-red-50"
+                          : "border-stone-200 bg-white hover:border-stone-300",
                       )}
                     >
-                      <input type="radio" name="diet" value={diet} checked={values.diet === diet} onChange={() => set("diet", diet)} className="sr-only" />
+                      <input
+                        type="radio"
+                        name="diet"
+                        value={diet}
+                        checked={values.diet === diet}
+                        onChange={() => set("diet", diet)}
+                        className="sr-only"
+                      />
                       <VegMark diet={diet} />
                       {diet === "veg" ? "Veg" : "Non-veg"}
                     </label>
@@ -176,7 +204,10 @@ export function ProductForm({
             )}
           </Card>
 
-          <Card title="Options" description="Sizes, crusts, add-ons… only add choices you actually offer. The price updates as customers choose.">
+          <Card
+            title="Options"
+            description="Sizes, crusts, add-ons… only add choices you actually offer. The price updates as customers choose."
+          >
             <OptionsBuilder value={values.options} onChange={(v) => set("options", v)} error={error} />
           </Card>
         </div>
@@ -191,8 +222,18 @@ export function ProductForm({
                 checked={values.isAvailable}
                 onChange={(v) => set("isAvailable", v)}
               />
-              <Switch label="Show on website" description="Hidden items stay in your admin only." checked={values.isVisible} onChange={(v) => set("isVisible", v)} />
-              <Switch label="Best seller" description="Adds a badge and features it on the homepage." checked={values.isBestseller} onChange={(v) => set("isBestseller", v)} />
+              <Switch
+                label="Show on website"
+                description="Hidden items stay in your admin only."
+                checked={values.isVisible}
+                onChange={(v) => set("isVisible", v)}
+              />
+              <Switch
+                label="Best seller"
+                description="Adds a badge and features it on the homepage."
+                checked={values.isBestseller}
+                onChange={(v) => set("isBestseller", v)}
+              />
             </div>
           </Card>
 
@@ -239,7 +280,13 @@ export function ProductForm({
               loading={deleting}
               icon={<Trash2 className="size-4" aria-hidden />}
               onClick={async () => {
-                if (!(await confirm({ title: `Delete “${values.name}”?`, description: "This can't be undone. To stop selling it for now, mark it out of stock instead." }))) return;
+                if (
+                  !(await confirm({
+                    title: `Delete “${values.name}”?`,
+                    description: "This can't be undone. To stop selling it for now, mark it out of stock instead.",
+                  }))
+                )
+                  return;
                 startDelete(async () => {
                   const result = await deleteProduct(productId);
                   if (result.ok) {

@@ -92,7 +92,11 @@ export async function saveDocuments(docs: Partial<Record<DocumentKey, unknown>>)
     }
     if (Object.keys(fieldErrors).length) {
       const count = Object.keys(fieldErrors).length;
-      return { ok: false, message: count === 1 ? "Please fix the highlighted field." : `Please fix the ${count} highlighted fields.`, fieldErrors };
+      return {
+        ok: false,
+        message: count === 1 ? "Please fix the highlighted field." : `Please fix the ${count} highlighted fields.`,
+        fieldErrors,
+      };
     }
     await db.transaction(async (tx) => {
       for (const [key, data] of valid) {
@@ -163,7 +167,10 @@ export async function updateCategory(id: string, input: unknown): Promise<Action
     const parsed = categoryInputSchema.safeParse(input);
     if (!parsed.success) return invalid(parsed.error);
     const slug = await categorySlug(parsed.data.name, parsed.data.slug, categoryId);
-    await db.update(t.categories).set({ ...parsed.data, slug }).where(eq(t.categories.id, categoryId));
+    await db
+      .update(t.categories)
+      .set({ ...parsed.data, slug })
+      .where(eq(t.categories.id, categoryId));
     return { ok: true, message: "Category saved." };
   });
 }
@@ -187,7 +194,10 @@ export async function deleteCategory(id: string): Promise<ActionResult> {
 export async function setCategoryActive(id: string, isActive: boolean): Promise<ActionResult> {
   return safeAction(async () => {
     await requireAdmin();
-    await db.update(t.categories).set({ isActive: Boolean(isActive) }).where(eq(t.categories.id, parseId(id)));
+    await db
+      .update(t.categories)
+      .set({ isActive: Boolean(isActive) })
+      .where(eq(t.categories.id, parseId(id)));
     return { ok: true, message: isActive ? "Category shown." : "Category hidden." };
   });
 }
@@ -249,7 +259,10 @@ export async function updateProduct(id: string, input: unknown): Promise<ActionR
     const data = parsed.data;
     await assertCategory(data.categoryId);
     const slug = await productSlug(data.name, data.slug, productId);
-    await db.update(t.products).set({ ...data, slug, isSample: false }).where(eq(t.products.id, productId));
+    await db
+      .update(t.products)
+      .set({ ...data, slug, isSample: false })
+      .where(eq(t.products.id, productId));
     updateTag(TAG_LIVE);
     return { ok: true, message: "Saved. Publish to update the website (availability changes are already live)." };
   });
@@ -267,7 +280,11 @@ export async function deleteProduct(id: string): Promise<ActionResult> {
 export async function duplicateProduct(id: string): Promise<ActionResult<{ id: string }>> {
   return safeAction<{ id: string }>(async () => {
     await requireAdmin();
-    const rows = await db.select().from(t.products).where(eq(t.products.id, parseId(id))).limit(1);
+    const rows = await db
+      .select()
+      .from(t.products)
+      .where(eq(t.products.id, parseId(id)))
+      .limit(1);
     const source = rows[0];
     if (!source) return { ok: false, message: "That item no longer exists." };
     const name = `${source.name} (copy)`;
@@ -285,7 +302,10 @@ export async function duplicateProduct(id: string): Promise<ActionResult<{ id: s
 export async function setProductAvailability(id: string, isAvailable: boolean): Promise<ActionResult> {
   return safeAction(async () => {
     await requireAdmin();
-    await db.update(t.products).set({ isAvailable: Boolean(isAvailable) }).where(eq(t.products.id, parseId(id)));
+    await db
+      .update(t.products)
+      .set({ isAvailable: Boolean(isAvailable) })
+      .where(eq(t.products.id, parseId(id)));
     updateTag(TAG_LIVE);
     return { ok: true, message: isAvailable ? "Back in stock (live now)." : "Marked out of stock (live now)." };
   });
@@ -294,7 +314,10 @@ export async function setProductAvailability(id: string, isAvailable: boolean): 
 export async function setProductVisibility(id: string, isVisible: boolean): Promise<ActionResult> {
   return safeAction(async () => {
     await requireAdmin();
-    await db.update(t.products).set({ isVisible: Boolean(isVisible) }).where(eq(t.products.id, parseId(id)));
+    await db
+      .update(t.products)
+      .set({ isVisible: Boolean(isVisible) })
+      .where(eq(t.products.id, parseId(id)));
     return { ok: true, message: isVisible ? "Item will be shown after you publish." : "Item will be hidden after you publish." };
   });
 }
@@ -352,7 +375,10 @@ export async function updateOffer(id: string, input: unknown): Promise<ActionRes
     await requireAdmin();
     const parsed = offerInputSchema.safeParse(input);
     if (!parsed.success) return invalid(parsed.error);
-    await db.update(t.offers).set({ ...offerValues(parsed.data), isSample: false }).where(eq(t.offers.id, parseId(id)));
+    await db
+      .update(t.offers)
+      .set({ ...offerValues(parsed.data), isSample: false })
+      .where(eq(t.offers.id, parseId(id)));
     return { ok: true, message: "Offer saved. Publish to update the website." };
   });
 }
@@ -368,7 +394,10 @@ export async function deleteOffer(id: string): Promise<ActionResult> {
 export async function setOfferActive(id: string, isActive: boolean): Promise<ActionResult> {
   return safeAction(async () => {
     await requireAdmin();
-    await db.update(t.offers).set({ isActive: Boolean(isActive) }).where(eq(t.offers.id, parseId(id)));
+    await db
+      .update(t.offers)
+      .set({ isActive: Boolean(isActive) })
+      .where(eq(t.offers.id, parseId(id)));
     return { ok: true, message: isActive ? "Offer switched on. Publish to show it." : "Offer switched off. Publish to hide it." };
   });
 }
@@ -401,7 +430,10 @@ export async function updateReview(id: string, input: unknown): Promise<ActionRe
     await requireAdmin();
     const parsed = reviewInputSchema.safeParse(input);
     if (!parsed.success) return invalid(parsed.error);
-    await db.update(t.reviews).set({ ...parsed.data, isSample: false }).where(eq(t.reviews.id, parseId(id)));
+    await db
+      .update(t.reviews)
+      .set({ ...parsed.data, isSample: false })
+      .where(eq(t.reviews.id, parseId(id)));
     return { ok: true, message: "Review saved." };
   });
 }
@@ -417,7 +449,10 @@ export async function deleteReview(id: string): Promise<ActionResult> {
 export async function setReviewEnabled(id: string, isEnabled: boolean): Promise<ActionResult> {
   return safeAction(async () => {
     await requireAdmin();
-    await db.update(t.reviews).set({ isEnabled: Boolean(isEnabled) }).where(eq(t.reviews.id, parseId(id)));
+    await db
+      .update(t.reviews)
+      .set({ isEnabled: Boolean(isEnabled) })
+      .where(eq(t.reviews.id, parseId(id)));
     return { ok: true, message: isEnabled ? "Review shown." : "Review hidden." };
   });
 }
@@ -450,7 +485,10 @@ export async function updateFeature(id: string, input: unknown): Promise<ActionR
     await requireAdmin();
     const parsed = featureInputSchema.safeParse(input);
     if (!parsed.success) return invalid(parsed.error);
-    await db.update(t.features).set({ ...parsed.data, isSample: false }).where(eq(t.features.id, parseId(id)));
+    await db
+      .update(t.features)
+      .set({ ...parsed.data, isSample: false })
+      .where(eq(t.features.id, parseId(id)));
     return { ok: true, message: "Saved." };
   });
 }
@@ -466,7 +504,10 @@ export async function deleteFeature(id: string): Promise<ActionResult> {
 export async function setFeatureActive(id: string, isActive: boolean): Promise<ActionResult> {
   return safeAction(async () => {
     await requireAdmin();
-    await db.update(t.features).set({ isActive: Boolean(isActive) }).where(eq(t.features.id, parseId(id)));
+    await db
+      .update(t.features)
+      .set({ isActive: Boolean(isActive) })
+      .where(eq(t.features.id, parseId(id)));
     return { ok: true, message: isActive ? "Shown." : "Hidden." };
   });
 }

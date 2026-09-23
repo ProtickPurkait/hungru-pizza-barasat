@@ -16,7 +16,14 @@ export default async function SettingsPage() {
     loadDocument(db, "analytics"),
     user.role === "owner"
       ? db
-          .select({ id: adminUsers.id, name: adminUsers.name, email: adminUsers.email, role: adminUsers.role, disabled: adminUsers.disabled, lastLoginAt: adminUsers.lastLoginAt })
+          .select({
+            id: adminUsers.id,
+            name: adminUsers.name,
+            email: adminUsers.email,
+            role: adminUsers.role,
+            disabled: adminUsers.disabled,
+            lastLoginAt: adminUsers.lastLoginAt,
+          })
           .from(adminUsers)
           .orderBy(asc(adminUsers.createdAt))
       : Promise.resolve([]),
@@ -27,10 +34,7 @@ export default async function SettingsPage() {
       <div className="flex flex-col gap-6">
         <AccountSettings name={user.name} email={user.email} />
         {user.role === "owner" && (
-          <TeamSettings
-            meId={user.id}
-            users={team.map((u) => ({ ...u, lastLoginAt: u.lastLoginAt?.toISOString() ?? null }))}
-          />
+          <TeamSettings meId={user.id} users={team.map((u) => ({ ...u, lastLoginAt: u.lastLoginAt?.toISOString() ?? null }))} />
         )}
         <AnalyticsSettings analytics={analytics} />
         <Card title="System">

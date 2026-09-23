@@ -10,7 +10,12 @@ const hours = hoursSchema.parse({
     mon: { ranges: [{ open: "11:00", close: "23:00" }] },
     tue: { ranges: [{ open: "11:00", close: "23:00" }] },
     wed: { closed: true },
-    thu: { ranges: [{ open: "11:00", close: "15:00" }, { open: "18:00", close: "23:00" }] },
+    thu: {
+      ranges: [
+        { open: "11:00", close: "15:00" },
+        { open: "18:00", close: "23:00" },
+      ],
+    },
     fri: { ranges: [{ open: "18:00", close: "02:00" }] },
     sat: { ranges: [{ open: "18:00", close: "02:00" }] },
     sun: { ranges: [{ open: "12:00", close: "22:00" }] },

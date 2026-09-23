@@ -15,8 +15,16 @@ export default async function SeoPage() {
   const previews = await getMediaPreviews([seo.ogImageId]);
   return (
     <>
-      <PageHeader title="SEO & sharing" description="How Hungru looks in Google results and when someone shares your link on WhatsApp, Instagram or Facebook." />
-      <SeoEditor seo={seo} brandName={brand.name} siteUrl={siteUrl()} ogPreview={seo.ogImageId ? (previews[seo.ogImageId] ?? null) : null} />
+      <PageHeader
+        title="SEO & sharing"
+        description="How Hungru looks in Google results and when someone shares your link on WhatsApp, Instagram or Facebook."
+      />
+      <SeoEditor
+        seo={seo}
+        brandName={brand.name}
+        siteUrl={siteUrl()}
+        ogPreview={seo.ogImageId ? (previews[seo.ogImageId] ?? null) : null}
+      />
     </>
   );
 }

@@ -30,7 +30,10 @@ function sectionAvailable(content: SiteContent, section: string) {
 
 export function SiteFooter({ content, showArtNote }: { content: SiteContent; showArtNote: boolean }) {
   const { brand, social, contact, ordering } = content;
-  const footer = { ...content.footer, links: content.footer.links.filter((l) => l.target.type !== "section" || sectionAvailable(content, l.target.value)) };
+  const footer = {
+    ...content.footer,
+    links: content.footer.links.filter((l) => l.target.type !== "section" || sectionAvailable(content, l.target.value)),
+  };
   const year = new Date().getFullYear();
   return (
     <footer className="grain relative overflow-hidden bg-ink text-cream">
@@ -49,7 +52,10 @@ export function SiteFooter({ content, showArtNote }: { content: SiteContent; sho
               <ul className="mt-4 flex flex-col gap-2.5">
                 {footer.links.map((link, i) => (
                   <li key={i}>
-                    <CtaLink link={resolveLink(link.target, { contact, ordering })} className="text-lg font-bold transition-colors hover:text-accent">
+                    <CtaLink
+                      link={resolveLink(link.target, { contact, ordering })}
+                      className="text-lg font-bold transition-colors hover:text-accent"
+                    >
                       {link.label}
                     </CtaLink>
                   </li>
@@ -99,7 +105,10 @@ export function SiteFooter({ content, showArtNote }: { content: SiteContent; sho
             )}
           </div>
         </div>
-        <p aria-hidden className="font-display mt-14 text-[18vw] leading-[0.8] tracking-[-0.04em] text-cream/10 uppercase select-none md:text-[12vw]">
+        <p
+          aria-hidden
+          className="font-display mt-14 text-[18vw] leading-[0.8] tracking-[-0.04em] text-cream/10 uppercase select-none md:text-[12vw]"
+        >
           {brand.name.split(" ")[0]}
         </p>
         <div className="mt-6 flex flex-col gap-2 border-t border-cream/10 pt-6 text-sm text-cream/50 sm:flex-row sm:justify-between">

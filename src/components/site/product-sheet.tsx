@@ -120,9 +120,15 @@ function SheetBody({ product, categoryName, onClose }: { product: SiteProduct; c
   return (
     <div className="flex max-h-[inherit] flex-col">
       <div className="relative flex-1 overflow-y-auto overscroll-contain">
-        <div className="relative aspect-[4/3] bg-accent md:aspect-[16/9]">
+        <div className="relative aspect-[4/3] bg-accent md:aspect-[2/1]">
           <div aria-hidden className="absolute inset-x-10 top-8 bottom-0 rounded-t-full bg-white/25" />
-          <ProductVisual product={product} categoryName={categoryName} sizes="(min-width: 768px) 46rem, 100vw" className="absolute inset-0" priority />
+          <ProductVisual
+            product={product}
+            categoryName={categoryName}
+            sizes="(min-width: 768px) 46rem, 100vw"
+            className="absolute inset-0"
+            priority
+          />
           <div aria-hidden className="absolute top-3 left-1/2 h-1.5 w-12 -translate-x-1/2 rounded-full bg-ink/25 md:hidden" />
           <button
             type="button"
@@ -136,8 +142,12 @@ function SheetBody({ product, categoryName, onClose }: { product: SiteProduct; c
         <div className="px-5 pt-5 pb-6 sm:px-7">
           <div className="flex flex-wrap items-center gap-2">
             <VegMark diet={product.diet} />
-            {product.isBestseller && <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-extrabold text-white uppercase">★ Best seller</span>}
-            {product.badge && <span className="rounded-full bg-ink px-2.5 py-0.5 text-xs font-extrabold text-accent uppercase">{product.badge}</span>}
+            {product.isBestseller && (
+              <span className="rounded-full bg-primary px-2.5 py-0.5 text-xs font-extrabold text-white uppercase">★ Best seller</span>
+            )}
+            {product.badge && (
+              <span className="rounded-full bg-ink px-2.5 py-0.5 text-xs font-extrabold text-accent uppercase">{product.badge}</span>
+            )}
             {product.isSample && <SampleChip />}
           </div>
           <h2 id="sheet-title" className="font-display mt-2 text-4xl leading-[0.95] uppercase sm:text-5xl">
@@ -153,7 +163,12 @@ function SheetBody({ product, categoryName, onClose }: { product: SiteProduct; c
               <fieldset key={group.id} id={`group-${group.id}`} className="mt-6" aria-describedby={error ? `err-${group.id}` : undefined}>
                 <legend className="flex w-full flex-wrap items-center justify-between gap-2">
                   <span className="text-lg font-extrabold">{group.name}</span>
-                  <span className={clsx("rounded-full px-2.5 py-0.5 text-xs font-bold", group.required ? "bg-ink text-cream" : "bg-ink/10 text-ink/70")}>
+                  <span
+                    className={clsx(
+                      "rounded-full px-2.5 py-0.5 text-xs font-bold",
+                      group.required ? "bg-ink text-cream" : "bg-ink/10 text-ink/70",
+                    )}
+                  >
                     {group.required ? "Required" : "Optional"} ·{" "}
                     {group.type === "single" ? "pick 1" : group.maxSelect > 0 ? `up to ${group.maxSelect}` : "pick any"}
                   </span>
@@ -163,10 +178,14 @@ function SheetBody({ product, categoryName, onClose }: { product: SiteProduct; c
                     {error}
                   </p>
                 )}
-                <div className={clsx("mt-3 flex flex-col gap-2", error && "rounded-2xl ring-2 ring-primary ring-offset-4 ring-offset-cream")}>
+                <div
+                  className={clsx("mt-3 flex flex-col gap-2", error && "rounded-2xl ring-2 ring-primary ring-offset-4 ring-offset-cream")}
+                >
                   {group.options.map((option) => {
                     const selected = chosen.includes(option.id);
-                    const disabled = !option.isAvailable || (!selected && group.type === "multiple" && group.maxSelect > 0 && chosen.length >= group.maxSelect);
+                    const disabled =
+                      !option.isAvailable ||
+                      (!selected && group.type === "multiple" && group.maxSelect > 0 && chosen.length >= group.maxSelect);
                     return (
                       <label
                         key={option.id}
@@ -198,7 +217,9 @@ function SheetBody({ product, categoryName, onClose }: { product: SiteProduct; c
                           {option.name}
                           {!option.isAvailable && <span className="ml-2 text-xs font-bold text-meat">Sold out</span>}
                         </span>
-                        {option.priceDelta > 0 && <span className="font-bold tabular-nums text-ink/70">+{formatINR(option.priceDelta)}</span>}
+                        {option.priceDelta > 0 && (
+                          <span className="font-bold tabular-nums text-ink/70">+{formatINR(option.priceDelta)}</span>
+                        )}
                       </label>
                     );
                   })}
@@ -217,7 +238,9 @@ function SheetBody({ product, categoryName, onClose }: { product: SiteProduct; c
       <div className="border-t-2 border-ink/10 bg-cream px-5 pt-3 pb-safe sm:px-7">
         <div className="pb-3">
           {live.ordersPaused && <p className="mb-2 text-center text-sm font-bold text-meat">{live.pausedMessage}</p>}
-          {mode === "preview" && <p className="mb-2 text-center text-xs font-bold text-ink/60">Preview mode: adding to cart works; ordering is disabled.</p>}
+          {mode === "preview" && (
+            <p className="mb-2 text-center text-xs font-bold text-ink/60">Preview mode: adding to cart works; ordering is disabled.</p>
+          )}
           <button
             type="button"
             onClick={submit}

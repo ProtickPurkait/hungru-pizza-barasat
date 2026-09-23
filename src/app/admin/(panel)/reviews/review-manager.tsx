@@ -42,7 +42,8 @@ export function ReviewManager({ reviews: initial }: { reviews: Review[] }) {
     <div className="flex flex-col gap-4">
       {samples > 0 && (
         <Notice tone="warning" title={`${samples} placeholder review${samples === 1 ? "" : "s"}`}>
-          These are marked “Sample” on your website. Replace them with real reviews (or delete them) before you launch. Never invent reviews.
+          These are marked “Sample” on your website. Replace them with real reviews (or delete them) before you launch. Never invent
+          reviews.
         </Notice>
       )}
       <div>
@@ -51,7 +52,11 @@ export function ReviewManager({ reviews: initial }: { reviews: Review[] }) {
         </Button>
       </div>
       {reviews.length === 0 ? (
-        <EmptyState icon={<MessageSquareQuote className="size-6" />} title="No reviews yet" description="The Reviews section stays hidden on your homepage until you add one." />
+        <EmptyState
+          icon={<MessageSquareQuote className="size-6" />}
+          title="No reviews yet"
+          description="The Reviews section stays hidden on your homepage until you add one."
+        />
       ) : (
         <SortableList
           items={reviews}
@@ -101,7 +106,13 @@ export function ReviewManager({ reviews: initial }: { reviews: Review[] }) {
                 label={`Delete review by ${r.authorName}`}
                 tone="danger"
                 onClick={async () => {
-                  if (!(await confirm({ title: "Delete this review?", description: `Review by ${r.authorName}. To hide it for now, switch it off instead.` }))) return;
+                  if (
+                    !(await confirm({
+                      title: "Delete this review?",
+                      description: `Review by ${r.authorName}. To hide it for now, switch it off instead.`,
+                    }))
+                  )
+                    return;
                   start(async () => {
                     const result = await deleteReview(r.id);
                     if (result.ok) toast.success(result.message);
@@ -123,7 +134,14 @@ export function ReviewManager({ reviews: initial }: { reviews: Review[] }) {
 
 function ReviewEditor({ review, onClose }: { review: Review | null; onClose: () => void }) {
   const initial: FormValues = review
-    ? { authorName: review.authorName, content: review.content, rating: review.rating ? String(review.rating) : "", source: review.source, imageId: review.imageId, isEnabled: review.isEnabled }
+    ? {
+        authorName: review.authorName,
+        content: review.content,
+        rating: review.rating ? String(review.rating) : "",
+        source: review.source,
+        imageId: review.imageId,
+        isEnabled: review.isEnabled,
+      }
     : EMPTY;
   const form = useAdminForm(
     initial,
@@ -152,8 +170,27 @@ function ReviewEditor({ review, onClose }: { review: Review | null; onClose: () 
       }
     >
       <div className="flex flex-col gap-5">
-        <TextField label="Customer name" required value={values.authorName} onChange={(v) => set("authorName", v)} error={error("authorName")} maxLength={60} placeholder="e.g. Riya S." help="First name + initial is fine." />
-        <TextField label="Review" required multiline rows={4} value={values.content} onChange={(v) => set("content", v)} error={error("content")} maxLength={600} help="Paste their words exactly as written." />
+        <TextField
+          label="Customer name"
+          required
+          value={values.authorName}
+          onChange={(v) => set("authorName", v)}
+          error={error("authorName")}
+          maxLength={60}
+          placeholder="e.g. Riya S."
+          help="First name + initial is fine."
+        />
+        <TextField
+          label="Review"
+          required
+          multiline
+          rows={4}
+          value={values.content}
+          onChange={(v) => set("content", v)}
+          error={error("content")}
+          maxLength={600}
+          help="Paste their words exactly as written."
+        />
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Star rating" optional help="Only if the customer gave one.">
             <Select value={values.rating} onChange={(e) => set("rating", e.target.value)}>
@@ -165,9 +202,25 @@ function ReviewEditor({ review, onClose }: { review: Review | null; onClose: () 
               ))}
             </Select>
           </Field>
-          <TextField label="Where it's from" optional value={values.source} onChange={(v) => set("source", v)} error={error("source")} maxLength={40} placeholder="Google, Zomato, Instagram…" />
+          <TextField
+            label="Where it's from"
+            optional
+            value={values.source}
+            onChange={(v) => set("source", v)}
+            error={error("source")}
+            maxLength={40}
+            placeholder="Google, Zomato, Instagram…"
+          />
         </div>
-        <MediaPicker label="Customer photo" optional value={values.imageId} preview={review?.image ?? null} onChange={(id) => set("imageId", id)} aspect="aspect-square" help="Only with the customer's permission." />
+        <MediaPicker
+          label="Customer photo"
+          optional
+          value={values.imageId}
+          preview={review?.image ?? null}
+          onChange={(id) => set("imageId", id)}
+          aspect="aspect-square"
+          help="Only with the customer's permission."
+        />
         <Switch label="Show on website" checked={values.isEnabled} onChange={(v) => set("isEnabled", v)} />
       </div>
     </EditorDialog>

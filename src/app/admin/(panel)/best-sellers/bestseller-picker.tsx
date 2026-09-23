@@ -48,13 +48,22 @@ export function BestsellerPicker({ products, initialSelected }: { products: Prod
       <div className="grid gap-6 lg:grid-cols-2">
         <Card title={`Featured (${selected.length})`} description="Drag to reorder. The first 4–8 look best on phones.">
           {selected.length === 0 ? (
-            <EmptyState icon={<Star className="size-6" />} title="No best sellers yet" description="Add items from the list. The section is hidden on your homepage until you pick some." />
+            <EmptyState
+              icon={<Star className="size-6" />}
+              title="No best sellers yet"
+              description="Add items from the list. The section is hidden on your homepage until you pick some."
+            />
           ) : (
             <SortableList
               items={selected}
               getId={(p) => p.id}
               label={(p) => p.name}
-              onReorder={(next) => form.set("ids", next.map((p) => p.id))}
+              onReorder={(next) =>
+                form.set(
+                  "ids",
+                  next.map((p) => p.id),
+                )
+              }
               renderItem={(p, { handle, index }) => (
                 <div className="flex items-center gap-2 rounded-xl border border-stone-200 bg-white py-1.5 pr-2 pl-1">
                   {handle}
@@ -70,7 +79,15 @@ export function BestsellerPicker({ products, initialSelected }: { products: Prod
                       {!p.isAvailable && <Badge tone="danger">Sold out</Badge>}
                     </p>
                   </div>
-                  <IconButton label={`Remove ${p.name}`} onClick={() => form.set("ids", ids.filter((id) => id !== p.id))}>
+                  <IconButton
+                    label={`Remove ${p.name}`}
+                    onClick={() =>
+                      form.set(
+                        "ids",
+                        ids.filter((id) => id !== p.id),
+                      )
+                    }
+                  >
                     <X className="size-4" aria-hidden />
                   </IconButton>
                 </div>
@@ -81,7 +98,14 @@ export function BestsellerPicker({ products, initialSelected }: { products: Prod
         <Card title="Add from your menu">
           <div className="relative mb-3">
             <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-stone-400" aria-hidden />
-            <Input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search items" aria-label="Search items" className="pl-9" />
+            <Input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search items"
+              aria-label="Search items"
+              className="pl-9"
+            />
           </div>
           {products.length === 0 ? (
             <p className="py-6 text-center text-sm text-stone-500">Add menu items first.</p>

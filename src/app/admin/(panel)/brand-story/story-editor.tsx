@@ -28,8 +28,20 @@ export function StoryEditor({ story, previews }: { story: Story; previews: Media
         <Card title="Story">
           <div className="flex flex-col gap-5">
             <div className="grid gap-5 sm:grid-cols-2">
-              <TextField label="Small label" value={values.eyebrow} onChange={(v) => set("eyebrow", v)} error={error("eyebrow")} maxLength={40} />
-              <TextField label="Heading" value={values.heading} onChange={(v) => set("heading", v)} error={error("heading")} maxLength={90} />
+              <TextField
+                label="Small label"
+                value={values.eyebrow}
+                onChange={(v) => set("eyebrow", v)}
+                error={error("eyebrow")}
+                maxLength={40}
+              />
+              <TextField
+                label="Heading"
+                value={values.heading}
+                onChange={(v) => set("heading", v)}
+                error={error("heading")}
+                maxLength={90}
+              />
             </div>
             <TextField
               label="Your story"
@@ -46,14 +58,22 @@ export function StoryEditor({ story, previews }: { story: Story; previews: Media
         <Card title="Photos" description="Up to 4 photos: your team, kitchen, oven, storefront or food.">
           <MultiMediaPicker label="Story photos" value={values.imageIds} previews={previews} onChange={(ids) => set("imageIds", ids)} />
         </Card>
-        <Card title="Highlights" description="Optional short facts shown as stickers, e.g. “Since 2023” or “Wood-fired oven”. Only use facts that are true.">
+        <Card
+          title="Highlights"
+          description="Optional short facts shown as stickers, e.g. “Since 2023” or “Wood-fired oven”. Only use facts that are true."
+        >
           <div className="flex flex-col gap-3">
             {values.highlights.map((h, i) => (
               <div key={i} className="grid gap-2 rounded-xl border border-stone-200 p-3 sm:grid-cols-[12rem_1fr_auto] sm:items-start">
                 <TextField
                   label="Title"
                   value={h.title}
-                  onChange={(v) => set("highlights", values.highlights.map((x, j) => (j === i ? { ...x, title: v } : x)))}
+                  onChange={(v) =>
+                    set(
+                      "highlights",
+                      values.highlights.map((x, j) => (j === i ? { ...x, title: v } : x)),
+                    )
+                  }
                   error={error(`highlights.${i}.title`)}
                   maxLength={40}
                 />
@@ -61,10 +81,25 @@ export function StoryEditor({ story, previews }: { story: Story; previews: Media
                   label="Detail"
                   optional
                   value={h.text}
-                  onChange={(v) => set("highlights", values.highlights.map((x, j) => (j === i ? { ...x, text: v } : x)))}
+                  onChange={(v) =>
+                    set(
+                      "highlights",
+                      values.highlights.map((x, j) => (j === i ? { ...x, text: v } : x)),
+                    )
+                  }
                   maxLength={160}
                 />
-                <IconButton label="Remove highlight" tone="danger" className="sm:mt-7" onClick={() => set("highlights", values.highlights.filter((_, j) => j !== i))}>
+                <IconButton
+                  label="Remove highlight"
+                  tone="danger"
+                  className="sm:mt-7"
+                  onClick={() =>
+                    set(
+                      "highlights",
+                      values.highlights.filter((_, j) => j !== i),
+                    )
+                  }
+                >
                   <Trash2 className="size-4" aria-hidden />
                 </IconButton>
               </div>

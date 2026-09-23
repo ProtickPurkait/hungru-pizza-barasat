@@ -19,7 +19,8 @@ export function RemoveSamplesButton() {
       onClick={async () => {
         const ok = await confirm({
           title: "Remove all sample content?",
-          description: "This deletes every item marked “Sample” (menu items, reviews, Why Hungru points and offers). Your own content isn't touched.",
+          description:
+            "This deletes every item marked “Sample” (menu items, reviews, Why Hungru points and offers). Your own content isn't touched.",
           confirmLabel: "Remove samples",
         });
         if (!ok) return;

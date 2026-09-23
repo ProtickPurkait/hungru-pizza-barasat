@@ -115,7 +115,12 @@ describe("documents", () => {
     for (const schema of Object.values(documentSchemas)) expect(schema.safeParse({}).success).toBe(true);
   });
   it("homepage sections are de-duplicated and completed", () => {
-    const r = homepageSchema.parse({ sections: [{ key: "offers", enabled: false }, { key: "offers", enabled: true }] });
+    const r = homepageSchema.parse({
+      sections: [
+        { key: "offers", enabled: false },
+        { key: "offers", enabled: true },
+      ],
+    });
     expect(r.sections[0]).toEqual({ key: "offers", enabled: false });
     expect(r.sections).toHaveLength(9);
   });

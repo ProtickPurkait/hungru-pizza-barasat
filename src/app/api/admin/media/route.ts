@@ -67,7 +67,9 @@ export async function POST(request: NextRequest) {
   if (file.size > Math.max(IMAGE_MAX_BYTES, VIDEO_MAX_BYTES)) {
     return NextResponse.json({ error: "That file is too large. Images: 10 MB max, videos: 20 MB max." }, { status: 413 });
   }
-  const alt = String(form.get("alt") ?? "").trim().slice(0, 200);
+  const alt = String(form.get("alt") ?? "")
+    .trim()
+    .slice(0, 200);
 
   try {
     const processed = await processUpload(Buffer.from(await file.arrayBuffer()));

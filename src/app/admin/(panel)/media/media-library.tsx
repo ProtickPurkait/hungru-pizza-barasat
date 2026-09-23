@@ -20,7 +20,11 @@ export function MediaLibrary({ items: initial }: { items: MediaItem[] }) {
     <div className="flex flex-col gap-6">
       <UploadZone kind="any" onUploaded={(item) => setItems((prev) => [item, ...prev])} />
       {items.length === 0 ? (
-        <EmptyState icon={<ImageIcon className="size-6" />} title="No files yet" description="Upload your logo, pizza photos and more. You can also upload straight from any image field." />
+        <EmptyState
+          icon={<ImageIcon className="size-6" />}
+          title="No files yet"
+          description="Upload your logo, pizza photos and more. You can also upload straight from any image field."
+        />
       ) : (
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5">
           {items.map((item) => (
@@ -63,14 +67,26 @@ export function MediaLibrary({ items: initial }: { items: MediaItem[] }) {
   );
 }
 
-function MediaDetails({ item, onClose, onSaved, onDeleted }: { item: MediaItem; onClose: () => void; onSaved: (alt: string) => void; onDeleted: () => void }) {
+function MediaDetails({
+  item,
+  onClose,
+  onSaved,
+  onDeleted,
+}: {
+  item: MediaItem;
+  onClose: () => void;
+  onSaved: (alt: string) => void;
+  onDeleted: () => void;
+}) {
   const confirm = useConfirm();
   const [alt, setAlt] = useState(item.alt);
   const [usage, setUsage] = useState<string[] | null>(null);
   const [pending, start] = useTransition();
 
   useEffect(() => {
-    getMediaUsage(item.id).then(setUsage).catch(() => setUsage([]));
+    getMediaUsage(item.id)
+      .then(setUsage)
+      .catch(() => setUsage([]));
   }, [item.id]);
 
   return (
@@ -150,9 +166,7 @@ function MediaDetails({ item, onClose, onSaved, onDeleted }: { item: MediaItem; 
           )}
           <div className="col-span-2">
             <dt className="text-stone-500">Used in</dt>
-            <dd className="font-medium">
-              {usage === null ? "Checking…" : usage.length === 0 ? "Not used anywhere" : usage.join(", ")}
-            </dd>
+            <dd className="font-medium">{usage === null ? "Checking…" : usage.length === 0 ? "Not used anywhere" : usage.join(", ")}</dd>
           </div>
         </dl>
         <Button

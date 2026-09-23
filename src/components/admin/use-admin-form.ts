@@ -16,11 +16,7 @@ type Options<R> = {
  * Controlled form state for admin editors: tracks dirty state, field errors and saving,
  * shows toasts, and warns before leaving with unsaved changes.
  */
-export function useAdminForm<T, R = undefined>(
-  initial: T,
-  save: (values: T) => Promise<ActionResult<R>>,
-  options: Options<R> = {},
-) {
+export function useAdminForm<T, R = undefined>(initial: T, save: (values: T) => Promise<ActionResult<R>>, options: Options<R> = {}) {
   const router = useRouter();
   const [values, setValues] = useState<T>(initial);
   const [baseline, setBaseline] = useState(() => JSON.stringify(initial));

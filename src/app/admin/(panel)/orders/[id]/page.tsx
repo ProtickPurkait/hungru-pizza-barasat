@@ -86,7 +86,10 @@ export default async function OrderPage({ params }: PageProps<"/admin/orders/[id
             <p className="text-lg font-semibold">{order.customerName}</p>
             <p className="text-stone-600">{order.fulfillment === "delivery" ? "Delivery" : "Pickup"}</p>
             <div className="mt-4 flex flex-col gap-2">
-              <a href={`tel:${order.customerPhone.replace(/[^\d+]/g, "")}`} className="flex h-11 items-center gap-2 rounded-lg bg-stone-900 px-4 font-semibold text-white">
+              <a
+                href={`tel:${order.customerPhone.replace(/[^\d+]/g, "")}`}
+                className="flex h-11 items-center gap-2 rounded-lg bg-stone-900 px-4 font-semibold text-white"
+              >
                 <Phone className="size-4" aria-hidden /> Call {order.customerPhone}
               </a>
               <a

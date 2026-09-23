@@ -103,10 +103,7 @@ export type Totals = {
   total: number;
 };
 
-export function computeTotals(
-  lines: { quantity: number; lineTotal: number; lineOriginalTotal: number }[],
-  deliveryFee = 0,
-): Totals {
+export function computeTotals(lines: { quantity: number; lineTotal: number; lineOriginalTotal: number }[], deliveryFee = 0): Totals {
   const itemCount = lines.reduce((n, l) => n + l.quantity, 0);
   const subtotal = lines.reduce((n, l) => n + l.lineOriginalTotal, 0);
   const discounted = lines.reduce((n, l) => n + l.lineTotal, 0);

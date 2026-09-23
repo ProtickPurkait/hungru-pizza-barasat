@@ -7,11 +7,7 @@ import type { SiteContent } from "./types";
 export type SnapshotSummary = { id: number; createdAt: Date; note: string; publishedBy: string | null };
 
 export async function getLatestSnapshot(db: Database) {
-  const rows = await db
-    .select()
-    .from(t.publishedSnapshots)
-    .orderBy(desc(t.publishedSnapshots.id))
-    .limit(1);
+  const rows = await db.select().from(t.publishedSnapshots).orderBy(desc(t.publishedSnapshots.id)).limit(1);
   const row = rows[0];
   if (!row) return null;
   return { id: row.id, content: row.data as SiteContent, hash: row.hash, createdAt: row.createdAt };

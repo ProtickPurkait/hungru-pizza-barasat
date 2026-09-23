@@ -9,7 +9,9 @@ import { SectionHeading } from "../section-heading";
 import { PLATFORM_NAMES, SocialIcon } from "../social-icons";
 
 export function hasContactInfo(contact: SiteContent["contact"]) {
-  return Boolean(contact.address || contact.phone || contact.whatsapp || contact.email || contact.mapsUrl || hoursConfigured(contact.hours));
+  return Boolean(
+    contact.address || contact.phone || contact.whatsapp || contact.email || contact.mapsUrl || hoursConfigured(contact.hours),
+  );
 }
 
 export function ContactSection({
@@ -54,7 +56,10 @@ export function ContactSection({
             {(contact.phone || contact.whatsapp || contact.email) && (
               <div className="grid gap-3 sm:grid-cols-2">
                 {contact.phone && (
-                  <a href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`} className="group flex items-center gap-4 rounded-[1.5rem] bg-primary p-5 text-white ring-2 ring-ink shadow-[4px_4px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5">
+                  <a
+                    href={`tel:${contact.phone.replace(/[^\d+]/g, "")}`}
+                    className="group flex items-center gap-4 rounded-[1.5rem] bg-primary p-5 text-white ring-2 ring-ink shadow-[4px_4px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
+                  >
                     <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-white/15">
                       <Phone className="size-5" aria-hidden />
                     </span>
@@ -65,7 +70,12 @@ export function ContactSection({
                   </a>
                 )}
                 {contact.whatsapp && (
-                  <a href={whatsappLink(contact.whatsapp)} target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 rounded-[1.5rem] bg-basil p-5 text-white ring-2 ring-ink shadow-[4px_4px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5">
+                  <a
+                    href={whatsappLink(contact.whatsapp)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center gap-4 rounded-[1.5rem] bg-basil p-5 text-white ring-2 ring-ink shadow-[4px_4px_0_0_var(--color-ink)] transition-transform hover:-translate-y-0.5"
+                  >
                     <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-white/15">
                       <MessageCircle className="size-5" aria-hidden />
                     </span>
@@ -76,7 +86,10 @@ export function ContactSection({
                   </a>
                 )}
                 {contact.email && (
-                  <a href={`mailto:${contact.email}`} className="flex items-center gap-4 rounded-[1.5rem] bg-white p-5 ring-2 ring-ink sm:col-span-2">
+                  <a
+                    href={`mailto:${contact.email}`}
+                    className="flex items-center gap-4 rounded-[1.5rem] bg-white p-5 ring-2 ring-ink sm:col-span-2"
+                  >
                     <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-ink/5">
                       <Mail className="size-5" aria-hidden />
                     </span>
@@ -97,7 +110,9 @@ export function ContactSection({
                   {hours.map((row) => (
                     <div key={row.label} className="flex items-baseline justify-between gap-4 border-b border-cream/10 pb-2 last:border-0">
                       <dt className="font-bold">{row.label}</dt>
-                      <dd className={row.value === "Closed" ? "font-bold text-cream/50" : "text-right font-semibold tabular-nums"}>{row.value}</dd>
+                      <dd className={row.value === "Closed" ? "font-bold text-cream/50" : "text-right font-semibold tabular-nums"}>
+                        {row.value}
+                      </dd>
                     </div>
                   ))}
                 </dl>
@@ -123,17 +138,27 @@ export function ContactSection({
             )}
           </Reveal>
           {hasMap && (
-            <Reveal index={1} className="relative min-h-[22rem] overflow-hidden rounded-[2rem] ring-2 ring-ink shadow-[6px_6px_0_0_var(--brand-primary)] lg:min-h-full">
+            <Reveal
+              index={1}
+              className="relative min-h-[22rem] overflow-hidden rounded-[2rem] ring-2 ring-ink shadow-[6px_6px_0_0_var(--brand-primary)] lg:min-h-full"
+            >
               {contact.mapEmbedUrl ? (
                 <MapFacade embedUrl={contact.mapEmbedUrl} label={brandName} />
               ) : (
-                <a href={contact.mapsUrl} target="_blank" rel="noopener noreferrer" className="group relative flex h-full min-h-[22rem] w-full items-center justify-center">
+                <a
+                  href={contact.mapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative flex h-full min-h-[22rem] w-full items-center justify-center"
+                >
                   <MapArt />
                   <span className="relative z-10 flex flex-col items-center gap-3">
                     <span className="flex size-16 items-center justify-center rounded-full bg-primary text-white ring-4 ring-cream shadow-xl transition-transform group-hover:-translate-y-1">
                       <MapPin className="size-8" aria-hidden />
                     </span>
-                    <span className="rounded-full bg-ink px-5 py-2.5 text-sm font-extrabold tracking-wide text-cream uppercase">Open in Google Maps</span>
+                    <span className="rounded-full bg-ink px-5 py-2.5 text-sm font-extrabold tracking-wide text-cream uppercase">
+                      Open in Google Maps
+                    </span>
                   </span>
                 </a>
               )}

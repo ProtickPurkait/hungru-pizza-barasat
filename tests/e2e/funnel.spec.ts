@@ -10,7 +10,10 @@ test("mobile visitor goes from homepage to a placed order", async ({ page }) => 
   const bar = page.locator('[data-cart-target="primary"]');
   await expect(bar).toContainText(/order now/i);
 
-  await page.locator("#top").getByRole("link", { name: /order now/i }).click();
+  await page
+    .locator("#top")
+    .getByRole("link", { name: /order now/i })
+    .click();
   await page.waitForURL("**/menu");
 
   // Customisable pizza → sheet with live price.

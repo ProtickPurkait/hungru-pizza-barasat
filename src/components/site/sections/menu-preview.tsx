@@ -31,7 +31,11 @@ export function MenuPreviewSection({
     <section id="menu" aria-labelledby="menu-heading" className="bg-cream-2 py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading id="menu-heading" {...heading} />
-        <div role="tablist" aria-label="Menu categories" className="-mx-4 mt-8 flex gap-2 overflow-x-auto px-4 pb-2 no-scrollbar sm:mx-0 sm:flex-wrap sm:px-0">
+        <div
+          role="tablist"
+          aria-label="Menu categories"
+          className="-mx-4 mt-8 flex gap-2 overflow-x-auto px-4 pb-2 no-scrollbar sm:mx-0 sm:flex-wrap sm:px-0"
+        >
           {withItems.map((category) => {
             const selected = category.id === active;
             return (

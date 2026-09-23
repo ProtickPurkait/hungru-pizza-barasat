@@ -16,17 +16,17 @@ export function FlyToCart() {
       useCart.subscribe((state, prev) => {
         const lastAdd = state.lastAdd;
         if (!lastAdd || lastAdd === prev.lastAdd || lastAdd.x === undefined || lastAdd.y === undefined || reduce) return;
-    const targets = [
-      ...document.querySelectorAll<HTMLElement>('[data-cart-target="primary"]'),
-      ...document.querySelectorAll<HTMLElement>('[data-cart-target="secondary"]'),
-    ];
-    const target = targets.map((el) => el.getBoundingClientRect()).find((r) => r.width > 0 && r.height > 0);
-    if (!target) return;
-    const flight: Flight = {
-      id: lastAdd.at,
-      from: { x: lastAdd.x, y: lastAdd.y },
-      to: { x: target.left + Math.min(target.width / 2, 40), y: target.top + target.height / 2 },
-    };
+        const targets = [
+          ...document.querySelectorAll<HTMLElement>('[data-cart-target="primary"]'),
+          ...document.querySelectorAll<HTMLElement>('[data-cart-target="secondary"]'),
+        ];
+        const target = targets.map((el) => el.getBoundingClientRect()).find((r) => r.width > 0 && r.height > 0);
+        if (!target) return;
+        const flight: Flight = {
+          id: lastAdd.at,
+          from: { x: lastAdd.x, y: lastAdd.y },
+          to: { x: target.left + Math.min(target.width / 2, 40), y: target.top + target.height / 2 },
+        };
         setFlights((f) => [...f.slice(-3), flight]);
       }),
     [reduce],

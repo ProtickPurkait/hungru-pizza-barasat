@@ -136,7 +136,11 @@ export function Field({
       <div className="flex items-baseline justify-between gap-2">
         <label htmlFor={htmlFor} className="text-sm font-semibold text-stone-800">
           {label}
-          {required && <span className="ml-0.5 text-red-600" aria-hidden>*</span>}
+          {required && (
+            <span className="ml-0.5 text-red-600" aria-hidden>
+              *
+            </span>
+          )}
           {optional && <span className="ml-1.5 text-xs font-normal text-stone-500">Optional</span>}
         </label>
         {aside}
@@ -158,48 +162,49 @@ export function Field({
 const inputBase =
   "w-full rounded-lg border bg-white px-3 text-[15px] text-stone-900 placeholder:text-stone-400 shadow-xs transition-colors focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/25 disabled:bg-stone-100 disabled:text-stone-500";
 
-export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement> & { invalid?: boolean }>(
-  function Input({ className, invalid, ...rest }, ref) {
+export const Input = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement> & { invalid?: boolean }>(function Input(
+  { className, invalid, ...rest },
+  ref,
+) {
+  return (
+    <input
+      ref={ref}
+      aria-invalid={invalid || undefined}
+      className={clsx(inputBase, "h-11", invalid ? "border-red-500" : "border-stone-300", className)}
+      {...rest}
+    />
+  );
+});
+
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaHTMLAttributes<HTMLTextAreaElement> & { invalid?: boolean }>(
+  function Textarea({ className, invalid, rows = 4, ...rest }, ref) {
     return (
-      <input
+      <textarea
         ref={ref}
+        rows={rows}
         aria-invalid={invalid || undefined}
-        className={clsx(inputBase, "h-11", invalid ? "border-red-500" : "border-stone-300", className)}
+        className={clsx(inputBase, "py-2.5 leading-relaxed", invalid ? "border-red-500" : "border-stone-300", className)}
         {...rest}
       />
     );
   },
 );
 
-export const Textarea = forwardRef<
-  HTMLTextAreaElement,
-  TextareaHTMLAttributes<HTMLTextAreaElement> & { invalid?: boolean }
->(function Textarea({ className, invalid, rows = 4, ...rest }, ref) {
+export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSelectElement> & { invalid?: boolean }>(function Select(
+  { className, invalid, children, ...rest },
+  ref,
+) {
   return (
-    <textarea
+    <select
       ref={ref}
-      rows={rows}
       aria-invalid={invalid || undefined}
-      className={clsx(inputBase, "py-2.5 leading-relaxed", invalid ? "border-red-500" : "border-stone-300", className)}
+      className={clsx(inputBase, "h-11 pr-8", invalid ? "border-red-500" : "border-stone-300", className)}
       {...rest}
-    />
+    >
+      {children}
+    </select>
   );
 });
-
-export const Select = forwardRef<HTMLSelectElement, SelectHTMLAttributes<HTMLSelectElement> & { invalid?: boolean }>(
-  function Select({ className, invalid, children, ...rest }, ref) {
-    return (
-      <select
-        ref={ref}
-        aria-invalid={invalid || undefined}
-        className={clsx(inputBase, "h-11 pr-8", invalid ? "border-red-500" : "border-stone-300", className)}
-        {...rest}
-      >
-        {children}
-      </select>
-    );
-  },
-);
 
 /** Labelled text input wired to a form-state field. */
 export function TextField({

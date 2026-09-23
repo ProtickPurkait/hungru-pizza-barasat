@@ -41,11 +41,58 @@ export function ContactEditor({ contact, social }: { contact: Contact; social: S
       <div className="flex flex-col gap-6">
         <Card title="Contact details">
           <div className="grid gap-5 md:grid-cols-2">
-            <TextField label="Address" multiline rows={3} className="md:col-span-2" value={c.address} onChange={(v) => setC("address", v)} error={contactError("address")} maxLength={300} optional placeholder="Shop no., street, landmark, Barasat, PIN" />
-            <TextField label="Phone" type="tel" inputMode="tel" value={c.phone} onChange={(v) => setC("phone", v)} error={contactError("phone")} optional placeholder="+91 98765 43210" />
-            <TextField label="WhatsApp number" type="tel" inputMode="tel" value={c.whatsapp} onChange={(v) => setC("whatsapp", v)} error={contactError("whatsapp")} optional placeholder="+91 98765 43210" help="Customers can chat with you in one tap." />
-            <TextField label="Email" type="email" inputMode="email" value={c.email} onChange={(v) => setC("email", v)} error={contactError("email")} optional />
-            <TextField label="Google Maps link" inputMode="url" value={c.mapsUrl} onChange={(v) => setC("mapsUrl", v)} error={contactError("mapsUrl")} optional placeholder="https://maps.app.goo.gl/…" help="In Google Maps: Share → Copy link." />
+            <TextField
+              label="Address"
+              multiline
+              rows={3}
+              className="md:col-span-2"
+              value={c.address}
+              onChange={(v) => setC("address", v)}
+              error={contactError("address")}
+              maxLength={300}
+              optional
+              placeholder="Shop no., street, landmark, Barasat, PIN"
+            />
+            <TextField
+              label="Phone"
+              type="tel"
+              inputMode="tel"
+              value={c.phone}
+              onChange={(v) => setC("phone", v)}
+              error={contactError("phone")}
+              optional
+              placeholder="+91 98765 43210"
+            />
+            <TextField
+              label="WhatsApp number"
+              type="tel"
+              inputMode="tel"
+              value={c.whatsapp}
+              onChange={(v) => setC("whatsapp", v)}
+              error={contactError("whatsapp")}
+              optional
+              placeholder="+91 98765 43210"
+              help="Customers can chat with you in one tap."
+            />
+            <TextField
+              label="Email"
+              type="email"
+              inputMode="email"
+              value={c.email}
+              onChange={(v) => setC("email", v)}
+              error={contactError("email")}
+              optional
+            />
+            <TextField
+              label="Google Maps link"
+              inputMode="url"
+              value={c.mapsUrl}
+              onChange={(v) => setC("mapsUrl", v)}
+              error={contactError("mapsUrl")}
+              optional
+              placeholder="https://maps.app.goo.gl/…"
+              help="In Google Maps: Share → Copy link."
+            />
             <TextField
               label="Map embed (optional)"
               className="md:col-span-2"
@@ -53,16 +100,26 @@ export function ContactEditor({ contact, social }: { contact: Contact; social: S
               onChange={(v) => setC("mapEmbedUrl", v)}
               error={contactError("mapEmbedUrl")}
               optional
-              placeholder='Paste the <iframe …> code from Google Maps → Share → Embed a map'
+              placeholder="Paste the <iframe …> code from Google Maps → Share → Embed a map"
               help="Shows an interactive map (loads only when a visitor taps it, to keep the site fast)."
             />
           </div>
         </Card>
 
-        <Card title="Opening hours" description="Times are in India Standard Time. Switch a day off if you're closed. Leave all days unset to hide hours.">
+        <Card
+          title="Opening hours"
+          description="Times are in India Standard Time. Switch a day off if you're closed. Leave all days unset to hide hours."
+        >
           <HoursEditor value={c.hours} onChange={(hours) => setC("hours", hours)} errors={(p) => contactError(p)} />
           <div className="mt-4">
-            <TextField label="Note" optional value={c.hours.note} onChange={(v) => setC("hours", { ...c.hours, note: v })} maxLength={160} placeholder="e.g. Kitchen closes 30 minutes before closing" />
+            <TextField
+              label="Note"
+              optional
+              value={c.hours.note}
+              onChange={(v) => setC("hours", { ...c.hours, note: v })}
+              maxLength={160}
+              placeholder="e.g. Kitchen closes 30 minutes before closing"
+            />
           </div>
         </Card>
 
@@ -74,7 +131,9 @@ export function ContactEditor({ contact, social }: { contact: Contact; social: S
                 <Select
                   aria-label="Platform"
                   value={link.platform}
-                  onChange={(e) => setLinks(links.map((l, j) => (j === i ? { ...l, platform: e.target.value as typeof link.platform } : l)))}
+                  onChange={(e) =>
+                    setLinks(links.map((l, j) => (j === i ? { ...l, platform: e.target.value as typeof link.platform } : l)))
+                  }
                 >
                   {SOCIAL_PLATFORMS.map((p) => (
                     <option key={p} value={p}>

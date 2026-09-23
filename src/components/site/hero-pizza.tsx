@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  animate,
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-} from "motion/react";
+import { animate, motion, useMotionValue, useReducedMotion, useScroll, useTransform, type MotionValue } from "motion/react";
 import { useEffect, useId, useRef, type RefObject } from "react";
 import { PizzaGraphic } from "@/components/ui/food-art";
 
@@ -165,8 +157,20 @@ export function HeroPizza({ scrollTarget, className }: { scrollTarget: RefObject
           <use href={`#art-${uid}`} />
           <circle cx={C} cy={C} r={R - 12} fill={`url(#gloss-${uid})`} />
         </g>
-        <path d={`M${C} ${C} L${f(pt(PHI + HALF, R - 14)[0])} ${f(pt(PHI + HALF, R - 14)[1])}`} stroke="#9e2a13" strokeWidth="5" strokeLinecap="round" opacity="0.55" />
-        <path d={`M${C} ${C} L${f(pt(PHI - HALF, R - 14)[0])} ${f(pt(PHI - HALF, R - 14)[1])}`} stroke="#9e2a13" strokeWidth="5" strokeLinecap="round" opacity="0.55" />
+        <path
+          d={`M${C} ${C} L${f(pt(PHI + HALF, R - 14)[0])} ${f(pt(PHI + HALF, R - 14)[1])}`}
+          stroke="#9e2a13"
+          strokeWidth="5"
+          strokeLinecap="round"
+          opacity="0.55"
+        />
+        <path
+          d={`M${C} ${C} L${f(pt(PHI - HALF, R - 14)[0])} ${f(pt(PHI - HALF, R - 14)[1])}`}
+          stroke="#9e2a13"
+          strokeWidth="5"
+          strokeLinecap="round"
+          opacity="0.55"
+        />
 
         {/* Cheese strands between the pizza and the slice. */}
         {STRANDS.map((strand, i) => (

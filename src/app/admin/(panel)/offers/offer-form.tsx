@@ -73,7 +73,15 @@ export function OfferForm({
         <div className="flex flex-col gap-6 lg:col-span-2">
           <Card title="Offer details">
             <div className="flex flex-col gap-5">
-              <TextField label="Title" required value={values.title} onChange={(v) => set("title", v)} error={error("title")} maxLength={80} placeholder="e.g. Weekend Duo Deal" />
+              <TextField
+                label="Title"
+                required
+                value={values.title}
+                onChange={(v) => set("title", v)}
+                error={error("title")}
+                maxLength={80}
+                placeholder="e.g. Weekend Duo Deal"
+              />
               <TextField
                 label="Description"
                 multiline
@@ -85,7 +93,15 @@ export function OfferForm({
                 optional
                 help="What's included, and any conditions."
               />
-              <TextField label="Sticker text" optional value={values.badge} onChange={(v) => set("badge", v)} error={error("badge")} maxLength={24} placeholder="e.g. Weekend only" />
+              <TextField
+                label="Sticker text"
+                optional
+                value={values.badge}
+                onChange={(v) => set("badge", v)}
+                error={error("badge")}
+                maxLength={24}
+                placeholder="e.g. Weekend only"
+              />
               <div className="grid gap-5 sm:grid-cols-2">
                 <PriceField label="Offer price" optional value={values.price} onChange={(v) => set("price", v)} error={error("price")} />
                 <PriceField
@@ -101,29 +117,71 @@ export function OfferForm({
           </Card>
           <Card title="Button">
             <div className="flex flex-col gap-5">
-              <TextField label="Button text" required value={values.ctaLabel} onChange={(v) => set("ctaLabel", v)} error={error("ctaLabel")} maxLength={30} />
-              <LinkTargetField label="Button goes to" value={values.ctaTarget} onChange={(v) => set("ctaTarget", v)} options={linkOptions} error={error("ctaTarget.value")} />
+              <TextField
+                label="Button text"
+                required
+                value={values.ctaLabel}
+                onChange={(v) => set("ctaLabel", v)}
+                error={error("ctaLabel")}
+                maxLength={30}
+              />
+              <LinkTargetField
+                label="Button goes to"
+                value={values.ctaTarget}
+                onChange={(v) => set("ctaTarget", v)}
+                options={linkOptions}
+                error={error("ctaTarget.value")}
+              />
             </div>
           </Card>
         </div>
         <div className="flex flex-col gap-6">
           <Card title="Visibility">
             <div className="flex flex-col gap-5">
-              <Switch label="Offer is on" checked={values.isActive} onChange={(v) => set("isActive", v)} description="Switch off to hide it without deleting." />
+              <Switch
+                label="Offer is on"
+                checked={values.isActive}
+                onChange={(v) => set("isActive", v)}
+                description="Switch off to hide it without deleting."
+              />
               <Field label="Starts" optional error={error("startsAt")} help="Leave empty to start straight away.">
-                <Input type="datetime-local" value={values.startsAt} onChange={(e) => set("startsAt", e.target.value)} invalid={Boolean(error("startsAt"))} />
+                <Input
+                  type="datetime-local"
+                  value={values.startsAt}
+                  onChange={(e) => set("startsAt", e.target.value)}
+                  invalid={Boolean(error("startsAt"))}
+                />
               </Field>
               <Field label="Ends" optional error={error("endsAt")} help="Leave empty to run until you switch it off.">
-                <Input type="datetime-local" value={values.endsAt} onChange={(e) => set("endsAt", e.target.value)} invalid={Boolean(error("endsAt"))} />
+                <Input
+                  type="datetime-local"
+                  value={values.endsAt}
+                  onChange={(e) => set("endsAt", e.target.value)}
+                  invalid={Boolean(error("endsAt"))}
+                />
               </Field>
             </div>
           </Card>
           <Card title="Image">
-            <MediaPicker label="Offer image" optional value={values.imageId} preview={imagePreview} onChange={(id) => set("imageId", id)} help="Landscape or square images work best." />
+            <MediaPicker
+              label="Offer image"
+              optional
+              value={values.imageId}
+              preview={imagePreview}
+              onChange={(id) => set("imageId", id)}
+              help="Landscape or square images work best."
+            />
           </Card>
         </div>
       </div>
-      <SaveBar dirty={form.dirty} saving={form.saving} onSave={() => form.submit()} onDiscard={() => form.reset()} savedAt={form.savedAt} saveLabel={offerId ? "Save offer" : "Add offer"} />
+      <SaveBar
+        dirty={form.dirty}
+        saving={form.saving}
+        onSave={() => form.submit()}
+        onDiscard={() => form.reset()}
+        savedAt={form.savedAt}
+        saveLabel={offerId ? "Save offer" : "Add offer"}
+      />
     </form>
   );
 }

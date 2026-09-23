@@ -11,7 +11,10 @@ for (const width of WIDTHS) {
     for (const path of PUBLIC_PAGES) {
       await page.goto(path);
       await page.waitForLoadState("networkidle");
-      const { scrollWidth, innerWidth } = await page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, innerWidth: window.innerWidth }));
+      const { scrollWidth, innerWidth } = await page.evaluate(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        innerWidth: window.innerWidth,
+      }));
       expect(scrollWidth, `${path} overflows at ${width}px`).toBeLessThanOrEqual(innerWidth);
     }
   });
@@ -23,7 +26,10 @@ test("admin pages fit on small phones", async ({ page }) => {
     await page.setViewportSize({ width, height: 800 });
     for (const path of ADMIN_PAGES) {
       await page.goto(path);
-      const { scrollWidth, innerWidth } = await page.evaluate(() => ({ scrollWidth: document.documentElement.scrollWidth, innerWidth: window.innerWidth }));
+      const { scrollWidth, innerWidth } = await page.evaluate(() => ({
+        scrollWidth: document.documentElement.scrollWidth,
+        innerWidth: window.innerWidth,
+      }));
       expect(scrollWidth, `${path} overflows at ${width}px`).toBeLessThanOrEqual(innerWidth);
     }
   }

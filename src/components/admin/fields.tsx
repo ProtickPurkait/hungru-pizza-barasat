@@ -3,15 +3,7 @@
 import { clsx } from "clsx";
 import { Plus, Trash2 } from "lucide-react";
 import { useId } from "react";
-import {
-  DAYS,
-  DAY_LABELS,
-  HOMEPAGE_ANCHORS,
-  LINK_TARGET_TYPES,
-  type Day,
-  type LinkTarget,
-  type OpeningHours,
-} from "@/lib/content/schemas";
+import { DAYS, DAY_LABELS, HOMEPAGE_ANCHORS, LINK_TARGET_TYPES, type Day, type LinkTarget, type OpeningHours } from "@/lib/content/schemas";
 import { Button, Field, IconButton, Input, Select, Switch } from "./ui";
 
 /* ───────────────────────── Link target ───────────────────────── */
@@ -79,7 +71,12 @@ export function LinkTargetField({
           ))}
         </Select>
         {value.type === "category" && (
-          <Select aria-label="Category" value={value.value} onChange={(e) => onChange({ ...value, value: e.target.value })} invalid={Boolean(error)}>
+          <Select
+            aria-label="Category"
+            value={value.value}
+            onChange={(e) => onChange({ ...value, value: e.target.value })}
+            invalid={Boolean(error)}
+          >
             {options.categories.map((c) => (
               <option key={c.slug} value={c.slug}>
                 {c.name}
@@ -88,7 +85,12 @@ export function LinkTargetField({
           </Select>
         )}
         {value.type === "product" && (
-          <Select aria-label="Menu item" value={value.value} onChange={(e) => onChange({ ...value, value: e.target.value })} invalid={Boolean(error)}>
+          <Select
+            aria-label="Menu item"
+            value={value.value}
+            onChange={(e) => onChange({ ...value, value: e.target.value })}
+            invalid={Boolean(error)}
+          >
             {options.products.length === 0 && <option value="">No menu items yet</option>}
             {options.products.map((p) => (
               <option key={p.slug} value={p.slug}>
@@ -167,7 +169,9 @@ export function HoursEditor({
                   hideLabel
                   label={`${DAY_LABELS[day]} open`}
                   checked={!d.closed}
-                  onChange={(open) => setDay(day, { closed: !open, ranges: open && d.ranges.length === 0 ? [{ open: "11:00", close: "23:00" }] : d.ranges })}
+                  onChange={(open) =>
+                    setDay(day, { closed: !open, ranges: open && d.ranges.length === 0 ? [{ open: "11:00", close: "23:00" }] : d.ranges })
+                  }
                 />
               </div>
             </div>
@@ -177,7 +181,9 @@ export function HoursEditor({
                 hideLabel
                 label={`${DAY_LABELS[day]} open`}
                 checked={!d.closed}
-                onChange={(open) => setDay(day, { closed: !open, ranges: open && d.ranges.length === 0 ? [{ open: "11:00", close: "23:00" }] : d.ranges })}
+                onChange={(open) =>
+                  setDay(day, { closed: !open, ranges: open && d.ranges.length === 0 ? [{ open: "11:00", close: "23:00" }] : d.ranges })
+                }
               />
             </div>
             <div className="flex flex-1 flex-col gap-2">
@@ -225,9 +231,7 @@ export function HoursEditor({
                   </div>
                 ))
               )}
-              {errors(`hours.days.${day}.ranges.0`) && (
-                <p className="text-sm text-red-600">{errors(`hours.days.${day}.ranges.0`)}</p>
-              )}
+              {errors(`hours.days.${day}.ranges.0`) && <p className="text-sm text-red-600">{errors(`hours.days.${day}.ranges.0`)}</p>}
               {!d.closed && d.ranges.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {d.ranges.length < 3 && (
@@ -296,7 +300,14 @@ export function ColorField({
           onChange={(e) => onChange(e.target.value.toUpperCase())}
           className="h-11 w-14 shrink-0 cursor-pointer rounded-lg border border-stone-300 bg-white p-1"
         />
-        <Input id={id} value={value} onChange={(e) => onChange(e.target.value)} invalid={Boolean(error)} className="font-mono uppercase" maxLength={7} />
+        <Input
+          id={id}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          invalid={Boolean(error)}
+          className="font-mono uppercase"
+          maxLength={7}
+        />
       </div>
       {ratio !== null && ratio > 0 && (
         <p className={clsx("text-xs", ratio >= 4.5 ? "text-emerald-700" : ratio >= 3 ? "text-amber-700" : "text-red-600")}>

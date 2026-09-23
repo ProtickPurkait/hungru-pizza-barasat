@@ -75,7 +75,14 @@ export function HomepageEditor({
         <Card title="Hero" description="The big first screen. Keep the headline short and punchy.">
           <div className="grid gap-6 lg:grid-cols-5">
             <div className="flex flex-col gap-5 lg:col-span-3">
-              <TextField label="Sticker text" optional value={h.badge} onChange={(v) => setHero("badge", v)} error={error("hero.badge")} maxLength={60} />
+              <TextField
+                label="Sticker text"
+                optional
+                value={h.badge}
+                onChange={(v) => setHero("badge", v)}
+                error={error("hero.badge")}
+                maxLength={60}
+              />
               <TextField
                 label="Headline"
                 required
@@ -85,12 +92,22 @@ export function HomepageEditor({
                 maxLength={90}
                 help="Tip: wrap a word in *asterisks* to highlight it, e.g. Pizza that *hits* different."
               />
-              <TextField label="Supporting text" multiline rows={3} value={h.subtext} onChange={(v) => setHero("subtext", v)} error={error("hero.subtext")} maxLength={280} />
+              <TextField
+                label="Supporting text"
+                multiline
+                rows={3}
+                value={h.subtext}
+                onChange={(v) => setHero("subtext", v)}
+                error={error("hero.subtext")}
+                maxLength={280}
+              />
             </div>
             <div className="lg:col-span-2">
               <p className="mb-1.5 text-sm font-semibold text-stone-800">Preview</p>
               <div className="grain overflow-hidden rounded-xl bg-ink p-5 text-cream">
-                {h.badge && <span className="inline-block -rotate-2 rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-ink">{h.badge}</span>}
+                {h.badge && (
+                  <span className="inline-block -rotate-2 rounded-full bg-accent px-2.5 py-1 text-xs font-bold text-ink">{h.badge}</span>
+                )}
                 <p className="font-display mt-3 text-4xl leading-[0.9] uppercase">
                   <Highlighted text={h.headline || "Your headline"} />
                 </p>
@@ -105,12 +122,38 @@ export function HomepageEditor({
 
           <div className="mt-6 grid gap-5 border-t border-stone-100 pt-6 md:grid-cols-2">
             <div className="flex flex-col gap-4">
-              <TextField label="Main button text" required value={h.primaryCta.label} onChange={(v) => setHero("primaryCta", { ...h.primaryCta, label: v })} error={error("hero.primaryCta.label")} maxLength={40} />
-              <LinkTargetField label="Main button goes to" value={h.primaryCta.target} onChange={(target) => setHero("primaryCta", { ...h.primaryCta, target })} options={linkOptions} error={error("hero.primaryCta.target.value")} />
+              <TextField
+                label="Main button text"
+                required
+                value={h.primaryCta.label}
+                onChange={(v) => setHero("primaryCta", { ...h.primaryCta, label: v })}
+                error={error("hero.primaryCta.label")}
+                maxLength={40}
+              />
+              <LinkTargetField
+                label="Main button goes to"
+                value={h.primaryCta.target}
+                onChange={(target) => setHero("primaryCta", { ...h.primaryCta, target })}
+                options={linkOptions}
+                error={error("hero.primaryCta.target.value")}
+              />
             </div>
             <div className="flex flex-col gap-4">
-              <TextField label="Second button text" required value={h.secondaryCta.label} onChange={(v) => setHero("secondaryCta", { ...h.secondaryCta, label: v })} error={error("hero.secondaryCta.label")} maxLength={40} />
-              <LinkTargetField label="Second button goes to" value={h.secondaryCta.target} onChange={(target) => setHero("secondaryCta", { ...h.secondaryCta, target })} options={linkOptions} error={error("hero.secondaryCta.target.value")} />
+              <TextField
+                label="Second button text"
+                required
+                value={h.secondaryCta.label}
+                onChange={(v) => setHero("secondaryCta", { ...h.secondaryCta, label: v })}
+                error={error("hero.secondaryCta.label")}
+                maxLength={40}
+              />
+              <LinkTargetField
+                label="Second button goes to"
+                value={h.secondaryCta.target}
+                onChange={(target) => setHero("secondaryCta", { ...h.secondaryCta, target })}
+                options={linkOptions}
+                error={error("hero.secondaryCta.target.value")}
+              />
             </div>
           </div>
 
@@ -132,7 +175,13 @@ export function HomepageEditor({
                       h.media.type === type ? "border-stone-900 bg-stone-50" : "border-stone-200 hover:border-stone-300",
                     )}
                   >
-                    <input type="radio" name="hero-media" className="sr-only" checked={h.media.type === type} onChange={() => setHero("media", { ...h.media, type })} />
+                    <input
+                      type="radio"
+                      name="hero-media"
+                      className="sr-only"
+                      checked={h.media.type === type}
+                      onChange={() => setHero("media", { ...h.media, type })}
+                    />
                     <span className="block font-semibold">{label}</span>
                     <span className="block text-sm text-stone-500">{desc}</span>
                   </label>
@@ -173,7 +222,10 @@ export function HomepageEditor({
           </div>
         </Card>
 
-        <Card title="Sections" description="Drag to reorder. Switch off any section you don't want. Sections with no content (e.g. no offers) hide automatically.">
+        <Card
+          title="Sections"
+          description="Drag to reorder. Switch off any section you don't want. Sections with no content (e.g. no offers) hide automatically."
+        >
           <SortableList
             items={hp.sections}
             getId={(s) => s.key}
@@ -182,11 +234,21 @@ export function HomepageEditor({
             renderItem={(section, { handle }) => {
               const link = SECTION_LINKS[section.key];
               return (
-                <div className={clsx("flex items-center gap-2 rounded-xl border bg-white py-1.5 pr-3 pl-1", section.enabled ? "border-stone-200" : "border-dashed border-stone-300 bg-stone-50")}>
+                <div
+                  className={clsx(
+                    "flex items-center gap-2 rounded-xl border bg-white py-1.5 pr-3 pl-1",
+                    section.enabled ? "border-stone-200" : "border-dashed border-stone-300 bg-stone-50",
+                  )}
+                >
                   {handle}
-                  <span className={clsx("flex-1 font-semibold", !section.enabled && "text-stone-400")}>{HOMEPAGE_SECTION_LABELS[section.key]}</span>
+                  <span className={clsx("flex-1 font-semibold", !section.enabled && "text-stone-400")}>
+                    {HOMEPAGE_SECTION_LABELS[section.key]}
+                  </span>
                   {link && (
-                    <Link href={link.href} className="hidden items-center gap-1 text-sm font-medium text-blue-700 hover:underline sm:inline-flex">
+                    <Link
+                      href={link.href}
+                      className="hidden items-center gap-1 text-sm font-medium text-blue-700 hover:underline sm:inline-flex"
+                    >
                       {link.label} <ArrowUpRight className="size-3.5" aria-hidden />
                     </Link>
                   )}
@@ -195,7 +257,12 @@ export function HomepageEditor({
                     hideLabel
                     label={`Show ${HOMEPAGE_SECTION_LABELS[section.key]}`}
                     checked={section.enabled}
-                    onChange={(enabled) => setHome("sections", hp.sections.map((s) => (s.key === section.key ? { ...s, enabled } : s)))}
+                    onChange={(enabled) =>
+                      setHome(
+                        "sections",
+                        hp.sections.map((s) => (s.key === section.key ? { ...s, enabled } : s)),
+                      )
+                    }
                   />
                 </div>
               );
@@ -206,7 +273,10 @@ export function HomepageEditor({
         <Card title="Scrolling marquee" description="Short words that scroll across the band under the hero.">
           <ul className="flex flex-wrap gap-2">
             {hp.marquee.items.map((word, i) => (
-              <li key={`${word}-${i}`} className="flex items-center gap-1 rounded-full bg-stone-900 py-1 pr-1 pl-3 text-sm font-semibold text-white">
+              <li
+                key={`${word}-${i}`}
+                className="flex items-center gap-1 rounded-full bg-stone-900 py-1 pr-1 pl-3 text-sm font-semibold text-white"
+              >
                 {word}
                 <button
                   type="button"
@@ -262,9 +332,29 @@ export function HomepageEditor({
                   <span className="text-sm font-medium text-blue-700 group-open:hidden">Edit</span>
                 </summary>
                 <div className="mt-4 grid gap-4 sm:grid-cols-2">
-                  <TextField label="Small label" value={hp[key].eyebrow} onChange={(v) => setHome(key, { ...hp[key], eyebrow: v })} maxLength={40} error={error(`homepage.${key}.eyebrow`)} />
-                  <TextField label="Heading" value={hp[key].heading} onChange={(v) => setHome(key, { ...hp[key], heading: v })} maxLength={90} error={error(`homepage.${key}.heading`)} />
-                  <TextField label="Intro text" optional className="sm:col-span-2" value={hp[key].subtext} onChange={(v) => setHome(key, { ...hp[key], subtext: v })} maxLength={280} error={error(`homepage.${key}.subtext`)} />
+                  <TextField
+                    label="Small label"
+                    value={hp[key].eyebrow}
+                    onChange={(v) => setHome(key, { ...hp[key], eyebrow: v })}
+                    maxLength={40}
+                    error={error(`homepage.${key}.eyebrow`)}
+                  />
+                  <TextField
+                    label="Heading"
+                    value={hp[key].heading}
+                    onChange={(v) => setHome(key, { ...hp[key], heading: v })}
+                    maxLength={90}
+                    error={error(`homepage.${key}.heading`)}
+                  />
+                  <TextField
+                    label="Intro text"
+                    optional
+                    className="sm:col-span-2"
+                    value={hp[key].subtext}
+                    onChange={(v) => setHome(key, { ...hp[key], subtext: v })}
+                    maxLength={280}
+                    error={error(`homepage.${key}.subtext`)}
+                  />
                 </div>
               </details>
             ))}
@@ -273,9 +363,27 @@ export function HomepageEditor({
 
         <Card title="Final call to action" description="The big closing banner at the bottom of the homepage.">
           <div className="grid gap-5 md:grid-cols-2">
-            <TextField label="Heading" value={hp.finalCta.heading} onChange={(v) => setHome("finalCta", { ...hp.finalCta, heading: v })} maxLength={90} error={error("homepage.finalCta.heading")} />
-            <TextField label="Supporting text" optional value={hp.finalCta.subtext} onChange={(v) => setHome("finalCta", { ...hp.finalCta, subtext: v })} maxLength={200} />
-            <TextField label="Button text" value={hp.finalCta.cta.label} onChange={(v) => setHome("finalCta", { ...hp.finalCta, cta: { ...hp.finalCta.cta, label: v } })} maxLength={40} error={error("homepage.finalCta.cta.label")} />
+            <TextField
+              label="Heading"
+              value={hp.finalCta.heading}
+              onChange={(v) => setHome("finalCta", { ...hp.finalCta, heading: v })}
+              maxLength={90}
+              error={error("homepage.finalCta.heading")}
+            />
+            <TextField
+              label="Supporting text"
+              optional
+              value={hp.finalCta.subtext}
+              onChange={(v) => setHome("finalCta", { ...hp.finalCta, subtext: v })}
+              maxLength={200}
+            />
+            <TextField
+              label="Button text"
+              value={hp.finalCta.cta.label}
+              onChange={(v) => setHome("finalCta", { ...hp.finalCta, cta: { ...hp.finalCta.cta, label: v } })}
+              maxLength={40}
+              error={error("homepage.finalCta.cta.label")}
+            />
             <LinkTargetField
               label="Button goes to"
               value={hp.finalCta.cta.target}

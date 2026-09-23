@@ -14,11 +14,7 @@ export const checkoutSchema = z
   .object({
     fulfillment: z.enum(["delivery", "pickup"]),
     name: z.string().trim().min(2, "Please enter your name").max(60, "That name is too long"),
-    phone: z
-      .string()
-      .trim()
-      .max(20)
-      .refine(isValidPhone, "Enter a valid mobile number so we can reach you"),
+    phone: z.string().trim().max(20).refine(isValidPhone, "Enter a valid mobile number so we can reach you"),
     address: z.string().trim().max(300, "Please shorten the address").default(""),
     notes: z.string().trim().max(300, "Please keep notes under 300 characters").default(""),
     /** Honeypot: real people never fill this in. */
@@ -62,14 +58,16 @@ export async function placeOrder(input: z.output<typeof checkoutSchema>, site: S
   const { content, live, mode } = site;
   const { ordering } = content;
 
-  if (mode === "preview") throw new CheckoutError("You're in preview mode, so ordering is switched off. Exit preview to place a real order.");
+  if (mode === "preview")
+    throw new CheckoutError("You're in preview mode, so ordering is switched off. Exit preview to place a real order.");
   if (ordering.mode !== "native" && ordering.mode !== "whatsapp") throw new CheckoutError("Online ordering isn't available right now.");
   if (live.ordersPaused) throw new CheckoutError(live.pausedMessage);
   if (input.fulfillment === "delivery" && !ordering.delivery) throw new CheckoutError("Delivery isn't available. Please choose pickup.");
   if (input.fulfillment === "pickup" && !ordering.pickup) throw new CheckoutError("Pickup isn't available. Please choose delivery.");
 
   const whatsappNumber = ordering.whatsappNumber || content.contact.whatsapp;
-  if (ordering.mode === "whatsapp" && !whatsappNumber) throw new CheckoutError("WhatsApp ordering isn't set up yet. Please call the restaurant.");
+  if (ordering.mode === "whatsapp" && !whatsappNumber)
+    throw new CheckoutError("WhatsApp ordering isn't set up yet. Please call the restaurant.");
 
   const [recent] = await db
     .select({ n: count() })

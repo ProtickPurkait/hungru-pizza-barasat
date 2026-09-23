@@ -85,7 +85,10 @@ describe("structured data", () => {
   });
   it("adds contact details when present", () => {
     const c = content();
-    const data = restaurantJsonLd(content({ contact: { ...c.contact, phone: "+91 98765 43210", address: "Line 1\nBarasat" } }), "https://example.com");
+    const data = restaurantJsonLd(
+      content({ contact: { ...c.contact, phone: "+91 98765 43210", address: "Line 1\nBarasat" } }),
+      "https://example.com",
+    );
     expect(data.telephone).toBe("+91 98765 43210");
     expect(data.address).toMatchObject({ streetAddress: "Line 1, Barasat" });
   });

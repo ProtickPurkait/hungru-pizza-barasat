@@ -24,6 +24,9 @@ export function menuCard(page: Page, name: string) {
 
 export async function openProduct(page: Page, name: string) {
   await page.goto("/admin/menu");
-  await page.getByRole("link", { name: new RegExp(name) }).first().click();
+  await page
+    .getByRole("link", { name: new RegExp(name) })
+    .first()
+    .click();
   await page.waitForURL(/\/admin\/menu\/[0-9a-f-]{36}/);
 }
