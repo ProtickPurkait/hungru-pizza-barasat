@@ -6,14 +6,18 @@ import { OrderStatusTracker } from "@/components/site/order-status";
 import { VegMark } from "@/components/ui/veg-mark";
 import { getSiteData } from "@/lib/content/get-site-content";
 import { formatINR } from "@/lib/money";
+import { DEMO_ORDER_TOKEN, decodeDemoOrder } from "@/lib/ordering/demo-order";
 import { findOrderByToken } from "@/lib/ordering/lookup";
 import { buildOrderMessage, whatsappLink } from "@/lib/ordering/whatsapp";
 
 export const metadata: Metadata = { title: "Your order", robots: { index: false, follow: false } };
 
-export default async function OrderPage({ params }: PageProps<"/order/[token]">) {
+export default async function OrderPage({ params, searchParams }: PageProps<"/order/[token]">) {
   const { token } = await params;
-  const [order, { content }] = await Promise.all([findOrderByToken(token), getSiteData()]);
+  const { content, mode } = await getSiteData();
+  const demo = mode === "demo";
+  // The design preview stores nothing: its sample order arrives in the URL (see lib/ordering/demo-order.ts).
+  const order = demo ? (token === DEMO_ORDER_TOKEN ? decodeDemoOrder((await searchParams).o) : null) : await findOrderByToken(token);
   if (!order) notFound();
 
   const { brand, contact, ordering } = content;
@@ -43,6 +47,11 @@ export default async function OrderPage({ params }: PageProps<"/order/[token]">)
 
   return (
     <div className="mx-auto max-w-3xl px-4 pt-8 pb-20 sm:px-6">
+      {demo && (
+        <p role="note" className="mb-6 rounded-2xl bg-accent/40 px-4 py-3 font-bold ring-1 ring-accent">
+          Design preview: this order was not sent to the restaurant.
+        </p>
+      )}
       <div className="grain relative overflow-hidden rounded-[2rem] bg-ink p-6 text-cream ring-2 ring-ink shadow-[6px_6px_0_0_var(--brand-primary)] sm:p-10">
         <p
           className="enter-pop inline-flex rounded-full bg-accent px-3 py-1 text-xs font-extrabold tracking-[0.18em] text-ink uppercase"
@@ -90,6 +99,7 @@ export default async function OrderPage({ params }: PageProps<"/order/[token]">)
           fulfillment={order.fulfillment}
           total={order.total}
           reference={order.reference}
+          polling={!demo}
         />
       </div>
 

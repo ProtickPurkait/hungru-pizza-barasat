@@ -4,6 +4,7 @@ import { db } from "@/db";
 import { media } from "@/db/schema";
 import { renderIcon } from "@/lib/media/process";
 import { readStoredFile } from "@/lib/media/storage";
+import { demoModeResponse } from "@/lib/demo-guard";
 
 export const runtime = "nodejs";
 
@@ -19,6 +20,8 @@ const baseHeaders = {
 
 /** Serves uploaded media. Files are immutable, so they're cached for a year. Supports Range for video. */
 export async function GET(request: NextRequest, ctx: RouteContext<"/media/[id]/[file]">) {
+  const unavailable = demoModeResponse();
+  if (unavailable) return unavailable;
   const { id, file } = await ctx.params;
   if (!UUID.test(id)) return new NextResponse("Not found", { status: 404 });
 

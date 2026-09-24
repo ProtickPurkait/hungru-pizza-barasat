@@ -23,4 +23,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
   plain shared constants in `src/lib/content/constants.ts`; `import type` from `schemas.ts` is fine.
 - Fonts: fallback faces in `globals.css` are metric-matched to the real fonts (incl. the condensed display width), so
   the swap doesn't shift layout. If you change a font, weight or `wdth`, re-measure the `size-adjust` values.
+- `DEMO_MODE=true` (Netlify design preview) skips the database entirely: content comes from
+  `src/lib/content/demo-content.ts`, checkout uses `priceOrder` without saving, admin/DB routes are unavailable.
+  New content fields get their demo value from schema defaults; keep `npm run test:e2e:demo` passing.
 - Checks: `npm run lint && npm run typecheck && npm test && npm run test:e2e` (e2e needs Postgres; see README).

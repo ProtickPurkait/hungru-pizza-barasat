@@ -9,6 +9,7 @@ import { count, eq } from "drizzle-orm";
 import * as t from "../src/db/schema";
 import { demoMenu } from "../src/db/seed-data/demo-menu";
 import { realMenu } from "../src/db/seed-data/menu";
+import { sampleFeatures, sampleOffer, sampleReviews } from "../src/db/seed-data/samples";
 import type { MenuSeed } from "../src/db/seed-data/types";
 import { publishContent } from "../src/lib/content/publish";
 import { slugify } from "../src/lib/slug";
@@ -70,45 +71,19 @@ async function main() {
 
   const [{ n: featureCount }] = await db.select({ n: count() }).from(t.features);
   if (featureCount === 0) {
-    const sample = (topic: string) => `Sample text: tell customers about your ${topic}. Replace this in Admin → Why Hungru.`;
-    await db.insert(t.features).values([
-      { title: "Freshness", description: sample("ingredients and freshness"), icon: "leaf", isSample: true, sortOrder: 0 },
-      { title: "Flavour", description: sample("signature flavours"), icon: "flame", isSample: true, sortOrder: 1 },
-      { title: "Value", description: sample("pricing and portions"), icon: "badge-percent", isSample: true, sortOrder: 2 },
-      { title: "Preparation", description: sample("kitchen and how every pizza is made"), icon: "chef-hat", isSample: true, sortOrder: 3 },
-    ]);
+    await db.insert(t.features).values(sampleFeatures.map((f, i) => ({ ...f, isSample: true, sortOrder: i })));
     console.log("✓ Why Hungru: 4 SAMPLE points (marked as sample until replaced)");
   }
 
   const [{ n: reviewCount }] = await db.select({ n: count() }).from(t.reviews);
   if (reviewCount === 0) {
-    const text =
-      "Placeholder review: paste a real customer review here (from Google, Zomato, Instagram or in person). Edit in Admin → Reviews.";
-    await db
-      .insert(t.reviews)
-      .values(
-        [0, 1, 2].map((i) => ({
-          authorName: `Sample reviewer ${i + 1}`,
-          content: text,
-          source: "Placeholder",
-          isSample: true,
-          sortOrder: i,
-        })),
-      );
+    await db.insert(t.reviews).values(sampleReviews.map((r, i) => ({ ...r, isSample: true, sortOrder: i })));
     console.log("✓ Reviews: 3 PLACEHOLDER reviews (marked as sample until replaced)");
   }
 
   const [{ n: offerCount }] = await db.select({ n: count() }).from(t.offers);
   if (offerCount === 0) {
-    await db.insert(t.offers).values({
-      title: "Your first offer",
-      description: "Sample offer: describe a real deal here, then switch it on. Offers stay hidden until you activate them.",
-      badge: "Sample",
-      ctaLabel: "Order now",
-      ctaTarget: { type: "menu", value: "" },
-      isActive: false,
-      isSample: true,
-    });
+    await db.insert(t.offers).values({ ...sampleOffer, isActive: false, isSample: true });
     console.log("✓ Offers: 1 inactive SAMPLE offer to edit");
   }
 

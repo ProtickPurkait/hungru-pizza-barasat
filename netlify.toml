@@ -1,0 +1,14 @@
+# Netlify builds Next.js with its official adapter (detected automatically).
+#
+# DEMO_MODE=true serves the no-database design preview: built-in SAMPLE menu, checkout shows a confirmation
+# without saving anything, admin unavailable, hidden from search engines.
+# To go live: delete DEMO_MODE below and set DATABASE_URL + NEXT_PUBLIC_SITE_URL in
+# Netlify → Site configuration → Environment variables (see README → Deployment).
+
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  DEMO_MODE = "true"

@@ -14,12 +14,15 @@ export function OrderStatusTracker({
   fulfillment,
   total,
   reference,
+  polling = true,
 }: {
   token: string;
   initialStatus: OrderStatus;
   fulfillment: "delivery" | "pickup";
   total: number;
   reference: string;
+  /** Poll the server for status changes (off for the design preview, which saves nothing). */
+  polling?: boolean;
 }) {
   const [status, setStatus] = useState<OrderStatus>(initialStatus);
   const clear = useCart((s) => s.clear);
@@ -41,7 +44,7 @@ export function OrderStatusTracker({
   }, [clear, token, total, reference]);
 
   useEffect(() => {
-    if (status === "completed" || status === "cancelled") return;
+    if (!polling || status === "completed" || status === "cancelled") return;
     const id = setInterval(async () => {
       if (document.visibilityState !== "visible") return;
       try {
@@ -55,7 +58,7 @@ export function OrderStatusTracker({
       }
     }, 20_000);
     return () => clearInterval(id);
-  }, [status, token]);
+  }, [polling, status, token]);
 
   const steps: OrderStatus[] =
     fulfillment === "delivery"

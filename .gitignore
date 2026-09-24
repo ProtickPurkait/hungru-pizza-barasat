@@ -48,3 +48,6 @@ next-env.d.ts
 /test-results/
 /playwright-report/
 /tests/e2e/.auth/
+
+# Netlify local build output
+.netlify

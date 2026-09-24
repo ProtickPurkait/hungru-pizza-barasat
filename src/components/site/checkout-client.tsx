@@ -165,7 +165,7 @@ function CheckoutForm() {
       if (result.ok) {
         saveDetails(details);
         clear();
-        router.push(`/order/${result.token}`);
+        router.push(result.href);
       } else {
         setErrors(result.fieldErrors ?? {});
         setFormError(result.message);
@@ -325,6 +325,11 @@ function CheckoutForm() {
         )}
         {live.ordersPaused && <p className="rounded-2xl bg-accent/40 px-4 py-3 font-bold">{live.pausedMessage}</p>}
         {siteMode === "preview" && <p className="text-sm font-semibold text-ink/60">Preview mode: placing orders is disabled.</p>}
+        {siteMode === "demo" && (
+          <p className="rounded-2xl bg-accent/30 px-4 py-3 text-sm font-semibold ring-1 ring-accent">
+            Design preview: your order won&apos;t be sent anywhere, so there&apos;s no need to enter real details.
+          </p>
+        )}
 
         <div className="fixed inset-x-0 bottom-0 z-30 border-t-2 border-ink/10 bg-cream/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur lg:static lg:border-0 lg:bg-transparent lg:p-0">
           <button

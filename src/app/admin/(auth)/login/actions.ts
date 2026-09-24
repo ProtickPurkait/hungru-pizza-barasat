@@ -8,6 +8,7 @@ import { adminUsers } from "@/db/schema";
 import { burnPasswordCheck, verifyPassword } from "@/lib/auth/password";
 import { isLoginBlocked, recordLoginAttempt } from "@/lib/auth/rate-limit";
 import { createSession, destroySession, requestMeta } from "@/lib/auth/session";
+import { isDemoMode } from "@/lib/env";
 
 const loginSchema = z.object({
   email: z.string().trim().toLowerCase().max(200),
@@ -23,6 +24,7 @@ function safeNext(next: string | undefined) {
 }
 
 export async function login(_prev: LoginState, formData: FormData): Promise<LoginState> {
+  if (isDemoMode()) return { error: "The admin isn't available in the design preview." };
   const parsed = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),

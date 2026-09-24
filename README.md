@@ -94,6 +94,27 @@ Nothing loads or tracks until an ID is set. Events are sent from `src/lib/analyt
 
 ## Deployment
 
+### Design preview on Netlify (no database)
+
+To review the look and flow before setting up a database, deploy with `DEMO_MODE=true` (already set in
+`netlify.toml`):
+
+1. In Netlify, choose **Add new site → Import an existing project → GitHub** and pick this repository and branch.
+2. Keep the detected settings (build `npm run build`, publish `.next`) and click **Deploy**. No environment variables
+   are needed.
+
+In the preview:
+
+- The site uses the built-in **SAMPLE** menu and placeholder text (all labelled), with a "Design preview" bar on top.
+- Checkout prices orders on the server as usual, then shows the confirmation page **without saving or sending
+  anything**.
+- `/admin` explains that it needs a database.
+- Search engines are told not to index the site.
+
+**Going live later:** remove `DEMO_MODE` from `netlify.toml`, set `DATABASE_URL` and `NEXT_PUBLIC_SITE_URL` in
+Netlify → Site configuration → Environment variables, run the one-time setup commands below against that database,
+and redeploy.
+
 ### Vercel + Neon (recommended)
 
 1. Create a Postgres database (e.g. Neon) and copy its connection string.
@@ -136,6 +157,7 @@ Either type it into **Admin → Menu items**, or fill `src/db/seed-data/menu.ts`
 | `npm run lint` · `typecheck` · `format` | Code quality                                                           |
 | `npm test`                              | Unit tests (Vitest)                                                    |
 | `npm run test:e2e`                      | End-to-end tests (Playwright; resets `hungru_test` database)           |
+| `npm run test:e2e:demo`                 | End-to-end tests of the no-database design preview (`DEMO_MODE=true`)  |
 
 ## Testing
 

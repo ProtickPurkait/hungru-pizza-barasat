@@ -52,9 +52,9 @@ const RATE_MAX_ORDERS = 5;
 
 /**
  * Validates and prices an order entirely on the server, against the published menu and live
- * availability. Client-side prices are never trusted.
+ * availability. Client-side prices are never trusted. Touches no database.
  */
-export async function placeOrder(input: z.output<typeof checkoutSchema>, site: SiteData, ip: string) {
+export function priceOrder(input: z.output<typeof checkoutSchema>, site: SiteData) {
   const { content, live, mode } = site;
   const { ordering } = content;
 
@@ -68,14 +68,6 @@ export async function placeOrder(input: z.output<typeof checkoutSchema>, site: S
   const whatsappNumber = ordering.whatsappNumber || content.contact.whatsapp;
   if (ordering.mode === "whatsapp" && !whatsappNumber)
     throw new CheckoutError("WhatsApp ordering isn't set up yet. Please call the restaurant.");
-
-  const [recent] = await db
-    .select({ n: count() })
-    .from(orders)
-    .where(and(eq(orders.ip, ip), gt(orders.createdAt, new Date(Date.now() - RATE_WINDOW_MS))));
-  if ((recent?.n ?? 0) >= RATE_MAX_ORDERS) {
-    throw new CheckoutError("You've placed several orders in a short time. Please wait a few minutes, or call us.");
-  }
 
   const byId = new Map(content.products.map((p) => [p.id, p]));
   const items: OrderItem[] = [];
@@ -117,17 +109,34 @@ export async function placeOrder(input: z.output<typeof checkoutSchema>, site: S
   if (ordering.minOrder !== null && totals.total - totals.deliveryFee < ordering.minOrder) {
     throw new CheckoutError(`The minimum order is ${formatINR(ordering.minOrder)}.`);
   }
+  return { items, totals, channel: ordering.mode };
+}
+
+export type PricedOrder = ReturnType<typeof priceOrder>;
+
+/** Prices the order (see `priceOrder`), applies the per-IP rate limit and saves it. */
+export async function placeOrder(input: z.output<typeof checkoutSchema>, site: SiteData, ip: string) {
+  if (site.mode === "demo") throw new CheckoutError("Orders can't be saved in the design preview.");
+  const { items, totals, channel } = priceOrder(input, site);
+
+  const [recent] = await db
+    .select({ n: count() })
+    .from(orders)
+    .where(and(eq(orders.ip, ip), gt(orders.createdAt, new Date(Date.now() - RATE_WINDOW_MS))));
+  if ((recent?.n ?? 0) >= RATE_MAX_ORDERS) {
+    throw new CheckoutError("You've placed several orders in a short time. Please wait a few minutes, or call us.");
+  }
 
   const [{ next }] = await db.execute<{ next: string }>(sql`select nextval('order_number_seq')::text as next`).then((r) => r.rows);
   const number = Number(next);
-  const reference = `${ordering.orderPrefix}-${number}`;
+  const reference = `${site.content.ordering.orderPrefix}-${number}`;
   const publicToken = randomBytes(18).toString("base64url");
 
   await db.insert(orders).values({
     number,
     reference,
     publicToken,
-    channel: ordering.mode,
+    channel,
     fulfillment: input.fulfillment,
     customerName: input.name,
     customerPhone: input.phone,

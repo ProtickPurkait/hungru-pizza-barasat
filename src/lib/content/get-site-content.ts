@@ -5,8 +5,10 @@ import { connection } from "next/server";
 import { cache } from "react";
 import { db } from "@/db";
 import { getSession } from "@/lib/auth/session";
+import { isDemoMode } from "@/lib/env";
 import { TAG_LIVE, TAG_PUBLISHED } from "./cache-tags";
 import { applyLiveState, compileSiteContent, isOfferLive, loadLiveState } from "./compile";
+import { demoLive, demoSiteContent } from "./demo-content";
 import { getLatestSnapshot } from "./publish";
 import type { SiteContent, SiteData } from "./types";
 
@@ -37,6 +39,8 @@ async function isPreviewing() {
 
 /** Single entry point for everything the public website renders. */
 export const getSiteData = cache(async (): Promise<SiteData> => {
+  // Design preview without a database: built-in sample content, nothing is read or written.
+  if (isDemoMode()) return finalize(demoSiteContent(), demoLive(), "demo", null);
   // Public pages are prerendered and revalidated by tag when content is published. If the build
   // runs without a database (e.g. CI), render them on demand instead of failing the build.
   if (process.env.NEXT_PHASE === "phase-production-build" && !process.env.DATABASE_URL) await connection();

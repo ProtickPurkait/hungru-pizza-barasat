@@ -7,6 +7,7 @@ import { cache } from "react";
 import { db } from "@/db";
 import { adminSessions, adminUsers, type AdminUser } from "@/db/schema";
 import { SESSION_COOKIE_NAMES, sessionCookieName, shouldUseSecureCookies } from "./cookie";
+import { isDemoMode } from "@/lib/env";
 
 const IDLE_TIMEOUT_MS = 7 * 24 * 60 * 60 * 1000; // sign out after 7 days of inactivity
 const ABSOLUTE_TIMEOUT_MS = 30 * 24 * 60 * 60 * 1000; // always sign in again after 30 days
@@ -63,6 +64,7 @@ async function readToken() {
 
 /** Returns the signed-in admin for this request, or null. Memoised per request. */
 export const getSession = cache(async (): Promise<SessionUser | null> => {
+  if (isDemoMode()) return null; // design preview: no database, nobody is signed in
   const token = await readToken();
   if (!token || token.length > 200) return null;
   const now = new Date();

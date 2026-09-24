@@ -2,6 +2,7 @@ import { draftMode } from "next/headers";
 import { redirect } from "next/navigation";
 import type { NextRequest } from "next/server";
 import { getSession } from "@/lib/auth/session";
+import { demoModeResponse } from "@/lib/demo-guard";
 
 function safePath(value: string | null) {
   if (!value || !value.startsWith("/") || value.startsWith("//") || value.includes("\\") || value.startsWith("/admin")) return "/";
@@ -10,6 +11,8 @@ function safePath(value: string | null) {
 
 /** Turns on preview mode for signed-in admins, then shows the site with unpublished changes. */
 export async function GET(request: NextRequest) {
+  const unavailable = demoModeResponse();
+  if (unavailable) return unavailable;
   const user = await getSession();
   if (!user) redirect("/admin/login");
   const draft = await draftMode();

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AnalyticsScripts } from "@/components/site/analytics-scripts";
+import { DemoBar } from "@/components/site/demo-bar";
 import { FlyToCart } from "@/components/site/fly-to-cart";
 import { PreviewBar } from "@/components/site/preview-bar";
 import { ProductSheet } from "@/components/site/product-sheet";
@@ -53,7 +54,7 @@ export async function generateMetadata(): Promise<Metadata> {
           apple: [{ url: mediaIconUrl(iconSource.id, 180), sizes: "180x180" }],
         }
       : { icon: [{ url: "/favicon.svg", type: "image/svg+xml" }] },
-    robots: mode === "preview" ? { index: false, follow: false } : undefined,
+    robots: mode === "published" ? undefined : { index: false, follow: false },
   };
 }
 
@@ -86,6 +87,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         }}
       >
         {mode === "preview" && <PreviewBar />}
+        {mode === "demo" && <DemoBar />}
         <SiteHeader logo={brand.logo} nav={nav} />
         <main id="main" className="flex-1">
           {children}

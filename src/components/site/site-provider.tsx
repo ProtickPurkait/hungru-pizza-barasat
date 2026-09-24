@@ -4,10 +4,10 @@ import { createContext, useContext, useEffect, useMemo, type ReactNode } from "r
 import { checkSelection, computeTotals, priceItem, type PricedItem, type Totals } from "@/lib/cart/pricing";
 import { useCart, type CartLine } from "@/lib/cart/store";
 import type { Live, Ordering } from "@/lib/content/schemas";
-import type { SiteCategory, SiteProduct } from "@/lib/content/types";
+import type { SiteCategory, SiteData, SiteProduct } from "@/lib/content/types";
 
 export type ClientSiteData = {
-  mode: "published" | "preview";
+  mode: SiteData["mode"];
   brand: { name: string; location: string };
   products: SiteProduct[];
   categories: SiteCategory[];

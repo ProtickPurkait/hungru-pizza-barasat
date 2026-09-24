@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { SESSION_COOKIE_NAMES } from "@/lib/auth/cookie";
+import { isDemoMode } from "@/lib/env";
 
 /**
  * First line of defence for the admin area: bounce visitors without a session cookie to the login page.
@@ -9,8 +10,9 @@ export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   if (pathname === "/admin/login") return NextResponse.next();
 
+  // The design preview has no database, so the admin isn't available: the login page explains why.
   const hasCookie = SESSION_COOKIE_NAMES.some((name) => request.cookies.has(name));
-  if (!hasCookie) {
+  if (!hasCookie || isDemoMode()) {
     const url = request.nextUrl.clone();
     url.pathname = "/admin/login";
     url.search = "";

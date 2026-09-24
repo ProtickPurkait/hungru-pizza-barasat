@@ -7,6 +7,7 @@ import { getSession } from "@/lib/auth/session";
 import { mediaUrl } from "@/lib/content/media-url";
 import { IMAGE_MAX_BYTES, processUpload, VIDEO_MAX_BYTES } from "@/lib/media/process";
 import { storeFile } from "@/lib/media/storage";
+import { demoModeResponse } from "@/lib/demo-guard";
 
 export const runtime = "nodejs";
 
@@ -27,6 +28,8 @@ type ListRow = { id: string; filename: string; mime: string } & Record<string, u
 const withUrl = <T extends ListRow>(row: T) => ({ ...row, url: mediaUrl(row) });
 
 export async function GET(request: NextRequest) {
+  const unavailable = demoModeResponse();
+  if (unavailable) return unavailable;
   if (!(await getSession())) return NextResponse.json({ error: "Not signed in" }, { status: 401 });
   const kind = request.nextUrl.searchParams.get("kind");
   const query = db.select(listColumns).from(media).orderBy(desc(media.createdAt)).limit(500);
@@ -45,6 +48,8 @@ function sameOrigin(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  const unavailable = demoModeResponse();
+  if (unavailable) return unavailable;
   const user = await getSession();
   if (!user) return NextResponse.json({ error: "Your session expired. Please sign in again." }, { status: 401 });
   if (!sameOrigin(request)) return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });

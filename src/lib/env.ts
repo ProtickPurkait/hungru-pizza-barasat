@@ -8,6 +8,15 @@ function required(name: string): string {
   return value;
 }
 
+/**
+ * Design preview without a database (`DEMO_MODE=true`): the public site renders built-in, clearly-labelled sample
+ * content, checkout shows a confirmation without saving, and the admin is unavailable. Opt-in only, so a real
+ * deployment that's missing DATABASE_URL still fails loudly instead of showing sample content.
+ */
+export function isDemoMode(): boolean {
+  return process.env.DEMO_MODE === "true";
+}
+
 export const serverEnv = {
   databaseUrl: () => required("DATABASE_URL"),
   mediaStorage: (): "db" | "fs" => (process.env.MEDIA_STORAGE === "fs" ? "fs" : "db"),

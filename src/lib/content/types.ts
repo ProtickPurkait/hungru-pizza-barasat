@@ -114,7 +114,10 @@ export type LiveState = {
 export type SiteData = {
   content: SiteContent;
   live: Live;
-  /** "published" for the public site, "preview" when an admin is previewing unpublished changes. */
-  mode: "published" | "preview";
+  /**
+   * "published" for the public site, "preview" when an admin is previewing unpublished changes,
+   * "demo" for the no-database design preview (sample content, orders aren't saved).
+   */
+  mode: "published" | "preview" | "demo";
   publishedAt: string | null;
 };
